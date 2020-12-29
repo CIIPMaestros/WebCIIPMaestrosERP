@@ -1,0 +1,34 @@
+﻿@using WebCIIPMaestrosERP.Models;
+@model List<SegUsuariosLinksCLS>
+
+@{
+    ViewBag.Title = "Link";
+}
+
+<h2>Link</h2>
+
+
+
+<table class="table border-bottom table-hover">
+    <thead>
+        <tr>
+            <td>@Html.LabelFor(p => Model[0].USU_NOMBRES)</td>
+            <td>@Html.LabelFor(p => Model[0].USU_LINK)</td>
+            
+
+        </tr>
+    <thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.USU_NOMBRES</td>
+                <td>@item.USU_LINK</td>
+                <td>
+                    @Html.ActionLink(" ", "EditarTutor", "MaeTutor", new { @id = @item.CUR_ID }, new { @class = "glyphicon glyphicon-edit btn btn-primary" })
+                    <!--@Html.ActionLink(" ", "EliminarTutor", "MaeTutor", new { @id = @item.CUR_ID }, new { @class = "glyphicon glyphicon-trash btn btn-danger" })-->
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

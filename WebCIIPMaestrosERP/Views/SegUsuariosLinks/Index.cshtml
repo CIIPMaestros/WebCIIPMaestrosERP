@@ -1,0 +1,363 @@
+﻿@using WebCIIPMaestrosERP.Models;
+@model List<SegUsuariosLinksCLS>
+
+@{
+    ViewBag.Title = "Link";
+    List<SelectListItem> ListaCursos = (List<SelectListItem>)ViewBag.ListaCursos;
+    List<SelectListItem> ListaUsuarios = (List<SelectListItem>)ViewBag.ListaUsuarios;
+
+}
+
+<h2>Link</h2>
+
+
+<!-- Button trigger modal -->
+<button type="submit" onclick="Agregar()" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModalLink">
+    Agregar
+</button>
+
+
+@using (Ajax.BeginForm("Filtro", "", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "divRol",
+    InsertionMode = InsertionMode.Replace
+}, new { @id = "frmFiltro" }))
+{
+    @Html.Label("Buscar")
+    @Html.TextBox("nombreVarios", null, new { @class = "form-control" })
+    <div id="divRol">
+        @Html.Partial("_Index", Model)
+    </div>
+}
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModalLink" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Nuevo Link</h4>
+            </div>
+
+
+            @using (Ajax.BeginForm("GuardarNuevoControladorParcial", "SegUsuariosLinks", null, new AjaxOptions
+            {
+                HttpMethod = "POST",
+                OnSuccess = "Guardar",
+                UpdateTargetId = "error"
+            }, new { enctype = "multipart/form-data" }))
+            {
+
+                @Html.Hidden("accion") //Para  saber si esta guardando o actualizando, -1 = insertar, -2 actualuzar
+                @Html.Hidden("IdLanzamiento")
+                @Html.Hidden("IdLanzamientoOriginal")
+                @Html.Hidden("IdCursoOriginal")
+                @Html.Hidden("IdUsuarioOriginal")
+
+
+
+                <table>
+                    <tr>
+                        <td>
+                            <div class="modal-body">
+                                @Html.LabelFor(p => Model[0].CUR_ID)
+                                @Html.DropDownList("CUR_ID", ListaCursos, new { @class = "form-control" })
+                                @Html.ValidationMessage("CUR_ID", new { @class = "text-danger" })
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="modal-body">
+                                @Html.LabelFor(p => Model[0].LAN_ID)
+                                <select id="LAN_ID" name="LAN_ID" onchange="ShowSelected();" class="form-control">
+                                    <!-- Opciones de la lista -->
+                                    <option value="">Elija una opcion</option>
+                                </select>
+
+                            </div>
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="modal-body">
+                                @Html.LabelFor(p => Model[0].USU_ID)
+                                @Html.DropDownList("USU_ID", ListaUsuarios, new { @class = "form-control" })
+                                @Html.ValidationMessage("USU_ID", new { @class = "text-danger" })
+
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="modal-body">
+                                @Html.LabelFor(p => Model[0].USU_LINK_CORTO)
+                                @Html.TextBox("USU_LINK_CORTO", null, new { @class = "form-control" })
+                                @Html.ValidationMessage("USU_LINK_CORTO", new { @class = "text-danger" })
+
+                            </div>
+                        </td>
+
+                    </tr>
+
+
+
+                </table>
+
+                <div class="modal-footer">
+                    <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+
+
+            }
+        </div>
+        <div class="text-danger" id="error"></div>
+    </div>
+</div>
+
+
+<!-- Modal Ver Link -->
+<div class="modal fade" id="ModalVerLink" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <div class="alert alert-success" role="alert"><h5 class="modal-title" id="ModalLabel">Ver Link</h5></div>
+
+                <textarea class="col-md-12" id="Link" cols="100" rows="10"></textarea>
+
+
+            </div>
+
+            <div style="padding:1em">
+                <button type="button" id="btnCerrarConfirmacion" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Eliminar -->
+<div class="modal fade" id="ModalConfirmacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <div class="alert alert-danger" role="alert"><h5 class="modal-title" id="exampleModalLabel">¿Desea desactivar el registro?</h5></div>
+
+            </div>
+
+            <div style="padding:1em">
+                <button type="button" id="btnCerrarConfirmacion" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="ConfirmarActivarDescativar(2)" class="btn btn-danger">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Activar -->
+<div class="modal fade" id="ModalActivar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <div class="alert alert-success" role="alert"><h5 class="modal-title" id="exampleModalLabel">¿Desea activar el registro?</h5></div>
+
+            </div>
+
+            <div style="padding:1em">
+                <button type="button" id="btnCerrarConfirmacion" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="ConfirmarActivarDescativar(1)" class="btn btn-success">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var nombre = document.getElementById("nombreVarios");
+    nombre.onkeyup = function () {
+        $("#frmFiltro").trigger("submit");
+    }
+
+
+    function ConfirmarActivarDescativar(estado) {
+        var id = document.getElementById("accion").value;
+        $.get("ActivarDesactivar/?id=" + id + "&estado=" + estado, function (data) {
+
+            if (data == 1) {
+                alert("Se ejecuto correctamente");
+                document.getElementById("btnCerrarConfirmacion").click();
+                $("#frmFiltro").trigger("submit");
+            } else {
+                alert("Ocurrio un error");
+            }
+
+        })
+
+    }
+
+
+    function ActivarDesactivar(idLink) {
+        document.getElementById("accion").value = idLink;
+    }
+
+    function Guardar(resultado) {
+        if (resultado == "1") {
+
+
+            alert("Se guardo correctamente");
+            $("#frmFiltro").trigger("submit");
+            document.getElementById("btnClose").click();
+
+            //} else {
+            //    alert("Ocurrio un error");
+        } else if (resultado == "-11") {
+            alert("Ya se encuentra registrado");
+        } else if (resultado == "-1") {
+            alert("Debe completar los campos, todos son obligatorios");
+        } else {
+            alert("Ocurrio algo" + resultado)
+        }
+
+    }
+
+
+    function ShowSelected() {
+        /* Para obtener el valor */
+        //var cod = document.getElementById("LAN_ID").value;
+        //alert(cod);
+
+        /* Para obtener el texto */
+        var combo = document.getElementById("LAN_ID");
+        var IdLan = combo.options[combo.selectedIndex].text;
+        IdLan = IdLan.slice(0, IdLan.indexOf("-")); // extraemos solo el codigo del LAN_ID.. No se me ocurrio otra forma... por ahora
+
+        document.getElementById("IdLanzamiento").value = IdLan;
+
+
+    }
+
+
+    var curso = document.getElementById("CUR_ID");
+    curso.onchange = function () {
+
+        var Idcurso = document.getElementById("CUR_ID").value;
+        //alert(Idcurso);
+
+        $.get("/SegUsuariosLinks/GetLanzamientos/?IdCurso=" + Idcurso, function (data) {
+            // VACIAMOS EL DropDownList
+            $("#LAN_ID").empty();
+            // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+            //$("#LAN_ID").append("<option value> -- Seleccionar Territorios deE " + $("#LAN_ID option:selected").text() + " --</option>")
+            // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+            $.each(data, function (index, row) {
+                $("#LAN_ID").append("<option value=" + row.Value + ">" + row.Text + "</option>")
+                //alert(row.Value);
+            });
+        });
+    }
+
+
+
+    function limpiar() {
+        var controles = document.getElementsByClassName("form-control");
+        var ncontroles = controles.length;
+
+        for (var i = 0; i < ncontroles; i++) {
+            controles[i] = value = "";
+
+        }
+
+        document.getElementById("CUR_ID").value = "";
+        document.getElementById("USU_ID").value = "";
+        document.getElementById("LAN_ID").value = "";
+        document.getElementById("USU_LINK_CORTO").value = "";
+        //$("#LAN_ID").empty();
+        //$("#LAN_ID").append("<option value>Elija una opcion" + $("#LAN_ID option:selected").text() + " --</option>")
+
+
+
+        document.getElementById("error").innerHTML = "";
+
+    }
+
+    function VerLink(idLink) {
+
+        $.get("recuperarDatos/?idLink=" + idLink, function (data) {
+
+            document.getElementById('Link').innerHTML = data.USU_LINK;
+        })
+    }
+
+    function Agregar() {
+        limpiar();
+        document.getElementById("accion").value = -1;
+        document.getElementById("IdLanzamiento").value = "";
+        //valores originales
+        document.getElementById("IdLanzamientoOriginal").value = "";
+        document.getElementById("IdCursoOriginal").value = "";
+        document.getElementById("IdUsuarioOriginal").value = "";
+        document.getElementById("USU_LINK_CORTO").value = "";
+
+
+    }
+
+    function Editar(IdUsuario, IdCurso, IdLanzamiento, IdLink) {
+        limpiar();
+        //document.getElementById("error").innerHTML = "";
+        //document.getElementById("accion").value = idUsuario;
+        document.getElementById("accion").value = IdUsuario;
+
+
+        document.getElementById("USU_ID").value = IdUsuario;
+        document.getElementById("CUR_ID").value = IdCurso;
+
+        //valores originales
+        document.getElementById("IdLanzamientoOriginal").value = IdLanzamiento;
+        document.getElementById("IdCursoOriginal").value = IdCurso;
+        document.getElementById("IdUsuarioOriginal").value = IdUsuario;
+
+        //solo recupera el link corto los otros datos se extraen desde la grilla
+        $.get("recuperarDatos/?idLink=" + IdLink, function (data) {
+
+            document.getElementById('USU_LINK_CORTO').value = data.USU_LINK_CORTO;
+        })
+
+
+        $.get("GetLanzamientosAll/?IdCurso=" + IdCurso, function (data2) {
+
+            $("#LAN_ID").empty();
+            // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+            // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+            $.each(data2, function (index, row) {
+                if (row.Value == IdLanzamiento) {
+                    $("#LAN_ID").append("<option selected value=" + row.Value + ">" + row.Text + "</option>")
+                } else {
+                    $("#LAN_ID").append("<option value=" + row.Value + ">" + row.Text + "</option>")
+                }
+
+
+            });
+        });
+
+        document.getElementById("LAN_ID").value = IdLanzamiento;
+        document.getElementById("IdLanzamiento").value = IdLanzamiento;
+
+    }
+
+
+
+
+
+
+</script>
+
+
+
+

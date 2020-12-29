@@ -1,0 +1,40 @@
+﻿@using WebCIIPMaestrosERP.Models;
+@model List<SegUsuariosLinksCLS>
+
+    <table class="table border-bottom table-hover">
+        <thead>
+            <tr>
+                <th>CURSOS</th>
+                <th>USUARIOS</th>
+                <th>FECHA DE LANZAMIENTO</th>
+                <th>ESTADO</th>
+                <th>OPERACIONES</th>
+
+            </tr>
+<thead>
+<tbody>
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>@item.CUR_NOMBRE</td>
+        <td>@item.USU_NOMBRES</td>
+        <td>@item.LAN_FEC_CAPACITACION</td>
+        <td>@item.LNK_ACTIVO</td>
+
+        <td>
+            <button type="button" onclick="Editar(@item.USU_ID, @item.CUR_ID, @item.LAN_ID, @item.LNK_ID)" class="btn btn-primary glyphicon glyphicon-edit" data-toggle="modal" data-target="#myModalLink">
+            </button>
+
+            <button type="button" onclick="VerLink(@item.LNK_ID)" class="btn btn-warning glyphicon glyphicon-link" data-toggle="modal" data-target="#ModalVerLink">
+            </button>
+
+            <button type="button" onclick="ActivarDesactivar(@item.LNK_ID)" class="btn btn-danger glyphicon glyphicon-trash" data-toggle="modal" data-target="#ModalConfirmacion">
+            </button>
+
+            <button type="button" onclick="ActivarDesactivar(@item.LNK_ID)" class="btn btn-success glyphicon glyphicon-ok-circle" data-toggle="modal" data-target="#ModalActivar">
+            </button>
+        </td>
+    </tr>
+}
+</tbody>
+</table>

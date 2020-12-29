@@ -1,0 +1,46 @@
+﻿
+@using WebCIIPMaestrosERP.Models;
+@model List<SegUsuariosLinksCLS>
+
+@{
+    ViewBag.Title = "LinkDisponible";
+}
+
+<h2>LinkDisponible</h2>
+
+
+<table class="table border-bottom table-hover">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tutor</th>
+            <th>Curso</th>
+            <th>Link</th>
+            <th>OPERACIONES</th>
+        </tr>
+    <thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+
+            <td>@item.LNK_ID</td>
+            <td>@item.TUT_NOMBRES</td>
+            <td>@item.CUR_NOMBRE</td>
+            <td>@item.USU_LINK_CORTO</td>
+
+
+
+            <td>
+
+                <button type="button" onclick="VerLink(@item.LNK_ID)" class="btn btn-warning glyphicon glyphicon-link" data-toggle="modal" data-target="#ModalVerLink">
+                </button>
+
+
+                <button type="button" onclick="ActivarDesactivar(@item.LNK_ID)" class="btn btn-success glyphicon glyphicon-random" data-toggle="modal" data-target="#ModalActivar">
+                </button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,244 @@
+﻿@using WebCIIPMaestrosERP.Models;
+@model List<MaeCursosCLS>
+
+@{
+    ViewBag.Title = "Index";
+    List<SelectListItem> ListaCategorias = (List<SelectListItem>)ViewBag.ListaCategorias;
+}
+
+<h2>Cursos</h2>
+
+<!-- Button trigger modal -->
+<button type="button" onclick="Agregar()" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModalCurso">
+    Agregar
+</button>
+
+
+
+@using (Ajax.BeginForm("Filtro", "", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "divRol",
+    InsertionMode = InsertionMode.Replace
+}, new { @id = "frmFiltro" }))
+{
+    @Html.Label("Ingrese curso")
+    @Html.TextBox("nombreCurso", null, new { @class = "form-control" })
+    <div id="divRol">
+        @Html.Partial("_Index", Model)
+    </div>
+}
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModalCurso" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Nuevo curso</h4>
+            </div>
+
+
+            @using (Ajax.BeginForm("GuardarNuevoControladorParcial", "MaeCursos", null, new AjaxOptions
+            {
+                HttpMethod = "POST",
+                OnSuccess = "Guardar",
+                UpdateTargetId = "error"
+            }))
+            {
+
+                @Html.Hidden("accion") //Para  saber si esta guardando o actualizando, -1 = insertar, -2 actualuzar
+
+
+                <table>
+                    <tr>
+                        <td>
+                            <div class="modal-body">
+                                @Html.LabelFor(p => Model[0].CUR_NOMBRE)
+                                @Html.TextBox("CUR_NOMBRE", null, new { @class = "form-control" })
+                            </div>
+                        </td>
+                        <td>
+                            <div class="modal-body">
+                                @Html.LabelFor(p => Model[0].CUR_DESCRIPCION)
+                                @Html.TextBox("CUR_DESCRIPCION", null, new { @class = "form-control" })
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="modal-body">
+                                @Html.LabelFor(p => Model[0].CUR_RESULTADOS)
+                                @Html.TextBox("CUR_RESULTADOS", null, new { @class = "form-control" })
+                            </div>
+                        </td>
+                        <td>
+                            <div class="modal-body">
+                                @Html.LabelFor(p => Model[0].CAT_ID)
+                                @Html.DropDownList("CAT_ID", ListaCategorias, new { @class = "form-control" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="modal-body">
+
+                                @Html.LabelFor(p => Model[0].CUR_PRECIO)
+                                @Html.Editor("CUR_PRECIO", null, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+
+                            </div>
+                        </td>
+
+                    </tr>
+
+
+
+                </table>
+
+                <div class="modal-footer">
+                    <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+
+
+            }
+        </div>
+        <div class="text-danger" id="error"></div>
+    </div>
+</div>
+
+
+<!-- Modal Eliminar -->
+<div class="modal fade" id="ModalConfirmacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <div class="alert alert-danger" role="alert"><h5 class="modal-title" id="exampleModalLabel">¿Desea desactivar el registro?</h5></div>
+
+            </div>
+
+            <div style="padding:1em">
+                <button type="button" id="btnCerrarConfirmacion" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="ConfirmarActivarDescativar(2)" class="btn btn-danger">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Activar -->
+<div class="modal fade" id="ModalActivar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <div class="alert alert-success" role="alert"><h5 class="modal-title" id="exampleModalLabel">¿Desea activar el registro?</h5></div>
+
+            </div>
+
+            <div style="padding:1em">
+                <button type="button" id="btnCerrarConfirmacion" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="ConfirmarActivarDescativar(1)" class="btn btn-success">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var nombre = document.getElementById("nombreCurso");
+    nombre.onkeyup = function () {
+        $("#frmFiltro").trigger("submit");
+    }
+
+
+    function limpiar() {
+        var controles = document.getElementsByClassName("form-control");
+        var ncontroles = controles.length;
+
+        for (var i = 0; i < ncontroles; i++) {
+            controles[i] = value = "";
+
+        }
+
+
+        document.getElementById("CUR_NOMBRE").value = "";
+        document.getElementById("CUR_DESCRIPCION").value = "";
+        document.getElementById("CUR_RESULTADOS").value = "";
+        document.getElementById("CUR_PRECIO").value = "";
+
+
+        document.getElementById("error").innerHTML = "";
+
+    }
+
+    function ConfirmarActivarDescativar(estado) {
+        var id = document.getElementById("accion").value;
+        $.get("ActivarDesactivar/?id=" + id + "&estado=" + estado, function (data) {
+
+            if (data == 1) {
+                alert("Se ejecuto correctamente");
+                document.getElementById("btnCerrarConfirmacion").click();
+                $("#frmFiltro").trigger("submit");
+            } else {
+                alert("Ocurrio un error");
+            }
+
+        })
+
+    }
+
+    function ActivarDesactivar(idCurso) {
+        document.getElementById("accion").value = idCurso;
+    }
+
+    function Agregar() {
+        limpiar();
+        document.getElementById("accion").value = -1;
+
+
+
+    }
+
+    function Guardar(resultado) {
+        if (resultado == 1) {
+
+            document.getElementById("btnClose").click();
+            $("#frmFiltro").trigger("submit");
+            alert("Se guardo correctamente");
+        } else {
+            alert("Ocurrio un error");
+        }
+
+    }
+
+    function Editar(idCurso) {
+        limpiar();
+        //document.getElementById("error").innerHTML = "";
+        //document.getElementById("accion").value = idUsuario;
+        document.getElementById("accion").value = idCurso;
+
+        $.get("recuperarDatos/?IdCurso=" + idCurso, function (data) {
+
+
+            document.getElementById("CUR_NOMBRE").value = data.CUR_NOMBRE;
+            document.getElementById("CUR_DESCRIPCION").value = data.CUR_DESCRIPCION;
+            document.getElementById("CUR_RESULTADOS").value = data.CUR_RESULTADOS;
+            document.getElementById("CAT_ID").value = data.CAT_ID;
+            document.getElementById("CUR_PRECIO").value = data.CUR_PRECIO;
+            document.getElementById("USU_CONTRASENA").value = data.USU_CONTRASENA;
+
+
+
+        })
+
+    }
+
+
+
+</script>
+
+

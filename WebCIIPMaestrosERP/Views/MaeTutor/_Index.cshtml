@@ -1,0 +1,39 @@
+﻿@using WebCIIPMaestrosERP.Models;
+@model List<MaeTutorCLS>
+
+<table class="table border-bottom table-hover">
+    <thead>
+        <tr>
+            <td>@Html.LabelFor(p => Model[0].TUT_ID)</td>
+            <td>@Html.LabelFor(p => Model[0].TUT_NOMBRES)</td>
+            <td>@Html.LabelFor(p => Model[0].TUT_APELLIDOS)</td>
+            <td>@Html.LabelFor(p => Model[0].TUT_EMAIL)</td>
+            <td>@Html.LabelFor(p => Model[0].TUT_ESTADO)</td>
+            <td width="20%">Operaciones</td>
+
+        </tr>
+    <thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.TUT_ID</td>
+                <td>@item.TUT_NOMBRES</td>
+                <td>@item.TUT_APELLIDOS</td>
+                <td>@item.TUT_EMAIL</td>
+                <td>@item.TUT_ESTADO</td>
+                <td>
+                    <button type="button" onclick="Editar(@item.TUT_ID)" class="btn btn-primary glyphicon glyphicon-edit" data-toggle="modal" data-target="#myModal">
+                    </button>
+
+                    <button type="button" onclick="ActivarDesactivar(@item.TUT_ID)" class="btn btn-danger glyphicon glyphicon-trash" data-toggle="modal" data-target="#ModalConfirmacion">
+                    </button>
+
+                    <button type="button" onclick="ActivarDesactivar(@item.TUT_ID)" class="btn btn-success glyphicon glyphicon-ok-circle" data-toggle="modal" data-target="#ModalActivar">
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

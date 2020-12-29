@@ -1,0 +1,56 @@
+﻿@using WebCIIPMaestrosERP;
+@model List<WebCIIPMaestrosERP.Models.SegUsuariosCLS>
+
+
+
+    <table class="table border-bottom table-hover">
+        <thead>
+            <tr>
+                <td width="5%">@Html.LabelFor(p => Model[0].USU_ID)</td>
+                <td width="10%">@Html.LabelFor(p => Model[0].USU_NOMBRES)</td>
+                <td width="10%">@Html.LabelFor(p => Model[0].USU_APELLIDO)</td>
+                <td width="15%">@Html.LabelFor(p => Model[0].ROL_DESCRIPCION)</td>
+                <td width="15%">@Html.LabelFor(p => Model[0].USU_CELULAR)</td>
+                <td width="10%">@Html.LabelFor(p => Model[0].USU_ACTIVO)</td>
+                <td width="10%">Operaciones</td>
+
+            </tr>
+        <thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.USU_ID</td>
+                <td>@item.USU_NOMBRES</td>
+                <td>@item.USU_APELLIDO</td>
+                <td>@item.ROL_DESCRIPCION</td>
+                <td>@item.USU_CELULAR</td>
+                <td>@item.USU_ACTIVO</td>
+                
+
+                <td>
+                    <button type="button" onclick="Editar(@item.USU_ID)" class="btn btn-primary glyphicon glyphicon-edit" data-toggle="modal" data-target="#myModalUsuario">
+                    </button>
+
+                    <button type="button" onclick="ActivarDesactivar(@item.USU_ID)" class="btn btn-danger glyphicon glyphicon-trash" data-toggle="modal" data-target="#ModalConfirmacion">
+                    </button>
+
+                    <button type="button" onclick="ActivarDesactivar(@item.USU_ID)" class="btn btn-success glyphicon glyphicon-ok-circle" data-toggle="modal" data-target="#ModalActivar">
+                    </button>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+
+<script>
+
+    var nombre = document.getElementById("USU_NOMBRE");
+    nombre.onkeyup = function () {
+        var frmUsuarios = document.getElementById("frmFiltro");
+        frmUsuarios.submit();
+    }
+
+
+</script>

@@ -1,0 +1,44 @@
+﻿
+@using WebCIIPMaestrosERP.Models;
+@model List<SegUsuariosLinksCLS>
+
+
+<div id="divRol">
+    @Html.Partial("_LinkDisponible", Model)
+</div>
+
+
+
+<!-- Modal Ver Link -->
+<div class="modal fade" id="ModalVerLink" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <div class="alert alert-success" role="alert"><h5 class="modal-title" id="ModalLabel">Ver Link</h5></div>
+
+                <textarea class="col-md-12" id="Link" cols="100" rows="10"></textarea>
+
+
+            </div>
+
+            <div style="padding:1em">
+                <button type="button" id="btnCerrarConfirmacion" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+    function VerLink(idLink) {
+
+        $.get("recuperarDatos/?idLink=" + idLink, function (data) {
+
+            document.getElementById('Link').innerHTML = data.USU_LINK;
+        })
+    }
+
+</script>

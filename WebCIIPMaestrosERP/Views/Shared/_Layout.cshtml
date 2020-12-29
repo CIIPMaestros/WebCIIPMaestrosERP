@@ -1,0 +1,202 @@
+﻿
+@{ 
+    string nombreUsuario = (string)Session["UsuNombre"];
+    int IdRol = (int)Session["RolID"];
+    
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+
+
+    <span>
+
+        <img style="position: absolute;top:-20px;padding:1em; max-width:150px;max-height:130px" src="~/Content/imagenes/logo.bmp" alt="..." class="img-rounded">
+
+    </span>
+
+    <nav class="navbar-inverse ">
+        <div class="container-fluid">
+
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button style="color: white; background-color: #000000;" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span style="color: white; background-color: #000000;" class="sr-only">Toggle navigation</span>
+                    <span style="color: white; background-color: #000000;" class="icon-bar"></span>
+                    <span style="color: white; background-color: #000000;" class="icon-bar"></span>
+                    <span style="color: white; background-color: #000000;" class="icon-bar"></span>
+                </button>
+                <a style="color: white; background-color: #000000;" class="navbar-brand" href="#"><span class="glyphicon glyphicon-education btn-group-sm"></span></a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+
+                    <li><a style="color: white; background-color: #000000;" href="/Home/Index">Inicio</a></li>
+
+                    @{
+                        if (IdRol == 1)
+                        {
+
+                            <li class="dropdown">
+                                <a style="color: white; background-color: #000000;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Marketing<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/MktDocenteCurso/Index">Reporte</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="/SegUsuariosLinks/LinkDisponible">Link Disponibles</a></li>
+                                </ul>
+                            </li>
+
+                        }
+                        else if (IdRol == 2)
+                        {
+
+                            <li class="dropdown">
+                                <a style="color: white; background-color: #000000;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administracion<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+
+                                    <li><a href="/MaeCursos/Index">Cursos</a></li>
+                                    <li><a href="/MaeTutor/Index">Ponentes</a></li>
+                                    <li><a href="/SegUsuarios/Index">Usuarios</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="/SegUsuariosLinks/Index">Asignacion de links por usuario</a></li>
+                                    <li><a href="/MaeCursoLanzamiento/Index">Lanzamientos por curso</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown">
+                                <a style="color: white; background-color: #000000;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Marketing<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/MaeCursos/Index">Asignar Prospectos por asesor</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown">
+                                <a style="color: white; background-color: #000000;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reportes<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/MktDocenteCurso/MktReporteByUser">Prospectos por Marketing</a></li>
+                                    <li><a href="/MaeCursos/Index">Prospectos por Asesor comercial</a></li>
+                                    <li><a href="/MaeCursos/Index">Prospectos por Tutor</a></li>
+
+
+                                </ul>
+                            </li>
+                        }
+
+                    }
+
+
+
+
+
+
+
+
+                </ul>
+                <form class="navbar-form navbar-left ">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Cursos">
+                    </div>
+                    <button type="submit" class="btn btn-default">Buscar</button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+
+                    <li class="dropdown">
+
+                        <a style="color: white; background-color: #000000;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <img src="~/Content/imagenes/avatar.png" style="display: block;max-width:30px;max-height:30px" class="img-circle">
+                                    </td>
+                                    <td>
+                                        @nombreUsuario
+                                    </td>
+                                    <td>
+                                        <span class="caret"></span>
+                                    </td>
+                                </tr>
+                            </table>
+
+
+
+
+
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <!--<button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#ModalCursoGratis" data-whatever="mdo">Dejanos tus datos</button>-->
+                                <!--<a href="/MktDocentes/Index">Iniciar Sesión</a>-->
+                                <!--<a style="color: white;background-color: #000000;" href="#" data-toggle="modal" data-target="#LoginModal">Inicar Sesion</a>-->
+                                <a style="color: white; background-color: #000000;" href="/IniciarSesionDocente/Index">
+                                    Ver Perfil
+                                </a>
+                            </li>
+
+
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                @Html.ActionLink("Cerrar Session", "CerrarSession", "Login", null, new { @class = "navbar", style = "font-size:100%; color: white; background-color: #000000" })
+                            </li>
+
+
+
+                            
+
+
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    <!--
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Dashboard", "Index", "Dashboard")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    -->
+
+    <div class="container body-content">
+
+        @RenderBody()
+        <hr />
+        <footer>
+            <!--<p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>-->
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

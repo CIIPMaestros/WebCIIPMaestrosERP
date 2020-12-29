@@ -1,0 +1,257 @@
+﻿@using WebCIIPMaestrosERP;
+@model List<WebCIIPMaestrosERP.Models.SegUsuariosCLS>
+
+@{
+    ViewBag.Title = "Mantenimiento de Usuarios";
+    List<SelectListItem> listaRol = (List<SelectListItem>)ViewBag.listaRol;
+}
+
+<h2>Index</h2>
+
+<!-- Button trigger modal -->
+<button type="button" onclick="Agregar()" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModalUsuario">
+    Agregar
+</button>
+
+
+@using (Ajax.BeginForm("Filtro", "", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "divRol",
+    InsertionMode = InsertionMode.Replace
+}, new { @id = "frmFiltro" }))
+{
+    @Html.Label("Ingrese nombre usuario")
+    @Html.TextBox("nombreUsuario", null, new { @class = "form-control" })
+    <div id="divRol">
+        @Html.Partial("_Index", Model)
+    </div>
+}
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModalUsuario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Nuevo Usuario</h4>
+            </div>
+
+
+            @using (Ajax.BeginForm("GuardarNuevoControladorParcial", "SegUsuarios", null, new AjaxOptions
+            {
+                HttpMethod = "POST",
+                OnSuccess = "Guardar",
+                UpdateTargetId = "error"
+            }))
+            {
+
+                @Html.Hidden("accion") //Para  saber si esta guardando o actualizando, -1 = insertar, -2 actualuzar
+
+
+                <table>
+                    <tr>
+                        <td>
+                            <div class="modal-body">
+                                @Html.LabelFor(p => Model[0].USU_NOMBRES)
+                                @Html.TextBox("USU_NOMBRES", null, new { @class = "form-control" })
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="modal-body">
+                                @Html.LabelFor(p => Model[0].USU_APELLIDO)
+                                @Html.TextBox("USU_APELLIDO", null, new { @class = "form-control" })
+
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="modal-body">
+                                @Html.LabelFor(p => Model[0].USU_EMAIL)
+                                @Html.TextBox("USU_EMAIL", null, new { @class = "form-control" })
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="modal-body">
+                                @Html.LabelFor(p => Model[0].USU_CELULAR)
+                                @Html.TextBox("USU_CELULAR", null, new { @class = "form-control" })
+
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="modal-body">
+                                @Html.LabelFor(p => Model[0].ROL_ID)
+                                @Html.DropDownList("ROL_ID", listaRol, new { @class = "form-control" })
+                            </div>
+                        </td>
+                        <td>
+                            <div class="modal-body">
+                                @Html.LabelFor(p => Model[0].USU_CONTRASENA)
+                                @Html.Password("USU_CONTRASENA", null, new { @class = "form-control", @placeholder = "Contrasena" })
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+
+                <div class="modal-footer">
+                    <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+
+
+            }
+        </div>
+        <div class="text-danger" id="error"></div>
+    </div>
+</div>
+
+
+<!-- Modal Eliminar -->
+<div class="modal fade" id="ModalConfirmacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <div class="alert alert-danger" role="alert"><h5 class="modal-title" id="exampleModalLabel">¿Desea desactivar el registro?</h5></div>
+
+            </div>
+
+            <div style="padding:1em">
+                <button type="button" id="btnCerrarConfirmacion" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="ConfirmarActivarDescativar(2)" class="btn btn-danger">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Activar -->
+<div class="modal fade" id="ModalActivar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <div class="alert alert-success" role="alert"><h5 class="modal-title" id="exampleModalLabel">¿Desea activar el registro?</h5></div>
+
+            </div>
+
+            <div style="padding:1em">
+                <button type="button" id="btnCerrarConfirmacion" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="ConfirmarActivarDescativar(1)" class="btn btn-success">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    var nombre = document.getElementById("nombreUsuario");
+    nombre.onkeyup = function () {
+        $("#frmFiltro").trigger("submit");
+    }
+
+    function ConfirmarActivarDescativar(estado) {
+        var id = document.getElementById("accion").value;
+        $.get("ActivarDesactivar/?id=" + id + "&estado=" + estado, function (data) {
+
+            if (data == 1) {
+                alert("Se ejecuto correctamente");
+                document.getElementById("btnCerrarConfirmacion").click();
+                $("#frmFiltro").trigger("submit");
+            } else {
+                alert("Ocurrio un error");
+            }
+
+        })
+
+    }
+
+
+    function ActivarDesactivar(idUsuario) {
+        document.getElementById("accion").value = idUsuario;
+    }
+
+
+    function limpiar() {
+        var controles = document.getElementsByClassName("form-control");
+        var ncontroles = controles.length;
+
+        for (var i = 0; i < ncontroles; i++) {
+            controles[i] = value = "";
+
+        }
+
+        document.getElementById("USU_NOMBRES").value = "";
+        document.getElementById("USU_APELLIDO").value = "";
+        document.getElementById("USU_CELULAR").value = "";
+        document.getElementById("USU_EMAIL").value = "";
+        document.getElementById("ROL_ID").value = "";
+        document.getElementById("USU_CONTRASENA").value = "";
+
+
+        document.getElementById("error").innerHTML = "";
+
+    }
+
+    function Agregar() {
+        limpiar();
+        document.getElementById("accion").value = -1;
+
+    }
+
+    function Guardar(resultado) {
+        if (resultado == 1) {
+
+
+            alert("Se guardo correctamente");
+            $("#frmFiltro").trigger("submit");
+            document.getElementById("btnClose").click();
+
+            //} else {
+            //    alert("Ocurrio un error");
+        }
+
+    }
+
+    function Editar(idUsuario) {
+        limpiar();
+        //document.getElementById("error").innerHTML = "";
+        //document.getElementById("accion").value = idUsuario;
+        document.getElementById("accion").value = idUsuario;
+
+
+
+        $.get("recuperarDatos/?IdUsuario=" + idUsuario, function (data) {
+
+
+            document.getElementById("USU_NOMBRES").value = data.USU_NOMBRES;
+            document.getElementById("USU_APELLIDO").value = data.USU_APELLIDO;
+            document.getElementById("USU_CELULAR").value = data.USU_CELULAR;
+            document.getElementById("USU_EMAIL").value = data.USU_EMAIL;
+            document.getElementById("ROL_ID").value = data.ROL_ID;
+            document.getElementById("USU_CONTRASENA").value = data.USU_CONTRASENA;
+
+
+        })
+
+    }
+
+
+
+</script>
+
+
+
+

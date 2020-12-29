@@ -1,0 +1,241 @@
+﻿@using WebCIIPMaestrosERP.Models;
+@model List<MaeCursoLanzamientoCLS>
+
+@{
+    ViewBag.Title = "Index";
+    List<SelectListItem> ListaCursos = (List<SelectListItem>)ViewBag.lista;
+    List<SelectListItem> ListaTutor = (List<SelectListItem>)ViewBag.listaTutor;
+    List<SelectListItem> ListaTipoCurso = (List<SelectListItem>)ViewBag.ListaTipoCurso;
+
+}
+
+<h2>Configurar Lanzamientos</h2>
+
+
+<!-- Button trigger modal -->
+<button type="button" onclick="Agregar()" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModalLanzamiento">
+    Agregar
+</button>
+
+
+
+@using (Ajax.BeginForm("Filtro", "", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "divRol",
+    InsertionMode = InsertionMode.Replace
+}, new { @id = "frmFiltro" }))
+{
+    @Html.Label("Buscar por")
+    @Html.TextBox("nombreLanzamiento", null, new { @class = "form-control" })
+    <div id="divRol">
+        @Html.Partial("_Index", Model)
+    </div>
+}
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModalLanzamiento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Nuevo Lanzamiento</h4>
+            </div>
+
+
+            @using (Ajax.BeginForm("GuardarNuevoControladorParcial", "MaeCursoLanzamiento", null, new AjaxOptions
+            {
+                HttpMethod = "POST",
+                OnSuccess = "Guardar",
+                UpdateTargetId = "error"
+            }))
+            {
+
+                @Html.Hidden("accion") //Para  saber si esta guardando o actualizando, -1 = insertar, -2 actualuzar
+
+
+                <table>
+                    <tr>
+                        <td>
+                            <div class="modal-body">
+                                @Html.LabelFor(p => Model[0].CUR_ID)
+                                @Html.DropDownList("CUR_ID", ListaCursos, new { @class = "form-control" })
+                                @Html.ValidationMessage("CUR_ID", new { @class = "text-danger" })
+                            </div>
+                        </td>
+                        <td>
+                            <div class="modal-body">
+                                @Html.LabelFor(p => Model[0].TUT_ID)
+                                @Html.DropDownList("TUT_ID", ListaTutor, new { @class = "form-control" })
+                                @Html.ValidationMessage("TUT_ID", new { @class = "text-danger" })
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="modal-body">
+                                @Html.LabelFor(p => Model[0].LAN_FEC_CAPACITACION)
+                                @Html.Editor("LAN_FEC_CAPACITACION", null, new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
+                                @Html.ValidationMessage("LAN_FEC_CAPACITACION", new { @class = "text-danger" })
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="modal-body">
+                                @Html.LabelFor(p => Model[0].IND_TIPO_LAN)
+                                @Html.DropDownList("IND_TIPO_LAN", ListaTipoCurso, new { @class = "form-control" })
+                                @Html.ValidationMessage("IND_TIPO_LAN", new { @class = "text-danger" })
+                            </div>
+                        </td>
+
+                    </tr>
+
+
+                </table>
+
+                <div class="modal-footer">
+                    <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+
+
+            }
+        </div>
+        <div class="text-danger" id="error"></div>
+    </div>
+</div>
+
+<!-- Modal Eliminar -->
+<div class="modal fade" id="ModalConfirmacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <div class="alert alert-danger" role="alert"><h5 class="modal-title" id="exampleModalLabel">¿Desea desactivar el registro?</h5></div>
+
+            </div>
+
+            <div style="padding:1em">
+                <button type="button" id="btnCerrarConfirmacion" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="ConfirmarActivarDescativar(2)" class="btn btn-danger">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Activar -->
+<div class="modal fade" id="ModalActivar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <div class="alert alert-success" role="alert"><h5 class="modal-title" id="exampleModalLabel">¿Desea activar el registro?</h5></div>
+
+            </div>
+
+            <div style="padding:1em">
+                <button type="button" id="btnCerrarConfirmacion" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="ConfirmarActivarDescativar(1)" class="btn btn-success">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+
+
+    var nombre = document.getElementById("nombreLanzamiento");
+    nombre.onkeyup = function () {
+        $("#frmFiltro").trigger("submit");
+    }
+
+
+    function ConfirmarActivarDescativar(estado) {
+        var id = document.getElementById("accion").value;
+        $.get("ActivarDesactivar/?id=" + id + "&estado=" + estado, function (data) {
+
+            if (data == 1) {
+                alert("Se ejecuto correctamente");
+                document.getElementById("btnCerrarConfirmacion").click();
+                $("#frmFiltro").trigger("submit");
+            } else {
+                alert("Ocurrio un error");
+            }
+
+        })
+
+    }
+
+
+    function ActivarDesactivar(idLan) {
+        document.getElementById("accion").value = idLan;
+    }
+
+
+
+    function limpiar() {
+        var controles = document.getElementsByClassName("form-control");
+        var ncontroles = controles.length;
+
+        for (var i = 0; i < ncontroles; i++) {
+            controles[i] = value = "";
+
+        }
+
+
+        document.getElementById("CUR_ID").value = "";
+        document.getElementById("TUT_ID").value = "";
+        //document.getElementById("LAN_FEC_CAPACITACION").value = "01/01/1900";
+
+
+
+
+        document.getElementById("error").innerHTML = "";
+
+    }
+
+    function Agregar() {
+        limpiar();
+        document.getElementById("accion").value = -1;
+
+
+
+    }
+
+    function Guardar(resultado) {
+        if (resultado == 1) {
+
+            document.getElementById("btnClose").click();
+            $("#frmFiltro").trigger("submit");
+            alert("Se guardo correctamente");
+        } else {
+            alert("Ocurrio un error");
+        }
+
+    }
+
+    function Editar(IdLanzamiento) {
+        limpiar();
+
+        document.getElementById("accion").value = IdLanzamiento;
+
+        $.get("recuperarDatos/?IdLanzamiento=" + IdLanzamiento, function (data) {
+            document.getElementById("CUR_ID").value = data.CUR_ID;
+            document.getElementById("TUT_ID").value = data.TUT_ID;
+            document.getElementById("LAN_FEC_CAPACITACION").value = data.LAN_FEC_CAPACITACIONCADENA;
+            document.getElementById("IND_TIPO_LAN").value = data.IND_TIPO_LAN;
+            
+            
+        })
+
+    }
+
+
+
+</script>
+
+

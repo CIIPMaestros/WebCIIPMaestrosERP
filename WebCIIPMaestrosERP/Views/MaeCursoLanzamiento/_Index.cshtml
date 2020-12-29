@@ -1,0 +1,46 @@
+﻿@using WebCIIPMaestrosERP.Models;
+@model  List<MaeCursoLanzamientoCLS>
+
+
+
+
+<table class="table table-bordered table-hover">
+    <thead>
+
+        <tr>
+            <td width="5%">@Html.LabelFor(p => Model[0].LAN_ID)</td>
+            <td width="20%">@Html.LabelFor(p => Model[0].CUR_NOMBRE)</td>
+            <td width="20%">@Html.LabelFor(p => Model[0].TUT_NOMBRES)</td>
+            <td width="20%">@Html.LabelFor(p => Model[0].LAN_FEC_CAPACITACION)</td>
+            <td width="20%">@Html.LabelFor(p => Model[0].LAN_ESTADO)</td>
+            <th width="20%">OPERACIONES</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@item.LAN_ID</td>
+            <td>@item.CUR_NOMBRE</td>
+            <td>@item.TUT_NOMBRES</td>
+            <td>@item.LAN_FEC_CAPACITACION</td>
+            <td>@item.LAN_ESTADO</td>
+            <td>
+                <button type="button" onclick="Editar(@item.LAN_ID)" class="btn btn-primary glyphicon glyphicon-edit" data-toggle="modal" data-target="#myModalLanzamiento">
+                </button>
+
+                <button type="button" onclick="ActivarDesactivar(@item.LAN_ID)" class="btn btn-danger glyphicon glyphicon-trash" data-toggle="modal" data-target="#ModalConfirmacion">
+                </button>
+
+                <button type="button" onclick="ActivarDesactivar(@item.LAN_ID)" class="btn btn-success glyphicon glyphicon-ok-circle" data-toggle="modal" data-target="#ModalActivar">
+                </button>
+            </td>
+        </tr>
+        }
+    </tbody>
+
+</table>
+
