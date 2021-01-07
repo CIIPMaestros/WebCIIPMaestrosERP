@@ -19,7 +19,7 @@ namespace WebCIIPMaestrosERP.Controllers
         List<SelectListItem> ListaCursos;
         private void llenarCurso()
         {
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
 
                 ListaCursos = (from cursos in db.MAE_CURSOS
@@ -38,7 +38,7 @@ namespace WebCIIPMaestrosERP.Controllers
         {
             string RolMark = WebConfigurationManager.AppSettings["RolMarketing"];
 
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
                 ListaUsuarios = (from usuarios in db.SEG_USUARIOS
                                  where usuarios.ROL_ID.ToString() == RolMark
@@ -82,7 +82,7 @@ namespace WebCIIPMaestrosERP.Controllers
             else
             {
 
-                using (var db = new DB_WebCIIPEntities())
+                using (var db = new DB_WebCIIPEntitiesERP())
                 {
                     string LinkDoc = WebConfigurationManager.AppSettings["LinkDocentes"];
 
@@ -161,7 +161,7 @@ namespace WebCIIPMaestrosERP.Controllers
         private List<SelectListItem> GetLanzamientosListAll(int IdCurso)
         {
             List<SelectListItem> Lanzamientos;
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
 
                 /*var Lanzamientos = db.MAE_CURSOS_LANZAMIENTOS.Where(x => x.CUR_ID == IdCurso);
@@ -191,7 +191,7 @@ namespace WebCIIPMaestrosERP.Controllers
         private List<SelectListItem> GetLanzamientosListByUser(int IdCurso, int IdUser)
         {
             List<SelectListItem> Lanzamientos;
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
 
                 /*var Lanzamientos = db.MAE_CURSOS_LANZAMIENTOS.Where(x => x.CUR_ID == IdCurso);
@@ -242,7 +242,7 @@ namespace WebCIIPMaestrosERP.Controllers
         private List<SelectListItem> GetCursoList(int Idusuario)
         {
             List<SelectListItem> Lista;
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
 
                 Lista = (from cursos in db.MAE_CURSOS
@@ -284,7 +284,7 @@ namespace WebCIIPMaestrosERP.Controllers
         {
 
             SegUsuariosLinksCLS oSegUsuariosLinksCLS = new SegUsuariosLinksCLS();
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
                 SEG_USUARIOS_LINKS oSEG_USUARIOS_LINKS = db.SEG_USUARIOS_LINKS.Where(p => p.LNK_ID.Equals(idLink)).First();
 
@@ -305,7 +305,7 @@ namespace WebCIIPMaestrosERP.Controllers
             int nregistrosAfectados = 0;
             try
             {
-                using (var db = new DB_WebCIIPEntities())
+                using (var db = new DB_WebCIIPEntitiesERP())
                 {
                     SEG_USUARIOS_LINKS oSEG_USUARIOS_LINKS = db.SEG_USUARIOS_LINKS.Where(p => p.LNK_ID == id).First();
                     oSEG_USUARIOS_LINKS.LNK_ACTIVO = estado;
@@ -325,7 +325,7 @@ namespace WebCIIPMaestrosERP.Controllers
         {
 
             List<SegUsuariosLinksCLS> listaUsuariosLink = new List<SegUsuariosLinksCLS>();
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
                 if (nombreVarios == null)
                 {
@@ -396,7 +396,7 @@ namespace WebCIIPMaestrosERP.Controllers
             int idusuario = (int)HttpContext.Session["UsuID"];
 
 
-            using (var db = new DB_WebCIIPEntities()) {
+            using (var db = new DB_WebCIIPEntitiesERP()) {
 
                 var CursosDisponible = (from links in db.SEG_USUARIOS_LINKS
                                         join cursos in db.MAE_CURSOS
@@ -440,7 +440,7 @@ namespace WebCIIPMaestrosERP.Controllers
             ViewBag.ListaCursos = ListaCursos;
             ViewBag.ListaUsuarios = ListaUsuarios;
 
-            using (var db = new DB_WebCIIPEntities()) {
+            using (var db = new DB_WebCIIPEntitiesERP()) {
 
                 var CursosDisponible = (from links in db.SEG_USUARIOS_LINKS
                                       join cursos in db.MAE_CURSOS
@@ -485,7 +485,7 @@ namespace WebCIIPMaestrosERP.Controllers
             ViewBag.ListaCursos = ListaCursos;
             ViewBag.ListaUsuarios = ListaUsuarios;
 
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
 
                 var CursosDisponible = (from links in db.SEG_USUARIOS_LINKS

@@ -63,7 +63,7 @@
         </div>
 
         <div class="ContentForm">
-            @using (Ajax.BeginForm("IniciarSesionUsuario", "Login", "", new AjaxOptions
+            @using (Ajax.BeginForm("IniciarSesionUsuario", "Login", null, new AjaxOptions
             {
                 HttpMethod = "POST",
                 OnSuccess = "Ingresar",

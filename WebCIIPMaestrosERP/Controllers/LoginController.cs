@@ -39,7 +39,7 @@ namespace WebCIIPMaestrosERP.Controllers
             }
 
 
-            using (var dbFind = new DB_WebCIIPEntities()) //primera validacion - recuperamos el registro del docente de acuerod al email y contrasena ingresados
+            using (var dbFind = new DB_WebCIIPEntitiesERP()) //primera validacion - recuperamos el registro del docente de acuerod al email y contrasena ingresados
             {
 
                 SHA256Managed sha = new SHA256Managed();

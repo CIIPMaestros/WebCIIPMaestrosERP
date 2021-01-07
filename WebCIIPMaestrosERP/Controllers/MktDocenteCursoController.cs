@@ -98,7 +98,7 @@ namespace WebCIIPMaestrosERP.Controllers
 
             List<MktDocenteCursoCLS> ListaDocente = null;
 
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
                 if (idLan != 0 && idCurso != 0 && idusuario != 0)
                 {
@@ -165,7 +165,7 @@ namespace WebCIIPMaestrosERP.Controllers
 
             List<MktDocenteCursoCLS> ListaDocente = null;
 
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
                 if (idLan == 0)
                 {
@@ -219,7 +219,7 @@ namespace WebCIIPMaestrosERP.Controllers
 
             int idusuario = (int)HttpContext.Session["UsuID"];
 
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
 
                 ListaCursos = (from UsuarioLink in db.SEG_USUARIOS_LINKS
@@ -245,7 +245,7 @@ namespace WebCIIPMaestrosERP.Controllers
 
             
 
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
 
                 ListaUsuMkt = (from UsuarioMkt in db.SEG_USUARIOS
@@ -265,7 +265,7 @@ namespace WebCIIPMaestrosERP.Controllers
         private List<SelectListItem> GetLanzamientosList(int IdCurso)
         {
 
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
                 var Lanzamientos = db.MAE_CURSOS_LANZAMIENTOS.Where(x => x.CUR_ID == IdCurso);
                 var resp = Lanzamientos.Select(x => new SelectListItem()

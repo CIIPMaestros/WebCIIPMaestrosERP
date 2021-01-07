@@ -29,7 +29,7 @@ namespace WebCIIPMaestrosERP.Controllers
 
             List<MaeCursoLanzamientoCLS> ListaLanzamientos = null;
 
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
                 ListaLanzamientos = (from lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
                                      join cursos in db.MAE_CURSOS
@@ -59,7 +59,7 @@ namespace WebCIIPMaestrosERP.Controllers
         {
 
             List<MaeCursoLanzamientoCLS> listaLanzamientos = new List<MaeCursoLanzamientoCLS>();
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
                 if (nombreLanzamiento == null)
                     listaLanzamientos = (from lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
@@ -112,7 +112,7 @@ namespace WebCIIPMaestrosERP.Controllers
             int nregistrosAfectados = 0;
             try
             {
-                using (var db = new DB_WebCIIPEntities())
+                using (var db = new DB_WebCIIPEntitiesERP())
                 {
                     MAE_CURSOS_LANZAMIENTOS oMAE_CURSOS_LANZAMIENTOS = db.MAE_CURSOS_LANZAMIENTOS.Where(p => p.LAN_ID == id).First();
                     oMAE_CURSOS_LANZAMIENTOS.LAN_ACTIVO = estado;
@@ -135,7 +135,7 @@ namespace WebCIIPMaestrosERP.Controllers
             //decimal idLanzamientoEncrip = 0;
 
 
-                using (var db = new DB_WebCIIPEntities())
+                using (var db = new DB_WebCIIPEntitiesERP())
 
                 {
                 if (accion == -1)
@@ -194,7 +194,7 @@ namespace WebCIIPMaestrosERP.Controllers
         {
 
             MaeCursoLanzamientoCLS oMaeCursoLanzamientoCLS = new MaeCursoLanzamientoCLS();
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
                 MAE_CURSOS_LANZAMIENTOS oMAE_CURSOS_LANZAMIENTOS = db.MAE_CURSOS_LANZAMIENTOS.Where(p => p.LAN_ID.Equals(IdLanzamiento)).First();
 
@@ -217,7 +217,7 @@ namespace WebCIIPMaestrosERP.Controllers
         List<SelectListItem> ListaTipoCurso;
         private void llenarTipoCurso()
         {
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
 
                 ListaTipoCurso = (from tablas in db.MAE_TABLAS
@@ -235,7 +235,7 @@ namespace WebCIIPMaestrosERP.Controllers
         List<SelectListItem> ListaCursos;
         private void llenarCurso()
         {
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
 
                 ListaCursos = (from lanzamiento in db.MAE_CURSOS
@@ -252,7 +252,7 @@ namespace WebCIIPMaestrosERP.Controllers
         List<SelectListItem> ListaTutor;
         private void LlenarTutor()
         {
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
                 ListaTutor = (from tutor in db.MAE_TUTOR
                               select new SelectListItem
@@ -295,7 +295,7 @@ namespace WebCIIPMaestrosERP.Controllers
             else
             {
 
-                using (var db = new DB_WebCIIPEntities())
+                using (var db = new DB_WebCIIPEntitiesERP())
 
                 {
                     MAE_CURSOS_LANZAMIENTOS oMaeCursoLanzamiento = new MAE_CURSOS_LANZAMIENTOS();

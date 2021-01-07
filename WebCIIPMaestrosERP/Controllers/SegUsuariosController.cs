@@ -25,7 +25,7 @@ namespace WebCIIPMaestrosERP.Controllers
             string nombreUsuario = osegUsuariosCLS.USU_NOMBRES;
             List<SegUsuariosCLS> ListaUsuarios = null;
 
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
 
                 if (osegUsuariosCLS.USU_NOMBRES == null)
@@ -95,7 +95,7 @@ namespace WebCIIPMaestrosERP.Controllers
             int nregistrosAfectados = 0;
             try
             {
-                using (var db = new DB_WebCIIPEntities())
+                using (var db = new DB_WebCIIPEntitiesERP())
                 {
                     SEG_USUARIOS oSEG_USUARIOS = db.SEG_USUARIOS.Where(p => p.USU_ID == id).First();
                     oSEG_USUARIOS.USU_ACTIVO = estado;
@@ -116,7 +116,7 @@ namespace WebCIIPMaestrosERP.Controllers
         {
 
             List<SegUsuariosCLS> listaUsuarios = new List<SegUsuariosCLS>();
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
                 if (nombreUsuario == null)
                     listaUsuarios = (from usuarios in db.SEG_USUARIOS
@@ -176,7 +176,7 @@ namespace WebCIIPMaestrosERP.Controllers
         public JsonResult recuperarDatos(int IdUsuario) {
 
             SegUsuariosCLS oSegUsuariosCLS = new SegUsuariosCLS();
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
                 SEG_USUARIOS oSEG_USUARIOS = db.SEG_USUARIOS.Where(p => p.USU_ID == IdUsuario).First();
                 oSegUsuariosCLS.USU_NOMBRES = oSEG_USUARIOS.USU_NOMBRES;
@@ -199,7 +199,7 @@ namespace WebCIIPMaestrosERP.Controllers
         private void llenarRol()
         {
             List<SelectListItem> Lista;
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
 
                 Lista = (from roles in db.MAE_ROLES
@@ -238,7 +238,7 @@ namespace WebCIIPMaestrosERP.Controllers
 
               
 
-                    using (var db = new DB_WebCIIPEntities())
+                    using (var db = new DB_WebCIIPEntitiesERP())
 
                     {
 

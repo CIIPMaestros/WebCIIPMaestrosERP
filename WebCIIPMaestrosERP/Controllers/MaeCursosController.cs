@@ -21,7 +21,7 @@ namespace WebCIIPMaestrosERP.Controllers
             string nombreCurso = oMaeCursosCLS.CUR_NOMBRE;
 
 
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
 
                 if (nombreCurso == null)
@@ -92,7 +92,7 @@ namespace WebCIIPMaestrosERP.Controllers
         public void LlenarCategorias()
         {
 
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
 
                 ListaCategorias = (from Categorias in db.MAE_CATEGORIAS
@@ -112,7 +112,7 @@ namespace WebCIIPMaestrosERP.Controllers
             int nregistrosAfectados = 0;
             try
             {
-                using (var db = new DB_WebCIIPEntities())
+                using (var db = new DB_WebCIIPEntitiesERP())
                 {
                     MAE_CURSOS oMAE_CURSOS = db.MAE_CURSOS.Where(p => p.CUR_ID == id).First();
                     oMAE_CURSOS.CUR_ACTIVO = estado;
@@ -133,7 +133,7 @@ namespace WebCIIPMaestrosERP.Controllers
         {
 
             List<MaeCursosCLS> listaCursos = new List<MaeCursosCLS>();
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
                 if (nombreCurso == null)
                     listaCursos = (from cursos in db.MAE_CURSOS
@@ -197,7 +197,7 @@ namespace WebCIIPMaestrosERP.Controllers
             else
             {
 
-                using (var db = new DB_WebCIIPEntities())
+                using (var db = new DB_WebCIIPEntitiesERP())
                 {
                     if (accion.Equals(-1))
                     {
@@ -243,7 +243,7 @@ namespace WebCIIPMaestrosERP.Controllers
         {
 
             MaeCursosCLS oMaeCursosCLS = new MaeCursosCLS();
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
                 MAE_CURSOS oMAE_CURSOS = db.MAE_CURSOS.Where(p => p.CUR_ID == IdCurso).First();
                 oMaeCursosCLS.CUR_NOMBRE = oMAE_CURSOS.CUR_NOMBRE;

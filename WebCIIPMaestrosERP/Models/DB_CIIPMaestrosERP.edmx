@@ -231,7 +231,7 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DB_WebCIIPModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="DB_WebCIIPEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="DB_WebCIIPEntitiesERP" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="MAE_CATEGORIAS" EntityType="DB_WebCIIPModel.MAE_CATEGORIAS" />
           <EntitySet Name="MAE_CURSOS_PUNTUACION" EntityType="DB_WebCIIPModel.MAE_CURSOS_PUNTUACION" />
           <EntitySet Name="MAE_DEPARTAMENTOS" EntityType="DB_WebCIIPModel.MAE_DEPARTAMENTOS" />
@@ -466,7 +466,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="DB_WebCIIPModelStoreContainer" CdmEntityContainer="DB_WebCIIPEntities">
+        <EntityContainerMapping StorageEntityContainer="DB_WebCIIPModelStoreContainer" CdmEntityContainer="DB_WebCIIPEntitiesERP">
           <EntitySetMapping Name="MAE_CATEGORIAS">
             <EntityTypeMapping TypeName="DB_WebCIIPModel.MAE_CATEGORIAS">
               <MappingFragment StoreEntitySet="MAE_CATEGORIAS">

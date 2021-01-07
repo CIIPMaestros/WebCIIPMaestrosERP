@@ -22,7 +22,7 @@ namespace WebCIIPMaestrosERP.Controllers
 
             List<MaeTutorCLS> ListaTutores = null;
 
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
                 ListaTutores = (from tutor in db.MAE_TUTOR
                                 join tablas in db.MAE_TABLAS
@@ -51,7 +51,7 @@ namespace WebCIIPMaestrosERP.Controllers
             int nregistrosAfectados = 0;
             try
             {
-                using (var db = new DB_WebCIIPEntities())
+                using (var db = new DB_WebCIIPEntitiesERP())
                 {
                     MAE_TUTOR oMAE_TUTOR = db.MAE_TUTOR.Where(p => p.TUT_ID == id).First();
                     oMAE_TUTOR.TUT_ACTIVO = estado;
@@ -71,7 +71,7 @@ namespace WebCIIPMaestrosERP.Controllers
         public JsonResult recuperarDatos(int IdTutor)
         {
             MaeTutorCLS oMaeTutorCLS = new MaeTutorCLS();
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
                 MAE_TUTOR oMAE_TUTOR = db.MAE_TUTOR.Where(p => p.TUT_ID == IdTutor).First();
 
@@ -94,7 +94,7 @@ namespace WebCIIPMaestrosERP.Controllers
         List<SelectListItem> ListaEstado;
         private void llenarCurso()
         {
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
 
                 ListaEstado = (from tablas in db.MAE_TABLAS
@@ -113,7 +113,7 @@ namespace WebCIIPMaestrosERP.Controllers
         {
 
             List<MaeTutorCLS> listaTutores = new List<MaeTutorCLS>();
-            using (var db = new DB_WebCIIPEntities())
+            using (var db = new DB_WebCIIPEntitiesERP())
             {
                 if (BuscarVarios == null)
                     listaTutores = (from tutores in db.MAE_TUTOR
@@ -193,7 +193,7 @@ namespace WebCIIPMaestrosERP.Controllers
                     fotoBD = lector.ReadBytes((int)foto.ContentLength);
                 }
 
-                using (var db = new DB_WebCIIPEntities())
+                using (var db = new DB_WebCIIPEntitiesERP())
                 {
 
                     if (accion.Equals(-1))

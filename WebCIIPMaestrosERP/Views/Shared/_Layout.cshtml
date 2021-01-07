@@ -2,7 +2,7 @@
 @{ 
     string nombreUsuario = (string)Session["UsuNombre"];
     int IdRol = (int)Session["RolID"];
-    
+    string varSubDominio = System.Configuration.ConfigurationManager.AppSettings["SubDominio"];
 }
 
 
@@ -45,15 +45,28 @@
                     <li><a style="color: white; background-color: #000000;" href="/Home/Index">Inicio</a></li>
 
                     @{
+
+                        
+
+
                         if (IdRol == 1)
                         {
 
                             <li class="dropdown">
                                 <a style="color: white; background-color: #000000;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Marketing<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="/MktDocenteCurso/Index">Reporte</a></li>
+                                    <!--<li><a href="/MktDocenteCurso/Index">Reporte</a></li>-->
+                                    @Html.ActionLink("Reporte", "Index", "MktDocenteCurso")
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="/SegUsuariosLinks/LinkDisponible">Link Disponibles</a></li>
+
+
+
+                                    <!--<li><a href="/SegUsuariosLinks/LinkDisponible">Link Disponibles</a></li>-->
+                                    <li>@Html.ActionLink("Link Disponibles", "LinkDisponible", "SegUsuariosLinks")</li>
+
+
+
+
                                 </ul>
                             </li>
 
@@ -65,26 +78,40 @@
                                 <a style="color: white; background-color: #000000;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administracion<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
 
+
+                                    <li>@Html.ActionLink("Cursos", "Index", "MaeCursos")</li>
+                                    <li>@Html.ActionLink("Ponentes", "Index", "MaeTutor")</li>
+                                    <li>@Html.ActionLink("Usuarios", "Index", "SegUsuarios")</li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>@Html.ActionLink("Asignacion de links por usuario", "Index", "SegUsuariosLinks")</li>
+                                    <li>@Html.ActionLink("Lanzamientos por curso", "Index", "MaeCursoLanzamiento")</li>
+
+                                    <!--
                                     <li><a href="/MaeCursos/Index">Cursos</a></li>
                                     <li><a href="/MaeTutor/Index">Ponentes</a></li>
                                     <li><a href="/SegUsuarios/Index">Usuarios</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="/SegUsuariosLinks/Index">Asignacion de links por usuario</a></li>
                                     <li><a href="/MaeCursoLanzamiento/Index">Lanzamientos por curso</a></li>
+                                        -->
+
+
                                 </ul>
                             </li>
 
                             <li class="dropdown">
                                 <a style="color: white; background-color: #000000;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Marketing<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="/MaeCursos/Index">Asignar Prospectos por asesor</a></li>
+                                    <!--<li><a href="/MaeCursos/Index">Asignar Prospectos por asesor</a></li>-->
+                                    <li>@Html.ActionLink("Asignar Prospectos por asesor", "Index", "MaeCursos")</li>
                                 </ul>
                             </li>
 
                             <li class="dropdown">
                                 <a style="color: white; background-color: #000000;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reportes<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="/MktDocenteCurso/MktReporteByUser">Prospectos por Marketing</a></li>
+                                    <!--<li><a href="/MktDocenteCurso/MktReporteByUser">Prospectos por Marketing</a></li>-->
+                                    <li>@Html.ActionLink("Prospectos por Marketing", "MktReporteByUser", "MktDocenteCurso")</li>
                                     <li><a href="/MaeCursos/Index">Prospectos por Asesor comercial</a></li>
                                     <li><a href="/MaeCursos/Index">Prospectos por Tutor</a></li>
 
@@ -151,7 +178,7 @@
 
 
 
-                            
+
 
 
                         </ul>
@@ -194,9 +221,9 @@
     </div>
 
     @Scripts.Render("~/bundles/jquery")
-    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <!--<script src="~/Scripts/jquery-3.4.1.js"></script>-->
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
-</html>
+    </html>

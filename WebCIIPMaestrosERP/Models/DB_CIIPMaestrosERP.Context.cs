@@ -13,10 +13,10 @@ namespace WebCIIPMaestrosERP.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class DB_WebCIIPEntities : DbContext
+    public partial class DB_WebCIIPEntitiesERP : DbContext
     {
-        public DB_WebCIIPEntities()
-            : base("name=DB_WebCIIPEntities")
+        public DB_WebCIIPEntitiesERP()
+            : base("name=DB_WebCIIPEntitiesERP")
         {
         }
     
