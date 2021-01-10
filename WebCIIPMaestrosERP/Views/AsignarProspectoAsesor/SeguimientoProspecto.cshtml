@@ -6,14 +6,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>SeguimientoProspecto</h2>
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>MktDocenteCLS</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -121,17 +118,18 @@
                             </thead>
                             <tbody id="tbody1">
                                 @*@if (Model.ComentarioList != null)
-                                {
-                                    foreach (var item in Model.ComentarioList)
-                                    {
-                                        <tr id="tr_@item.SGM_ID">
-                                            <td>@item.SGM_TIP</td>
-                                            <td>@item.SGM_COMENTARIO</td>
-                                            <td>@item.SGM_FECHA_HORA</td>
-                                            <td><a class="btn btn-danger btnQuit" data-codigo="@item.SGM_ID"><i class="fa fa-trash"></i></a></td>
-                                        </tr>
-                                    }
-                                }*@
+        {
+            foreach (var item in Model.ComentarioList)
+            {
+                <tr id="tr_@item.SGM_ID">
+                    <td>@item.SGM_TIP</td>
+                    <td>@item.SGM_COMENTARIO</td>
+                    <td>@item.SGM_FECHA_HORA</td>
+                    <td><a class="btn btn-info btnEdit" data-codigo="@item.SGM_ID"><i class="fa fa-edit"></a></td>
+                    <td><a class="btn btn-danger btnQuit" data-codigo="@item.SGM_ID"><i class="fa fa-trash"></i></a></td>
+                </tr>
+            }
+        }*@
                             </tbody>
                         </table>
                     </div>
@@ -145,13 +143,39 @@
 </div>
 <br />
 
+<a class="btn btn-info btnEdit"><i class="fa fa-plus"></a>
 
 
 
-<div class="modal fade" id="Seguimiento" tabindex="-1" role="dialog" aria-hidden="true">
-    @{ Html.RenderPartial("~/Views/AsignarProspectoAsesor/_AgregarSeguimiento.cshtml", new PrvDocenteSeguimiento());}
-</div>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+        <div class="modal fade" id="Seguimiento" tabindex="-1" role="dialog" aria-hidden="true">
+            @{ Html.RenderPartial("~/Views/AsignarProspectoAsesor/_AgregarSeguimiento.cshtml", new PrvDocenteSeguimiento());}
+        </div>
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+
+        @section Scripts{
+
+            <script type="text/javascript">
+                $(document).on('click', '.btnEdit', function (e) {
+                    e.preventDefault();
+                    $('#Seguimiento').modal('show');
+                    //var codigo = $(this).data('codigo');
+                    //$.ajax({
+                    //    type: "post",
+                    //    url: $("#urlEditPhone").val(),
+                    //    dataType: "json",
+                    //    data: { idTelefono: codigo },
+                    //    success: function (res) {
+                    //        $("#EditPhone").html(res.partial);
+                    //        $('#EditPhone').modal('show');
+
+                    //    }
+                    //});
+
+                });
+            </script>
+
+        }
