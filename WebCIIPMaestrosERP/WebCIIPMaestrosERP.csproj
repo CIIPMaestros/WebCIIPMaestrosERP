@@ -135,6 +135,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AsignarProspectoAsesorController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DocenteSeguimientoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="Models\MAE_TUTOR.cs">
       <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MktDocenteCLS.cs" />
     <Compile Include="Models\MktDocenteCursoCLS.cs" />
     <Compile Include="Models\MKT_DOCENTES.cs">
       <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
@@ -200,6 +202,7 @@
     <Compile Include="Models\MKT_DOCENTE_CURSO.cs">
       <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PrvDocenteSeguimiento.cs" />
     <Compile Include="Models\PRV_DOCENTE_SEGUIMIENTO.cs">
       <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
     </Compile>
@@ -389,11 +392,14 @@
     <Content Include="Views\SegUsuariosLinks\LinkDisponible.cshtml" />
     <Content Include="Views\SegUsuariosLinks\_LinkDisponible.cshtml" />
     <Content Include="Views\MktDocenteCurso\MktReporteByUser.cshtml" />
+    <Content Include="Views\AsignarProspectoAsesor\SeguimientoProspecto.cshtml" />
+    <Content Include="Views\AsignarProspectoAsesor\_AgregarSeguimiento.cshtml" />
     <Content Include="Views\DocenteSeguimiento\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\imagenes\" />
+    <Folder Include="Data\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

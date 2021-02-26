@@ -1,0 +1,181 @@
+﻿@using WebCIIPMaestrosERP.Models
+@model WebCIIPMaestrosERP.Models.MktDocenteCLS
+
+@{
+    ViewBag.Title = "SeguimientoProspecto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.names, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.names, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.names, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.lastnames, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.lastnames, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.lastnames, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DocumentoDeIdentidad, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DocumentoDeIdentidad, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DocumentoDeIdentidad, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @Html.HiddenFor(model => model.SgmComentarioTipo)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Region, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Region, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Region, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SituacionLaboral, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.EditorFor(model => model.SituacionLaboral, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.DropDownListFor(model => model.SituacionLaboral, new List<SelectListItem>(ViewBag.SituacionLaboral), "Seleccione Situacion Laboral", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SituacionLaboral, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Cargo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.EditorFor(model => model.Cargo, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.DropDownListFor(model => model.Cargo, new List<SelectListItem>(ViewBag.Cargo), "Seleccione Cargo", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Cargo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nivel, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.EditorFor(model => model.Nivel, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.DropDownListFor(model => model.Nivel, new List<SelectListItem>(ViewBag.Nivel), "Seleccione Cargo", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Nivel, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<br />
+<div class="row">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-2 col-lg-2 col-md-2"><!--Positional--></div>
+            <div class="col-sm-8 col-lg-8 col-md-8">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <table id="Numeros" class="table table-striped" style="text-align:center">
+                            <thead>
+                                <tr>
+                                    <th>Tipo: </th>
+                                    <th>Comentario: </th>
+                                    <th>Fecha: </th>
+                                    <th> </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody1">
+                                @*@if (Model.ComentarioList != null)
+        {
+            foreach (var item in Model.ComentarioList)
+            {
+                <tr id="tr_@item.SGM_ID">
+                    <td>@item.SGM_TIP</td>
+                    <td>@item.SGM_COMENTARIO</td>
+                    <td>@item.SGM_FECHA_HORA</td>
+                    <td><a class="btn btn-info btnEdit" data-codigo="@item.SGM_ID"><i class="fa fa-edit"></a></td>
+                    <td><a class="btn btn-danger btnQuit" data-codigo="@item.SGM_ID"><i class="fa fa-trash"></i></a></td>
+                </tr>
+            }
+        }*@
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-lg-4 col-md-4">
+            </div>
+        </div>
+
+    </div>
+</div>
+<br />
+
+<a class="btn btn-info btnEdit"><i class="fa fa-plus"></a>
+
+
+
+
+        <div class="modal fade" id="Seguimiento" tabindex="-1" role="dialog" aria-hidden="true">
+            @{ Html.RenderPartial("~/Views/AsignarProspectoAsesor/_AgregarSeguimiento.cshtml", new PrvDocenteSeguimiento());}
+        </div>
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+
+        @section Scripts{
+
+            <script type="text/javascript">
+                $(document).on('click', '.btnEdit', function (e) {
+                    e.preventDefault();
+                    $('#Seguimiento').modal('show');
+                    //var codigo = $(this).data('codigo');
+                    //$.ajax({
+                    //    type: "post",
+                    //    url: $("#urlEditPhone").val(),
+                    //    dataType: "json",
+                    //    data: { idTelefono: codigo },
+                    //    success: function (res) {
+                    //        $("#EditPhone").html(res.partial);
+                    //        $('#EditPhone').modal('show');
+
+                    //    }
+                    //});
+
+                });
+            </script>
+
+        }
