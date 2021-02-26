@@ -156,7 +156,7 @@
 
     function ConfirmarActivarDescativar(estado) {
         var id = document.getElementById("accion").value;
-        $.get("ActivarDesactivar/?id=" + id + "&estado=" + estado, function (data) {
+        $.get("MaeCursoLanzamiento/ActivarDesactivar/?id=" + id + "&estado=" + estado, function (data) {
 
             if (data == 1) {
                 alert("Se ejecuto correctamente");
@@ -223,7 +223,7 @@
 
         document.getElementById("accion").value = IdLanzamiento;
 
-        $.get("recuperarDatos/?IdLanzamiento=" + IdLanzamiento, function (data) {
+        $.get("MaeCursoLanzamiento/recuperarDatos/?IdLanzamiento=" + IdLanzamiento, function (data) {
             document.getElementById("CUR_ID").value = data.CUR_ID;
             document.getElementById("TUT_ID").value = data.TUT_ID;
             document.getElementById("LAN_FEC_CAPACITACION").value = data.LAN_FEC_CAPACITACIONCADENA;

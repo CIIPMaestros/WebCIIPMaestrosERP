@@ -15,9 +15,19 @@ namespace WebCIIPMaestrosERP.Controllers
         public ActionResult Index(MaeCursosCLS oMaeCursosCLS)
         {
             List<MaeCursosCLS> ListaCursos = null;
+            
 
             LlenarCategorias();
+            LlenarDias();
+            LlenarHoras();
+            LlenarMT();
+
             ViewBag.ListaCategorias = ListaCategorias;
+            ViewBag.ListaDias = ListaDias;
+            ViewBag.ListaHoras = ListaHoras;
+            ViewBag.ListaMT = ListaMT;
+
+
             string nombreCurso = oMaeCursosCLS.CUR_NOMBRE;
 
 
@@ -86,6 +96,68 @@ namespace WebCIIPMaestrosERP.Controllers
             return View(ListaCursos);
         }
 
+
+        List<SelectListItem> ListaMT; //MANANA TARDE AM PM
+
+        public void LlenarMT()
+        {
+
+            using (var db = new DB_WebCIIPEntitiesERP())
+            {
+
+                ListaMT = (from Dias in db.MAE_TABLAS
+                             where Dias.COD_TABLA == "MT"
+                             select new SelectListItem
+                             {
+                                 Text = Dias.DESCRIPCION,
+                                 Value = Dias.CODIGO,
+                             }).ToList();
+
+            }
+
+        }
+
+
+        List<SelectListItem> ListaHoras;
+
+        public void LlenarHoras()
+        {
+
+            using (var db = new DB_WebCIIPEntitiesERP())
+            {
+
+                ListaHoras = (from Dias in db.MAE_TABLAS
+                             where Dias.COD_TABLA == "HORA"
+                             select new SelectListItem
+                             {
+                                 Text = Dias.DESCRIPCION,
+                                 Value = Dias.CODIGO,
+                             }).ToList();
+
+            }
+
+        }
+
+
+        List<SelectListItem> ListaDias;
+
+        public void LlenarDias()
+        {
+
+            using (var db = new DB_WebCIIPEntitiesERP())
+            {
+
+                ListaDias = (from Dias in db.MAE_TABLAS
+                             where Dias.COD_TABLA == "DIAS"
+                             select new SelectListItem
+                             {
+                                 Text = Dias.DESCRIPCION,
+                                 Value = Dias.CODIGO,
+                             }).ToList();
+
+            }
+
+        }
 
         List<SelectListItem> ListaCategorias;
 

@@ -18,6 +18,7 @@ namespace WebCIIPMaestrosERP.Models
         public MAE_CURSOS_LANZAMIENTOS()
         {
             this.MKT_DOCENTE_CURSO = new HashSet<MKT_DOCENTE_CURSO>();
+            this.SEG_USUARIOS_LINKS = new HashSet<SEG_USUARIOS_LINKS>();
         }
     
         public int LAN_ID { get; set; }
@@ -28,9 +29,11 @@ namespace WebCIIPMaestrosERP.Models
         public string LAN_ID_ENCRIPTADO { get; set; }
         public string IND_TIPO_LAN { get; set; }
     
-        public virtual MAE_CURSOS MAE_CURSOS { get; set; }
         public virtual MAE_TUTOR MAE_TUTOR { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MKT_DOCENTE_CURSO> MKT_DOCENTE_CURSO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SEG_USUARIOS_LINKS> SEG_USUARIOS_LINKS { get; set; }
+        public virtual MAE_CURSOS MAE_CURSOS { get; set; }
     }
 }

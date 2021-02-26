@@ -14,6 +14,13 @@ namespace WebCIIPMaestrosERP.Models
     
     public partial class SEG_USUARIOS
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public SEG_USUARIOS()
+        {
+            this.MKT_DOCENTE_CURSO = new HashSet<MKT_DOCENTE_CURSO>();
+            this.SEG_USUARIOS_LINKS = new HashSet<SEG_USUARIOS_LINKS>();
+        }
+    
         public int USU_ID { get; set; }
         public string USU_NOMBRES { get; set; }
         public string USU_APELLIDO { get; set; }
@@ -24,5 +31,11 @@ namespace WebCIIPMaestrosERP.Models
         public string USU_ACTIVO { get; set; }
         public string USU_ID_ENCRIPTADO { get; set; }
         public string USU_CONTRASENA { get; set; }
+    
+        public virtual MAE_ROLES MAE_ROLES { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MKT_DOCENTE_CURSO> MKT_DOCENTE_CURSO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SEG_USUARIOS_LINKS> SEG_USUARIOS_LINKS { get; set; }
     }
 }

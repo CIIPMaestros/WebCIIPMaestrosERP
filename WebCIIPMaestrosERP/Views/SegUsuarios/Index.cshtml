@@ -164,7 +164,7 @@
 
     function ConfirmarActivarDescativar(estado) {
         var id = document.getElementById("accion").value;
-        $.get("ActivarDesactivar/?id=" + id + "&estado=" + estado, function (data) {
+        $.get("SegUsuarios/ActivarDesactivar/?id=" + id + "&estado=" + estado, function (data) {
 
             if (data == 1) {
                 alert("Se ejecuto correctamente");
@@ -233,7 +233,7 @@
 
 
 
-        $.get("recuperarDatos/?IdUsuario=" + idUsuario, function (data) {
+        $.get("SegUsuarios/recuperarDatos/?IdUsuario=" + idUsuario, function (data) {
 
 
             document.getElementById("USU_NOMBRES").value = data.USU_NOMBRES;

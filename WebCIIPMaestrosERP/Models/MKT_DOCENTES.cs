@@ -14,6 +14,14 @@ namespace WebCIIPMaestrosERP.Models
     
     public partial class MKT_DOCENTES
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public MKT_DOCENTES()
+        {
+            this.MAE_CURSOS_PUNTUACION = new HashSet<MAE_CURSOS_PUNTUACION>();
+            this.MKT_DOCENTE_CURSO = new HashSet<MKT_DOCENTE_CURSO>();
+            this.PRV_DOCENTE_SEGUIMIENTO = new HashSet<PRV_DOCENTE_SEGUIMIENTO>();
+        }
+    
         public int DOC_ID { get; set; }
         public string DOC_NOMBRES { get; set; }
         public string DOC_NICK { get; set; }
@@ -21,11 +29,18 @@ namespace WebCIIPMaestrosERP.Models
         public string DOC_DNI { get; set; }
         public string DOC_CELULAR { get; set; }
         public string DOC_EMAIL { get; set; }
-        public string DOC_REGION { get; set; }
         public string DOC_SIT_LAB { get; set; }
         public string DOC_CARGO { get; set; }
         public string DOC_NIVEL { get; set; }
         public string DOC_CONTRASENA { get; set; }
         public string DOC_DISPOSITIVO { get; set; }
+        public Nullable<int> DOC_REGION { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MAE_CURSOS_PUNTUACION> MAE_CURSOS_PUNTUACION { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MKT_DOCENTE_CURSO> MKT_DOCENTE_CURSO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PRV_DOCENTE_SEGUIMIENTO> PRV_DOCENTE_SEGUIMIENTO { get; set; }
     }
 }

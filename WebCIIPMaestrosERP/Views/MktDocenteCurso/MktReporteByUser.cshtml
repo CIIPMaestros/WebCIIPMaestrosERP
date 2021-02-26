@@ -106,6 +106,7 @@
                     <td>@Html.LabelFor(p => Model[0].DOC_APELLIDOS)</td>
                     <td>@Html.LabelFor(p => Model[0].DOC_EMAIL)</td>
                     <td>@Html.LabelFor(p => Model[0].DOC_CELULAR)</td>
+                    <td>@Html.LabelFor(p => Model[0].DCU_FEC)</td>
 
 
                 </tr>
@@ -113,14 +114,15 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>@item.DOC_ID</td>
-                        <td>@item.DOC_NOMBRES</td>
-                        <td>@item.DOC_APELLIDOS</td>
-                        <td>@item.DOC_EMAIL</td>
-                        <td>@item.DOC_CELULAR</td>
+                <tr>
+                    <td>@item.DOC_ID</td>
+                    <td>@item.DOC_NOMBRES</td>
+                    <td>@item.DOC_APELLIDOS</td>
+                    <td>@item.DOC_EMAIL</td>
+                    <td>@item.DOC_CELULAR</td>
+                    <td>@item.DCU_FEC</td>
 
-                    </tr>
+                </tr>
                 }
             </tbody>
         </table>
@@ -156,9 +158,9 @@
     user.onchange = function () {
 
         var Idusuario = document.getElementById("USU_ID").value;
-        //alert(Idcurso);
+        
 
-        $.get("/SegUsuariosLinks/GetCursosByUser/?Idusuario=" + Idusuario, function (data) {
+        $.get("GetCursosByUser/?Idusuario=" + Idusuario, function (data) {
             // VACIAMOS EL DropDownList
             $("#CUR_ID").empty();
             $("#LAN_ID").empty();
@@ -181,10 +183,10 @@
 
         var Idcur = document.getElementById("CUR_ID").value;
         
-        document.getElementById("IdCurso").value = Idcur
+        document.getElementById("IdCurso").value = Idcur;
+        
 
-
-        $.get("/SegUsuariosLinks/GetLanzamientosByUser/?IdCurso=" + Idcur + "&IdUser="+document.getElementById("USU_ID").value, function (data) {
+        $.get("GetLanzamientosByUser/?IdCurso=" + Idcur + "&IdUser="+document.getElementById("USU_ID").value, function (data) {
             // VACIAMOS EL DropDownList
             $("#LAN_ID").empty();
             // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO

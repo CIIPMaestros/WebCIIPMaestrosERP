@@ -17,8 +17,10 @@ namespace WebCIIPMaestrosERP.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public MAE_CURSOS()
         {
-            this.MAE_CURSOS_PUNTUACION = new HashSet<MAE_CURSOS_PUNTUACION>();
             this.MAE_CURSOS_LANZAMIENTOS = new HashSet<MAE_CURSOS_LANZAMIENTOS>();
+            this.MAE_CURSOS_PUNTUACION = new HashSet<MAE_CURSOS_PUNTUACION>();
+            this.SEG_USUARIOS_LINKS = new HashSet<SEG_USUARIOS_LINKS>();
+            this.MAE_CURSOS_HORARIOS = new HashSet<MAE_CURSOS_HORARIOS>();
         }
     
         public int CUR_ID { get; set; }
@@ -32,9 +34,14 @@ namespace WebCIIPMaestrosERP.Models
         public byte[] FOTO { get; set; }
         public Nullable<int> CAT_ID { get; set; }
     
+        public virtual MAE_CATEGORIAS MAE_CATEGORIAS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MAE_CURSOS_LANZAMIENTOS> MAE_CURSOS_LANZAMIENTOS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MAE_CURSOS_PUNTUACION> MAE_CURSOS_PUNTUACION { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MAE_CURSOS_LANZAMIENTOS> MAE_CURSOS_LANZAMIENTOS { get; set; }
+        public virtual ICollection<SEG_USUARIOS_LINKS> SEG_USUARIOS_LINKS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MAE_CURSOS_HORARIOS> MAE_CURSOS_HORARIOS { get; set; }
     }
 }

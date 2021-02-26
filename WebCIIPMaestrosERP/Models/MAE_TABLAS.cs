@@ -17,5 +17,6 @@ namespace WebCIIPMaestrosERP.Models
         public int ID { get; set; }
         public string COD_TABLA { get; set; }
         public string DESCRIPCION { get; set; }
+        public string CODIGO { get; set; }
     }
 }

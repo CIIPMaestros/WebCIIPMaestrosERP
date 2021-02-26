@@ -14,7 +14,16 @@ namespace WebCIIPMaestrosERP.Models
     
     public partial class MAE_CATEGORIAS
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public MAE_CATEGORIAS()
+        {
+            this.MAE_CURSOS = new HashSet<MAE_CURSOS>();
+        }
+    
         public int CAT_ID { get; set; }
         public string CAT_NOMBRE { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MAE_CURSOS> MAE_CURSOS { get; set; }
     }
 }

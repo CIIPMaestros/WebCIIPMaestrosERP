@@ -48,6 +48,20 @@ namespace WebCIIPMaestrosERP.Models
         [Display(Name = "Imagen")]
         public string CUR_IMAGEN { get; set; }
 
+        public List<Horarios> horarios { get; set; }
 
     }
+
+    public class Horarios { 
+        
+        public string SCH_DIA { get; set; }
+                
+        public string SCH_HORA { get; set; }
+
+        public string SCH_MT { get; set; }
+
+    }
+
+
+
 }

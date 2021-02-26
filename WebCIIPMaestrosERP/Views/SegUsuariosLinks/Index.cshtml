@@ -5,8 +5,9 @@
     ViewBag.Title = "Link";
     List<SelectListItem> ListaCursos = (List<SelectListItem>)ViewBag.ListaCursos;
     List<SelectListItem> ListaUsuarios = (List<SelectListItem>)ViewBag.ListaUsuarios;
-
-}
+    
+    string varSubDominio = System.Configuration.ConfigurationManager.AppSettings["SubDominio"];
+    }
 
 <h2>Link</h2>
 
@@ -188,7 +189,7 @@
 
     function ConfirmarActivarDescativar(estado) {
         var id = document.getElementById("accion").value;
-        $.get("ActivarDesactivar/?id=" + id + "&estado=" + estado, function (data) {
+        $.get("SegUsuariosLinks/ActivarDesactivar/?id=" + id + "&estado=" + estado, function (data) {
 
             if (data == 1) {
                 alert("Se ejecuto correctamente");
@@ -248,9 +249,8 @@
     curso.onchange = function () {
 
         var Idcurso = document.getElementById("CUR_ID").value;
-        //alert(Idcurso);
 
-        $.get("/SegUsuariosLinks/GetLanzamientos/?IdCurso=" + Idcurso, function (data) {
+        $.get("/SegUsuariosLinks/GetLanzamientosAll/?IdCurso=" + Idcurso, function (data) {
             // VACIAMOS EL DropDownList
             $("#LAN_ID").empty();
             // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
@@ -289,7 +289,7 @@
 
     function VerLink(idLink) {
 
-        $.get("recuperarDatos/?idLink=" + idLink, function (data) {
+        $.get("SegUsuariosLinks/recuperarDatos/?idLink=" + idLink, function (data) {
 
             document.getElementById('Link').innerHTML = data.USU_LINK;
         })
@@ -324,13 +324,13 @@
         document.getElementById("IdUsuarioOriginal").value = IdUsuario;
 
         //solo recupera el link corto los otros datos se extraen desde la grilla
-        $.get("recuperarDatos/?idLink=" + IdLink, function (data) {
+        $.get("SegUsuariosLinks/recuperarDatos/?idLink=" + IdLink, function (data) {
 
             document.getElementById('USU_LINK_CORTO').value = data.USU_LINK_CORTO;
         })
 
 
-        $.get("GetLanzamientosAll/?IdCurso=" + IdCurso, function (data2) {
+        $.get("SegUsuariosLinks/GetLanzamientosAll/?IdCurso=" + IdCurso, function (data2) {
 
             $("#LAN_ID").empty();
             // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO

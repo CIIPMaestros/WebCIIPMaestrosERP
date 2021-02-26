@@ -1,8 +1,9 @@
 ﻿@using WebCIIPMaestrosERP.Models;
 @model List<MaeTutorCLS>
 
+
 @{
-    ViewBag.Title = "Ponente";
+    ViewBag.Title = "Ponentes";
     List<SelectListItem> ListaEstado = (List<SelectListItem>)ViewBag.ListaEstado;
 }
 
@@ -180,7 +181,7 @@
 
     function ConfirmarActivarDescativar(estado) {
         var id = document.getElementById("accion").value;
-        $.get("ActivarDesactivar/?id=" + id + "&estado=" + estado, function (data) {
+        $.get("MaeTutor/ActivarDesactivar/?id=" + id + "&estado=" + estado, function (data) {
 
             if (data == 1) {
                 alert("Se ejecuto correctamente");
@@ -240,7 +241,7 @@
         document.getElementById("accion").value = idTutor;
 
 
-        $.get("recuperarDatos/?IdTutor=" + idTutor, function (data) {
+        $.get("MaeTutor/recuperarDatos/?IdTutor=" + idTutor, function (data) {
 
 
             document.getElementById("TUT_NOMBRES").value = data.TUT_NOMBRES;

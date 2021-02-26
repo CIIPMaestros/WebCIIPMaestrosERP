@@ -122,7 +122,7 @@
             var Idcurso = document.getElementById("CUR_ID").value;
             //alert(Idcurso);
 
-            $.get("/SegUsuariosLinks/GetLanzamientosByUser/?IdCurso=" + Idcurso + "&IdUser=" + @idusuario, function (data) {
+            $.get("GetLanzamientosByUser/?IdCurso=" + Idcurso + "&IdUser=" + @idusuario, function (data) {
                 // VACIAMOS EL DropDownList
                 $("#LAN_ID").empty();
                 // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO

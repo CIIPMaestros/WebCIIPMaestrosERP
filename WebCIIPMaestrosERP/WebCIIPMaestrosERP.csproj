@@ -136,6 +136,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\DocenteSeguimientoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MaeCursoLanzamientoController.cs" />
@@ -169,6 +170,9 @@
       <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MAE_CURSOS.cs">
+      <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MAE_CURSOS_HORARIOS.cs">
       <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MAE_CURSOS_LANZAMIENTOS.cs">
@@ -385,6 +389,7 @@
     <Content Include="Views\SegUsuariosLinks\LinkDisponible.cshtml" />
     <Content Include="Views\SegUsuariosLinks\_LinkDisponible.cshtml" />
     <Content Include="Views\MktDocenteCurso\MktReporteByUser.cshtml" />
+    <Content Include="Views\DocenteSeguimiento\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

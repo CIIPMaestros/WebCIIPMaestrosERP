@@ -21,11 +21,11 @@ namespace WebCIIPMaestrosERP.Models
         public string CUR_NOMBRE { get; set; }
 
 
-        [Display(Name = "Tutor")]
+        [Display(Name = "Ponente")]
         [Required]
         public int TUT_ID { get; set; }
 
-        [Display(Name = "Tutor")]
+        [Display(Name = "Ponente")]
         [Required]
         public string TUT_NOMBRES { get; set; }
 

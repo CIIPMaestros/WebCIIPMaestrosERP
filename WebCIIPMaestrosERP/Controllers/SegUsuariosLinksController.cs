@@ -158,19 +158,22 @@ namespace WebCIIPMaestrosERP.Controllers
         }
 
 
+        List<SelectListItem> ListaLanzamientos;
+        public JsonResult GetLanzamientosAll(int IdCurso)
+        {
+            ListaLanzamientos = GetLanzamientosListAll(IdCurso);
+            return Json(ListaLanzamientos, JsonRequestBehavior.AllowGet);
+
+        }
+
+
         private List<SelectListItem> GetLanzamientosListAll(int IdCurso)
         {
             List<SelectListItem> Lanzamientos;
             using (var db = new DB_WebCIIPEntitiesERP())
             {
 
-                /*var Lanzamientos = db.MAE_CURSOS_LANZAMIENTOS.Where(x => x.CUR_ID == IdCurso);
-                var resp = Lanzamientos.Select(x => new SelectListItem()
-                {
-                    Value = x.LAN_ID.ToString(),
-                    Text = x.LAN_ID.ToString() + " - " + x.LAN_FEC_CAPACITACION.ToString(),
-                }).ToList();*/
-
+                
                 Lanzamientos = (from lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
                                 where lanzamiento.CUR_ID == IdCurso
 
@@ -188,19 +191,17 @@ namespace WebCIIPMaestrosERP.Controllers
             }
         }
 
+        public JsonResult GetLanzamientosByUser(int IdCurso, int IdUser)
+        {
+            ListaLanzamientos = GetLanzamientosListByUser(IdCurso, IdUser);
+            return Json(ListaLanzamientos, JsonRequestBehavior.AllowGet);
+
+        }
         private List<SelectListItem> GetLanzamientosListByUser(int IdCurso, int IdUser)
         {
             List<SelectListItem> Lanzamientos;
             using (var db = new DB_WebCIIPEntitiesERP())
             {
-
-                /*var Lanzamientos = db.MAE_CURSOS_LANZAMIENTOS.Where(x => x.CUR_ID == IdCurso);
-                var resp = Lanzamientos.Select(x => new SelectListItem()
-                {
-                    Value = x.LAN_ID.ToString(),
-                    Text = x.LAN_ID.ToString() + " - " + x.LAN_FEC_CAPACITACION.ToString(),
-                }).ToList();*/
-
                 Lanzamientos = (from lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
                                 join usuarioLink in db.SEG_USUARIOS_LINKS
                                 on lanzamiento.LAN_ID equals usuarioLink.LAN_ID
@@ -222,20 +223,8 @@ namespace WebCIIPMaestrosERP.Controllers
         }
 
 
-        List<SelectListItem> ListaLanzamientos;
-        public JsonResult GetLanzamientosAll(int IdCurso)
-        {
-            ListaLanzamientos = GetLanzamientosListAll(IdCurso);
-            return Json(ListaLanzamientos, JsonRequestBehavior.AllowGet);
-
-        }
-
-        public JsonResult GetLanzamientosByUser(int IdCurso, int IdUser)
-        {
-            ListaLanzamientos = GetLanzamientosListByUser(IdCurso, IdUser);
-            return Json(ListaLanzamientos, JsonRequestBehavior.AllowGet);
-
-        }
+       
+        
 
 
 
@@ -257,15 +246,7 @@ namespace WebCIIPMaestrosERP.Controllers
 
                          }).Distinct().ToList();
                 
-                //var Lanzamientos = db.MAE_CURSOS_LANZAMIENTOS.Where(x => x.CUR_ID == Idusuario);
-                /*
-                var resp = Lista.Select(x => new SelectListItem()
-                {
-                    Value = x.LAN_ID.ToString(),
-                    Text = x.LAN_ID.ToString() + " - " + x.LAN_FEC_CAPACITACION.ToString(),
-                }).ToList();
-                */
-
+                
                 Lista.Insert(0, new SelectListItem() { Value = "", Text = "Elija una opcion" });
 
                 return Lista;
@@ -475,9 +456,13 @@ namespace WebCIIPMaestrosERP.Controllers
 
         }
 
-        //Reporte de Marketing - Independiente
+        //Reporte de Marketing - Independiente by Bot
         public ActionResult LinkDisponible(SegUsuariosLinksCLS osegUsuariosLinksCLS)
         {
+
+            //buscamos el usuario que se a logeado
+            int idusuario = (int)HttpContext.Session["UsuID"];
+
             llenarCurso();
             LlenarUsuarios();
 
@@ -491,6 +476,7 @@ namespace WebCIIPMaestrosERP.Controllers
                 var CursosDisponible = (from links in db.SEG_USUARIOS_LINKS
                                         join cursos in db.MAE_CURSOS
                                         on links.CUR_ID equals cursos.CUR_ID
+
                                         join usuarios in db.SEG_USUARIOS
                                         on links.USU_ID equals usuarios.USU_ID
 
@@ -504,6 +490,7 @@ namespace WebCIIPMaestrosERP.Controllers
                                         on links.LNK_ACTIVO equals tablas.ID.ToString()
                                         where   tablas.COD_TABLA == "ACT" &&
                                                 links.LNK_ACTIVO == "1" // solo muestra registros activos
+                                                && links.USU_ID == idusuario
 
                                         select new SegUsuariosLinksCLS
 

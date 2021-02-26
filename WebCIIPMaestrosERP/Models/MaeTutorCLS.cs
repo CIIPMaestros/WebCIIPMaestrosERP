@@ -8,7 +8,7 @@ namespace WebCIIPMaestrosERP.Models
 {
     public class MaeTutorCLS
     {
-        [Display(Name = "ID Tutor")]
+        [Display(Name = "ID Ponente")]
         public int TUT_ID { get; set; }
 
         [Display(Name = "Nombre")]

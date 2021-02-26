@@ -19,5 +19,7 @@ namespace WebCIIPMaestrosERP.Models
         public Nullable<System.DateTime> SGM_FECHA_HORA { get; set; }
         public string SGM_TIP { get; set; }
         public string SGM_COMENTARIO { get; set; }
+    
+        public virtual MKT_DOCENTES MKT_DOCENTES { get; set; }
     }
 }

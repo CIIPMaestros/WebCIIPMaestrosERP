@@ -41,7 +41,26 @@ namespace WebCIIPMaestrosERP.Models
 
         public string IdLanzamiento { get; set; }
 
+        [Display(Name = "Fecha Registro")]
+        public DateTime DCU_FEC { get; set; }
+
+        public string DCU_FECCADENA { get; set; }
+
+        public List<DetalleSeguimiento> DetalleSeguimiento { get; set; }
 
 
     }
+
+
+    public class DetalleSeguimiento
+
+    { 
+        
+        public string SGM_TIP { get; set; }
+            
+        public string SGM_COMENTARIO { get; set; }
+    }
+
+
 }
+

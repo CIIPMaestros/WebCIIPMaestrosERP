@@ -12,14 +12,14 @@ namespace WebCIIPMaestrosERP.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class MAE_CURSOS_PUNTUACION
+    public partial class MAE_CURSOS_HORARIOS
     {
-        public int PUN_ID { get; set; }
-        public Nullable<int> DOC_ID { get; set; }
-        public Nullable<int> CUR_ID { get; set; }
-        public Nullable<decimal> PUN_VALOR { get; set; }
+        public int SCH_ID { get; set; }
+        public int CUR_ID { get; set; }
+        public string SCH_DIA { get; set; }
+        public string SCH_HORA { get; set; }
+        public string SCH_MT { get; set; }
     
-        public virtual MKT_DOCENTES MKT_DOCENTES { get; set; }
         public virtual MAE_CURSOS MAE_CURSOS { get; set; }
     }
 }
