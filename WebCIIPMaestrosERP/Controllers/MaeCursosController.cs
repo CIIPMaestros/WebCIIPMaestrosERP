@@ -331,6 +331,15 @@ namespace WebCIIPMaestrosERP.Controllers
             return rpta;
         }
 
+        public JsonResult SP_Execute()
+        {
+            using (var db = new DB_WebCIIPEntitiesERP())
+            {
+                db.Sp_Crear_Lanzamientos_Masivo(0, 0);
+            }
+                return Json(new { res = true }, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult recuperarDatos(int IdCurso)
         {
 
