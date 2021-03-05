@@ -395,6 +395,7 @@
     <Content Include="Views\AsignarProspectoAsesor\SeguimientoProspecto.cshtml" />
     <Content Include="Views\AsignarProspectoAsesor\_AgregarSeguimiento.cshtml" />
     <Content Include="Views\DocenteSeguimiento\Index.cshtml" />
+    <Content Include="Views\MaeCursos\Registrar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
