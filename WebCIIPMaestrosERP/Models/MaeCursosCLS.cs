@@ -9,7 +9,7 @@ namespace WebCIIPMaestrosERP.Models
     public class MaeCursosCLS
     {
 
-        [Display(Name = "Id Curso")]
+        [Display(Name = "Id")]
         public int CUR_ID { get; set; }
         [Display(Name = "Nombre Curso")]
 
@@ -22,7 +22,7 @@ namespace WebCIIPMaestrosERP.Models
         public string CUR_CERTIFICACION { get; set; }
         
         [Display(Name = "Resultados")]
-        [Required]
+        
         public string CUR_RESULTADOS { get; set; }
         [Required]
         [Display(Name = "Precio")]

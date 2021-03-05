@@ -10,12 +10,8 @@
 
 }
 
-<h2>Cursos</h2>
 
-<!-- Button trigger modal -->
-<button type="button" onclick="Agregar()" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModalCurso">
-    Agregar
-</button>
+
 
 
 
@@ -26,12 +22,46 @@
     InsertionMode = InsertionMode.Replace
 }, new { @id = "frmFiltro" }))
 {
-    @Html.Label("Ingrese curso")
-    @Html.TextBox("nombreCurso", null, new { @class = "form-control" })
-    <div id="divRol">
-        @Html.Partial("_Index", Model)
+
+
+    <div class="container">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h2>Administrar <b>Cursos</b></h2>
+                    </div>
+                    <div class="col-sm-4">
+                        <form class="navbar-form navbar-left ">
+                            <div class="form-group">
+                                @Html.TextBox("nombreCurso", null, new { @class = "form-control", @placeholder = "Buscar curso" })
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <a href="#myModalCurso" onclick="Agregar()" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar</span></a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="divRol">
+
+
+
+
+
+                @Html.Partial("_Index", Model)
+
+
+
+
+            </div>
+        </div>
     </div>
 }
+
 
 
 
@@ -54,126 +84,101 @@
             {
 
                 @Html.Hidden("accion") //Para  saber si esta guardando o actualizando, -1 = insertar, -2 actualuzar
+                
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    @Html.LabelFor(p => Model[0].CUR_NOMBRE)
+                                    @Html.TextBox("CUR_NOMBRE", null, new { @class = "form-control" })
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    @Html.LabelFor(p => Model[0].CUR_DESCRIPCION)
+                                    @Html.TextBox("CUR_DESCRIPCION", null, new { @class = "form-control" })
+                                </div>
+                            </div>
 
 
-                <table id="cabecera">
-                    <tr>
-                        <td>
-                            <div class="modal-body">
-                                @Html.LabelFor(p => Model[0].CUR_NOMBRE)
-                                @Html.TextBox("CUR_NOMBRE", null, new { @class = "form-control" })
-                            </div>
-                        </td>
-                        <td>
-                            <div class="modal-body">
-                                @Html.LabelFor(p => Model[0].CUR_DESCRIPCION)
-                                @Html.TextBox("CUR_DESCRIPCION", null, new { @class = "form-control" })
-                            </div>
-                        </td>
-                    </tr>
+                            <div class="row">
 
-                    <tr>
-                        <td>
-                            <div class="modal-body">
-                                @Html.LabelFor(p => Model[0].CUR_RESULTADOS)
-                                @Html.TextBox("CUR_RESULTADOS", null, new { @class = "form-control" })
-                            </div>
-                        </td>
-                        <td>
-                            <div class="modal-body">
-                                @Html.LabelFor(p => Model[0].CAT_ID)
-                                @Html.DropDownList("CAT_ID", ListaCategorias, new { @class = "form-control" })
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="modal-body">
+                                <div class="form-group col-lg-6">
+                                    @Html.LabelFor(p => Model[0].CAT_ID)
+                                    @Html.DropDownList("CAT_ID", ListaCategorias, new { @class = "form-control" })
+                                </div>
 
-                                @Html.LabelFor(p => Model[0].CUR_PRECIO)
-                                @Html.Editor("CUR_PRECIO", null, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                                <div class="form-group col-lg-6">
+                                    @Html.LabelFor(p => Model[0].CUR_PRECIO)
+                                    @Html.Editor("CUR_PRECIO", null, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                                </div>
+                            </div>
+
+
+                            <div class="alert alert-success" role="alert">
+                                Configuracion
 
                             </div>
-                        </td>
 
-                    </tr>
+                            <div class="row">
+                                <div class="form-group col-sm-4">
+                                    @Html.DropDownList("SCH_DIA", ListaDias, new { @class = "form-control" })
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    @Html.DropDownList("SCH_HORA", ListaHoras, new { @class = "form-control" })
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    @Html.DropDownList("SCH_MT", ListaMT, new { @class = "form-control" })
+                                </div>
 
-
-
-                </table>
-
-                <table id="CabHorario" border="1">
-                    <tr>
-                        <td>
-                            <div class="modal-body">
-                                Dia
-                                @Html.DropDownList("SCH_DIA", ListaDias, new { @class = "form-control" })
                             </div>
-                        </td>
-                        <td>
-                            <div class="modal-body">
-                                Hora
-                                @Html.DropDownList("SCH_HORA", ListaHoras, new { @class = "form-control" })
-                            </div>
-                        </td>
-                        <td>
-                            <div class="modal-body">
-                                Hora
-                                @Html.DropDownList("SCH_MT", ListaMT, new { @class = "form-control" })
-                            </div>
-                        </td>
-                        <td>
-                            <div class="modal-body">
-
+                            <p>
                                 <button type="button" onclick="AgregarHorario(); return false" class="btn btn-success">Agregar</button>
+                            </p>
+                                
+
+
+                                <div class="panel panel-success">
+                                    <!-- Default panel contents -->
+                                    <div class="panel-heading">Horarios</div>
+                                    <div class="panel-body">
+                            <p>Los horarios que se configuren en esta opcion seran automaticamente replicados por semana</p>
+                            <!-- Table -->
+                            <table class="table" id="DetHorario">
+                                <!--Esta seccion -->
+
+                            </table>
                             </div>
-                        </td>
-
-                    </tr>
-                </table>
 
 
-                <table id="DetHorario">
-                    <tr>
-                        <td>
-                            <div class="modal-body">
-                                Dia
                             </div>
-                        </td>
-                        <td>
-                            <div class="modal-body">
-                                Hora
-                            </div>
-                        </td>
-                        <td>
-                            <div class="modal-body">
-                                Hora
-                            </div>
-                        </td>
-                        <td>
-                            <div class="modal-body">
-
-                                <button type="button" onclick="Eliminar(); return false" class="btn btn-danger glyphicon glyphicon-trash" >Eliminar</button>
-                            </div>
-                        </td>
-
-                    </tr>
-                </table>
-
-                <div class="modal-footer">
-                    <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                </div>
 
 
-            }
-        </div>
+                        </div>
+                        </div>
+
+                
+
+
+
+
+                    <div class="modal-footer">
+
+                    
+
+                        
+                        <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+
+
+                    }
+            </div>
         <div class="text-danger" id="error"></div>
     </div>
 </div>
 
 
-<!-- Modal Eliminar -->
+<!-- Modal Eliminar
 <div class="modal fade" id="ModalConfirmacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -187,6 +192,28 @@
                 <button type="button" id="btnCerrarConfirmacion" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                 <button type="button" onclick="ConfirmarActivarDescativar(2)" class="btn btn-danger">Aceptar</button>
             </div>
+        </div>
+    </div>
+</div>
+    -->
+<!-- Delete Modal HTML -->
+<div id="ModalConfirmacion" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h4 class="modal-title">¿Desea desactivar el registro?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Esta seguro que desea desactivar el curso?</p>
+                    <p class="text-warning"><small>Esta accion puede deshacerse.</small></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnCerrarConfirmacion" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" onclick="ConfirmarActivarDescativar(2)" class="btn btn-danger">Aceptar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -210,14 +237,93 @@
 </div>
 
 <script>
+    var num = 0;
+
+    function eliminarFila(e) {
+        alert("Hola");
+    }
 
 
     function AgregarHorario() {
-        let Dia = document.getElementById("SCH_DIA").value;
-        let Hora = document.getElementById("SCH_HORA").value;
-        let MT = document.getElementById("SCH_MT").value;
 
-        let tablaD
+        
+
+        var comboDIA = document.getElementById("SCH_DIA");
+        var Dia = comboDIA.options[comboDIA.selectedIndex].text;
+
+        var comboHora = document.getElementById("SCH_HORA");
+        let Hora = comboHora.options[comboHora.selectedIndex].text;
+
+        var comboMT = document.getElementById("SCH_MT");
+        let MT = comboMT.options[comboMT.selectedIndex].text;
+
+        //capturando valores de horiario
+        let ValueDia = document.getElementById("SCH_DIA").value;
+        let ValueHora = document.getElementById("SCH_HORA").value;
+        let ValueMT = document.getElementById("SCH_MT").value;
+
+
+
+        const tdRemove = document.createElement('td');
+        const buttonRemove = document.createElement("img");
+        //buttonRemove.src = "garbage.png";
+        buttonRemove.onclick = eliminarFila;
+        tdRemove.appendChild(buttonRemove);
+
+
+        let tabla = document.getElementById("DetHorario");
+        let TR = document.createElement("tr");
+
+        let TDDia = document.createElement("td");
+        let TDHora = document.createElement("td");
+        let TDMT = document.createElement("td");
+        
+        TR.appendChild(TDDia);
+        TR.appendChild(TDHora);
+        TR.appendChild(TDMT);
+        TR.appendChild(tdRemove);
+        
+
+        TDDia.innerHTML = Dia
+        TDHora.innerHTML = Hora
+        TDMT.innerHTML = MT
+
+        tabla.appendChild(TR)
+
+        //agregar el hidden
+
+        let DetHorario = document.getElementById("DetHorario");
+
+        let HiddenIndex = document.createElement("input");
+        let HiddenDia = document.createElement("input");
+        let HiddenHora = document.createElement("input");
+        let HiddenMT = document.createElement("input");
+
+        HiddenIndex.name = "Horarios.Index";
+        HiddenIndex.type = "hidden";
+        HiddenIndex.value = num;
+
+        HiddenDia.name = "Horarios[" + num + "].SCH_DIA";
+        HiddenDia.type = "hidden";
+        HiddenDia.value = ValueDia;
+
+        HiddenHora.name = "Horarios[" + num + "].SCH_HORA";
+        HiddenHora.type = "hidden";
+        HiddenHora.value = ValueHora;
+
+        HiddenMT.name = "Horarios[" + num + "].SCH_MT";
+        HiddenMT.type = "hidden";
+        HiddenMT.value = ValueMT;
+
+
+        DetHorario.appendChild(HiddenIndex);
+        DetHorario.appendChild(HiddenDia);
+        DetHorario.appendChild(HiddenHora);
+        DetHorario.appendChild(HiddenMT);
+
+        num = num + 1;
+
+        alert(num);
     }
 
 
@@ -239,7 +345,7 @@
 
         document.getElementById("CUR_NOMBRE").value = "";
         document.getElementById("CUR_DESCRIPCION").value = "";
-        document.getElementById("CUR_RESULTADOS").value = "";
+        //document.getElementById("CUR_RESULTADOS").value = "";
         document.getElementById("CUR_PRECIO").value = "";
 
 
@@ -292,13 +398,13 @@
         //document.getElementById("error").innerHTML = "";
         //document.getElementById("accion").value = idUsuario;
         document.getElementById("accion").value = idCurso;
-        
+
         $.get("MaeCursos/recuperarDatos/?IdCurso=" + idCurso, function (data) {
 
 
             document.getElementById("CUR_NOMBRE").value = data.CUR_NOMBRE;
             document.getElementById("CUR_DESCRIPCION").value = data.CUR_DESCRIPCION;
-            document.getElementById("CUR_RESULTADOS").value = data.CUR_RESULTADOS;
+            //document.getElementById("CUR_RESULTADOS").value = data.CUR_RESULTADOS;
             document.getElementById("CAT_ID").value = data.CAT_ID;
             document.getElementById("CUR_PRECIO").value = data.CUR_PRECIO;
             document.getElementById("USU_CONTRASENA").value = data.USU_CONTRASENA;
@@ -309,7 +415,7 @@
 
     }
 
-    
+
 
 </script>
 

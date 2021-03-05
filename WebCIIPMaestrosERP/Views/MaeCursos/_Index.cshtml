@@ -3,39 +3,41 @@
 
 
 
-<table class="table border-bottom table-hover">
-    <thead>
-        <tr>
-            <th width="10%">@Html.LabelFor(p => Model[0].CUR_ID)</th>
-            <th width="20%">@Html.LabelFor(p => Model[0].CUR_NOMBRE)</th>
-            <th width="30%">@Html.LabelFor(p => Model[0].CUR_DESCRIPCION)</th>
-            <th width="5%">@Html.LabelFor(p => Model[0].CAT_DESCRIPCION)</th>
-            <th width="10%">@Html.LabelFor(p => Model[0].CUR_ESTADO)</th>
-            <th width="20%">OPERACIONES</th>
+    
 
-        </tr>
-    <thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>@item.CUR_ID</td>
-            <td>@item.CUR_NOMBRE</td>
-            <td>@item.CUR_DESCRIPCION</td>
-            <td>@item.CAT_DESCRIPCION</td>
-            <td>@item.CUR_ESTADO</td>
-            <td>
-                <button type="button" onclick="Editar(@item.CUR_ID)" class="btn btn-primary glyphicon glyphicon-edit" data-toggle="modal" data-target="#myModalCurso">
-                </button>
+            <table class="table border-bottom table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th width="10%">@Html.LabelFor(p => Model[0].CUR_ID)</th>
+                        <th width="20%">@Html.LabelFor(p => Model[0].CUR_NOMBRE)</th>
+                        <th width="30%">@Html.LabelFor(p => Model[0].CUR_DESCRIPCION)</th>
+                        <th width="5%">@Html.LabelFor(p => Model[0].CAT_DESCRIPCION)</th>
+                        <th width="10%">@Html.LabelFor(p => Model[0].CUR_ESTADO)</th>
+                        <th width="20%">OPERACIONES</th>
 
-                <button type="button" onclick="ActivarDesactivar(@item.CUR_ID)" class="btn btn-danger glyphicon glyphicon-trash" data-toggle="modal" data-target="#ModalConfirmacion">
-                </button>
+                    </tr>
+                <thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.CUR_ID</td>
+                            <td>@item.CUR_NOMBRE</td>
+                            <td>@item.CUR_DESCRIPCION</td>
+                            <td>@item.CAT_DESCRIPCION</td>
+                            <td>@item.CUR_ESTADO</td>
+                            <td>
+                                
 
-                <button type="button" onclick="ActivarDesactivar(@item.CUR_ID)" class="btn btn-success glyphicon glyphicon-ok-circle" data-toggle="modal" data-target="#ModalActivar">
-                </button>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+                                <a href="#myModalCurso" class="edit" onclick="Editar(@item.CUR_ID)" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                <a href="#ModalConfirmacion" class="delete" onclick="ActivarDesactivar(@item.CUR_ID)" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Activar">&#xe003;</i></a>
+                                <a href="#ModalActivar" class="active" onclick="ActivarDesactivar(@item.CUR_ID)" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+       
 

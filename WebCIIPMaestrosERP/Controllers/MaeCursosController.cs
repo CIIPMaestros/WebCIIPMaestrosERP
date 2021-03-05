@@ -97,6 +97,11 @@ namespace WebCIIPMaestrosERP.Controllers
         }
 
 
+        public ActionResult Registrar()
+        {
+            return View();
+        }
+
         List<SelectListItem> ListaMT; //MANANA TARDE AM PM
 
         public void LlenarMT()
@@ -284,6 +289,21 @@ namespace WebCIIPMaestrosERP.Controllers
                         oMaeCursos.CUR_IMAGEN = oMaeCursosCLS.CUR_IMAGEN;
                         db.MAE_CURSOS.Add(oMaeCursos);
                         rpta = db.SaveChanges().ToString();
+
+                        // recorremos la lsita de horarios
+
+                        foreach (var Horario in oMaeCursosCLS.horarios) {
+
+                            MAE_CURSOS_HORARIOS oMAE_CURSOS_HORARIOS = new MAE_CURSOS_HORARIOS();
+                            oMAE_CURSOS_HORARIOS.CUR_ID = oMaeCursos.CUR_ID;
+                            oMAE_CURSOS_HORARIOS.SCH_DIA = Horario.SCH_DIA;
+                            oMAE_CURSOS_HORARIOS.SCH_HORA = Horario.SCH_HORA;
+                            oMAE_CURSOS_HORARIOS.SCH_MT = Horario.SCH_MT;
+                            db.MAE_CURSOS_HORARIOS.Add(oMAE_CURSOS_HORARIOS);
+
+                        }
+
+                        db.SaveChanges();
 
 
                     }
