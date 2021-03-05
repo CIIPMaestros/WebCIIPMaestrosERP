@@ -215,6 +215,24 @@
 
             <script type="text/javascript">
 
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-bottom-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+
                 $(document).on('click', '.btnAddComent', function (e) {
                     e.preventDefault();
                     $('#Seguimiento').modal('show');
@@ -249,7 +267,10 @@
                     $('#btEdit').attr('disabled', 'disabled');
                 });
 
-
+                $(document).on('click', '.btnEliminar', function (e) {
+                    $(this).parents("tr").remove();
+                    toastr["success"]("¡Se ha eliminado el registro correctamente!", "Segmento Comentario");
+                });
 
                 $(document).ready(function () {
 
@@ -267,6 +288,7 @@
                         }
 
                         $('#Seguimiento').modal('hide');
+                        $("#Seguimiento input").val("");
 
                     });
                 });

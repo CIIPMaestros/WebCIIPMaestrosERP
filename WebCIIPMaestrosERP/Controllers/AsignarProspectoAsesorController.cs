@@ -43,7 +43,9 @@ namespace WebCIIPMaestrosERP.Controllers
         public List<SelectListItem> SituacionLaboral()
         {
             List<SelectListItem> SituacionLaboralList = new List<SelectListItem>();
-            SituacionLaboralList.Add(new SelectListItem { Text = "StringData", Value = "StringData" });
+            SituacionLaboralList.Add(new SelectListItem { Text = "Contratado", Value = "Contratado" });
+            SituacionLaboralList.Add(new SelectListItem { Text = "Nombrado", Value = "Nombrado" });
+            SituacionLaboralList.Add(new SelectListItem { Text = "Desocupado", Value = "Desocupado" });
 
             return SituacionLaboralList;
         }
@@ -51,7 +53,9 @@ namespace WebCIIPMaestrosERP.Controllers
         public List<SelectListItem> Cargo()
         {
             List<SelectListItem> CargoList = new List<SelectListItem>();
-            CargoList.Add(new SelectListItem { Text = "StringData", Value = "StringData" });
+            CargoList.Add(new SelectListItem { Text = "Director", Value = "Director" });
+            CargoList.Add(new SelectListItem { Text = "Docente", Value = "Docente" });
+            CargoList.Add(new SelectListItem { Text = "Especialista", Value = "Especialista" });
 
             return CargoList;
         }
@@ -59,7 +63,9 @@ namespace WebCIIPMaestrosERP.Controllers
         public List<SelectListItem> Nivel()
         {
             List<SelectListItem> NivelList = new List<SelectListItem>();
-            NivelList.Add(new SelectListItem { Text = "StringData", Value = "StringData" });
+            NivelList.Add(new SelectListItem { Text = "Inicial", Value = "Inicial" });
+            NivelList.Add(new SelectListItem { Text = "Primaria", Value = "Primaria" });
+            NivelList.Add(new SelectListItem { Text = "Secundaria", Value = "Secundaria" });
 
             return NivelList;
         }

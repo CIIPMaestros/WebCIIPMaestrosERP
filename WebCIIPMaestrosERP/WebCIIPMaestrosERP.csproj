@@ -222,6 +222,14 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\SweetAlert2\sweetalert2.all.js" />
+    <Content Include="Content\SweetAlert2\sweetalert2.all.min.js" />
+    <Content Include="Content\SweetAlert2\sweetalert2.css" />
+    <Content Include="Content\SweetAlert2\sweetalert2.js" />
+    <Content Include="Content\SweetAlert2\sweetalert2.min.css" />
+    <Content Include="Content\SweetAlert2\sweetalert2.min.js" />
+    <Content Include="Content\toastr.css" />
+    <Content Include="Content\toastr.min.css" />
     <Content Include="css\dashboard.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -266,6 +274,12 @@
       <DependentUpon>DB_CIIPMaestrosERP.edmx</DependentUpon>
     </Content>
     <Content Include="libman.json" />
+    <Content Include="Content\SweetAlert2\CHANGELOG.md" />
+    <Content Include="Content\SweetAlert2\LICENSE" />
+    <Content Include="Content\SweetAlert2\package.json" />
+    <Content Include="Content\SweetAlert2\README.md" />
+    <Content Include="Content\toastr.less" />
+    <Content Include="Content\toastr.scss" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -347,6 +361,8 @@
     <Content Include="Scripts\src\utils\setAttributes.js" />
     <Content Include="Scripts\src\utils\setStyles.js" />
     <Content Include="Scripts\src\utils\setupEventListeners.js" />
+    <Content Include="Scripts\toastr.js" />
+    <Content Include="Scripts\toastr.min.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
