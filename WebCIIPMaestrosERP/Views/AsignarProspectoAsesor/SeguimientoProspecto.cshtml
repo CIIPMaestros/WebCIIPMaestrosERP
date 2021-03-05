@@ -9,141 +9,200 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
+    <br />
     <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="shadow-box">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.names, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.names, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.names, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.lastnames, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.lastnames, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.lastnames, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DocumentoDeIdentidad, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DocumentoDeIdentidad, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DocumentoDeIdentidad, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        @Html.HiddenFor(model => model.SgmComentarioTipo)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Region, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Region, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Region, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SituacionLaboral, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @*@Html.EditorFor(model => model.SituacionLaboral, new { htmlAttributes = new { @class = "form-control" } })*@
-                @Html.DropDownListFor(model => model.SituacionLaboral, new List<SelectListItem>(ViewBag.SituacionLaboral), "Seleccione Situacion Laboral", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.SituacionLaboral, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Cargo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @*@Html.EditorFor(model => model.Cargo, new { htmlAttributes = new { @class = "form-control" } })*@
-                @Html.DropDownListFor(model => model.Cargo, new List<SelectListItem>(ViewBag.Cargo), "Seleccione Cargo", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Cargo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Nivel, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @*@Html.EditorFor(model => model.Nivel, new { htmlAttributes = new { @class = "form-control" } })*@
-                @Html.DropDownListFor(model => model.Nivel, new List<SelectListItem>(ViewBag.Nivel), "Seleccione Cargo", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Nivel, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
-<br />
-<div class="row">
-    <div class="col-sm-12">
-        <div class="row">
-            <div class="col-sm-2 col-lg-2 col-md-2"><!--Positional--></div>
-            <div class="col-sm-8 col-lg-8 col-md-8">
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <table id="Numeros" class="table table-striped" style="text-align:center">
-                            <thead>
-                                <tr>
-                                    <th>Tipo: </th>
-                                    <th>Comentario: </th>
-                                    <th>Fecha: </th>
-                                    <th> </th>
-                                </tr>
-                            </thead>
-                            <tbody id="tbody1">
-                                @*@if (Model.ComentarioList != null)
-        {
-            foreach (var item in Model.ComentarioList)
-            {
-                <tr id="tr_@item.SGM_ID">
-                    <td>@item.SGM_TIP</td>
-                    <td>@item.SGM_COMENTARIO</td>
-                    <td>@item.SGM_FECHA_HORA</td>
-                    <td><a class="btn btn-info btnEdit" data-codigo="@item.SGM_ID"><i class="fa fa-edit"></a></td>
-                    <td><a class="btn btn-danger btnQuit" data-codigo="@item.SGM_ID"><i class="fa fa-trash"></i></a></td>
-                </tr>
-            }
-        }*@
-                            </tbody>
-                        </table>
+            <div class="row">
+                <div class="col-sm-6 col-lg-6 col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-10"> Nombre: </label>
+                        <div class="col-lg-12">
+                            <div>
+                                @Html.EditorFor(model => model.names, new { htmlAttributes = new { @class = "form-control", @disabled = true } });
+                            </div>
+                            @Html.ValidationMessageFor(model => model.names, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-6 col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-10"> Situacion Laboral: </label>
+                        <div class="col-md-12">
+                            <div>
+                                @Html.DropDownListFor(model => model.SituacionLaboral, new List<SelectListItem>(ViewBag.SituacionLaboral), "Seleccione Situacion Laboral", new { @class = "form-control", @disabled = true })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.SituacionLaboral, "", new { @class = "text-danger" })
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4 col-lg-4 col-md-4">
+
+            <div class="row">
+                <div class="col-sm-6 col-lg-6 col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-10"> Apellidos: </label>
+                        <div class="col-lg-12">
+                            <div>
+                                @Html.EditorFor(model => model.lastnames, new { htmlAttributes = new { @class = "form-control", @disabled = true } })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.lastnames, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-6 col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-10"> Cargo: </label>
+                        <div class="col-md-12">
+                            <div>
+                                @Html.DropDownListFor(model => model.Cargo, new List<SelectListItem>(ViewBag.Cargo), "Seleccione Cargo", new { @class = "form-control", @disabled = true })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Cargo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <div class="row">
+                <div class="col-sm-6 col-lg-6 col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-10"> Nombre: </label>
+                        <div class="col-lg-12">
+                            <div>
+                                @Html.EditorFor(model => model.DocumentoDeIdentidad, new { htmlAttributes = new { @class = "form-control", @disabled = true } })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.DocumentoDeIdentidad, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-6 col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-10"> Nivel: </label>
+                        <div class="col-md-12">
+                            <div>
+                                @Html.DropDownListFor(model => model.Nivel, new List<SelectListItem>(ViewBag.Nivel), "Seleccione Nivel", new { @class = "form-control", @disabled = true })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Nivel, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 col-lg-6 col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-10"> Telefono: </label>
+                        <div class="col-lg-12">
+                            <div>
+                                @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control", @disabled = true } })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 col-lg-6 col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-10"> Correo: </label>
+                        <div class="col-lg-12">
+                            <div>
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @disabled = true } })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 col-lg-6 col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-10"> Foto de Perfil</label>
+                        <div class="col-lg-12">
+                            <div>
+                                @Html.EditorFor(model => model.Region, new { htmlAttributes = new { @class = "form-control", @disabled = true } })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Region, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @Html.HiddenFor(model => model.SgmComentarioTipo)
+
+            <br />
+            <hr />
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-2 col-lg-2 col-md-2"><!--Positional--></div>
+                        <div class="col-sm-8 col-lg-8 col-md-8">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <table id="Numeros" class="table table-striped text-center">
+                                        <thead>
+                                            <tr>
+                                                <th>Tipo: </th>
+                                                <th>Comentario: </th>
+                                                <th>Fecha: </th>
+                                                <th> </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbody1">
+                                            @*@if (Model.ComentarioList != null)
+                                        {
+                                            foreach (var item in Model.ComentarioList)
+                                            {
+                                                <tr id="tr_@item.SGM_ID">
+                                                    <td>@item.SGM_TIP</td>
+                                                    <td>@item.SGM_COMENTARIO</td>
+                                                    <td>@item.SGM_FECHA_HORA</td>
+                                                    <td><a class="btn btn-info btnEdit" data-codigo="@item.SGM_ID"><i class="fa fa-edit"></a></td>
+                                                    <td><a class="btn btn-danger btnQuit" data-codigo="@item.SGM_ID"><i class="fa fa-trash"></i></a></td>
+                                                </tr>
+                                            }
+                                        }*@
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-lg-4 col-md-4">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <button class="btn btn-success btnAddComent" id="AddCmntSgmto" disabled="disabled">
+                <i class="glyphicon glyphicon-plus"></i> Agregar
+            </button>
+            <br />
+            <hr />
+            <div class="row">
+                <div class="col-sm-3 col-lg-3 col-md-3"><!--Positional--></div>
+                <div class="col-sm-3 col-lg-3 col-md-3"><!--Positional--></div>
+                <div class="col-sm-3 col-lg-3 col-md-3"><!--Positional--></div>
+                <div class="col-sm-3 col-lg-3 col-md-3">
+                    <button class="btn btn-primary" id="btnSaveAll" disabled="disabled">
+                        <i class="glyphicon glyphicon-save"></i> Guardar Todo!
+                    </button>
+                    <button class="btn btn-info btnEdit" id="btEdit">
+                        <i class="glyphicon glyphicon-edit"></i> Editar
+                    </button>
+                </div>
+            </div>
+            @*<div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>*@
         </div>
-
     </div>
-</div>
-<br />
-
-<a class="btn btn-info btnEdit"><i class="fa fa-plus"></a>
+}
+@*<a class="btn btn-info btnEdit"><i class="fa fa-plus"></a>*@
 
 
 
@@ -152,29 +211,64 @@
             @{ Html.RenderPartial("~/Views/AsignarProspectoAsesor/_AgregarSeguimiento.cshtml", new PrvDocenteSeguimiento());}
         </div>
 
-        <div>
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-
         @section Scripts{
 
             <script type="text/javascript">
-                $(document).on('click', '.btnEdit', function (e) {
+
+                $(document).on('click', '.btnAddComent', function (e) {
                     e.preventDefault();
                     $('#Seguimiento').modal('show');
                     //var codigo = $(this).data('codigo');
                     //$.ajax({
                     //    type: "post",
-                    //    url: $("#urlEditPhone").val(),
+                    //    url: $("#url").val(),
                     //    dataType: "json",
-                    //    data: { idTelefono: codigo },
+                    //    data: { id: codigo },
                     //    success: function (res) {
-                    //        $("#EditPhone").html(res.partial);
-                    //        $('#EditPhone').modal('show');
+                    //        $("#Edit").html(res.partial);
+                    //        $('#Edit').modal('show');
 
                     //    }
                     //});
 
+                });
+
+                $(document).on('click', '.btnEdit', function (e) {
+                    e.preventDefault();
+                    $('#names').removeAttr('disabled');
+                    $('#SituacionLaboral').removeAttr('disabled');
+                    $('#lastnames').removeAttr('disabled');
+                    $('#Cargo').removeAttr('disabled');
+                    $('#DocumentoDeIdentidad').removeAttr('disabled');
+                    $('#Nivel').removeAttr('disabled');
+                    $('#Telefono').removeAttr('disabled');
+                    $('#Email').removeAttr('disabled');
+                    $('#Region').removeAttr('disabled');
+                    $('#AddCmntSgmto').removeAttr('disabled');
+                    $('#btnSaveAll').removeAttr('disabled');
+                    $('#btEdit').attr('disabled', 'disabled');
+                });
+
+
+
+                $(document).ready(function () {
+
+                    var isets = 1;
+
+                    $('.btnSgmSeguimiento').click(function () {
+                        var s = isets - 1;
+                        var Tipo = document.getElementById('SgmTipo').value;
+                        var Comentario = document.getElementById('SgmComentario').value;
+
+                        for (s; s < isets; s++) {
+                            $('#tbody1').append('<tr id="' + isets + '"><td id="td1-' + isets + '">' + Tipo + '</td><td id="td2-' + isets + '">'
+                                + Comentario + '</td><td><a class = "btn btn-danger btnEliminar text-white" data-codigo = "'
+                                + isets + '"><i class = "glyphicon glyphicon-trash" /></a></td></tr>');
+                        }
+
+                        $('#Seguimiento').modal('hide');
+
+                    });
                 });
             </script>
 
