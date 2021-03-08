@@ -42,7 +42,6 @@ namespace WebCIIPMaestrosERP.Models
         public virtual DbSet<MAE_CURSOS_HORARIOS> MAE_CURSOS_HORARIOS { get; set; }
         public virtual DbSet<SEG_CURSOS_USUARIOS_LINKS> SEG_CURSOS_USUARIOS_LINKS { get; set; }
         public virtual DbSet<MAE_CURSOS> MAE_CURSOS { get; set; }
-        public virtual DbSet<MAE_CURSOS_HORARIOS> MAE_CURSOS_HORARIOS { get; set; }
     
         public virtual ObjectResult<Nullable<System.DateTime>> Sp_Crear_Lanzamientos_Masivo(Nullable<int> var1, Nullable<int> var2)
         {
