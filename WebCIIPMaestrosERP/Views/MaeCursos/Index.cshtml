@@ -36,12 +36,12 @@
                             <div class="form-group">
                                 @Html.TextBox("nombreCurso", null, new { @class = "form-control", @placeholder = "Buscar curso" })
                             </div>
-
                         </form>
                     </div>
 
                     <div class="col-sm-4">
                         <a href="#myModalCurso" onclick="Agregar()" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar</span></a>
+                        <a href="#" onclick="" class="btn btn-info"><i class="glyphicon glyphicon-play"></i> <span>Proccess</span></a>
                     </div>
                 </div>
             </div>
@@ -236,8 +236,32 @@
     </div>
 </div>
 
+<input type="hidden" id="urlSP_Execute" value="@Url.Action("SP_Execute","MaeCursos")" />
+
 <script>
     var num = 0;
+
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-bottom-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+
+    function eliminarFila(e) {
+        alert("Hola");
+    }
 
     
 
@@ -454,6 +478,17 @@
             alert("Ocurrio un error");
         }
 
+    }
+
+    function SP_Execute() {
+        $.ajax({
+            type: "post",
+            url: $("#urlSP_Execute").val(),
+            dataType: "json",
+            success: function (res) {
+                toastr["success"]("¡Se ha ejecutado el comando correctamente!", "SP Execute");
+            }
+        });
     }
 
     function Editar(idCurso) {
