@@ -408,6 +408,9 @@ namespace WebCIIPMaestrosERP.Controllers
                 oMaeCursosCLS.CAT_ID = (int)oMAE_CURSOS.CAT_ID;
                 oMaeCursosCLS.CUR_PRECIO = (decimal)oMAE_CURSOS.CUR_PRECIO;
 
+                List<MAE_CURSOS_HORARIOS> oMAE_CURSOS_HORARIOS = db.MAE_CURSOS_HORARIOS.Where(p => p.CUR_ID == IdCurso).ToList();
+                oMaeCursosCLS.getHorarios = oMAE_CURSOS_HORARIOS;
+
             }
             return Json(oMaeCursosCLS, JsonRequestBehavior.AllowGet);
 

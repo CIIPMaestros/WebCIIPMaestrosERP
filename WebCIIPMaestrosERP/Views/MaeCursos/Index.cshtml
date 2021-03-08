@@ -86,93 +86,97 @@
                 @Html.Hidden("accion") //Para  saber si esta guardando o actualizando, -1 = insertar, -2 actualuzar
 
 
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="form-group col-lg-6">
-                                    @Html.LabelFor(p => Model[0].CUR_NOMBRE)
-                                    @Html.TextBox("CUR_NOMBRE", null, new { @class = "form-control" })
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    @Html.LabelFor(p => Model[0].CUR_DESCRIPCION)
-                                    @Html.TextBox("CUR_DESCRIPCION", null, new { @class = "form-control" })
-                                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="form-group col-lg-6">
+                                @Html.LabelFor(p => Model[0].CUR_NOMBRE)
+                                @Html.TextBox("CUR_NOMBRE", null, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group col-lg-6">
+                                @Html.LabelFor(p => Model[0].CUR_DESCRIPCION)
+                                @Html.TextBox("CUR_DESCRIPCION", null, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="form-group col-lg-6">
+                                @Html.LabelFor(p => Model[0].CAT_ID)
+                                @Html.DropDownList("CAT_ID", ListaCategorias, new { @class = "form-control" })
                             </div>
 
+                            <div class="form-group col-lg-6">
+                                @Html.LabelFor(p => Model[0].CUR_PRECIO)
+                                @Html.Editor("CUR_PRECIO", null, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                            </div>
+                        </div>
 
-                            <div class="row">
 
-                                <div class="form-group col-lg-6">
-                                    @Html.LabelFor(p => Model[0].CAT_ID)
-                                    @Html.DropDownList("CAT_ID", ListaCategorias, new { @class = "form-control" })
-                                </div>
+                        <div class="alert alert-success" role="alert">
+                            Configuracion
 
-                                <div class="form-group col-lg-6">
-                                    @Html.LabelFor(p => Model[0].CUR_PRECIO)
-                                    @Html.Editor("CUR_PRECIO", null, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
-                                </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-4">
+                                @Html.DropDownList("SCH_DIA", ListaDias, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group col-sm-4">
+                                @Html.DropDownList("SCH_HORA", ListaHoras, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group col-sm-4">
+                                @Html.DropDownList("SCH_MT", ListaMT, new { @class = "form-control" })
                             </div>
 
-
-                            <div class="alert alert-success" role="alert">
-                                Configuracion
-
-                            </div>
-
-                            <div class="row">
-                                <div class="form-group col-sm-4">
-                                    @Html.DropDownList("SCH_DIA", ListaDias, new { @class = "form-control" })
-                                </div>
-                                <div class="form-group col-sm-4">
-                                    @Html.DropDownList("SCH_HORA", ListaHoras, new { @class = "form-control" })
-                                </div>
-                                <div class="form-group col-sm-4">
-                                    @Html.DropDownList("SCH_MT", ListaMT, new { @class = "form-control" })
-                                </div>
-
-                            </div>
-                            <p>
-                                <button type="button" onclick="AgregarHorario(); return false" class="btn btn-success">Agregar</button>
-                            </p>
-                                
+                        </div>
+                        <p>
+                            <button type="button" onclick="AgregarHorario(); return false" class="btn btn-success">Agregar</button>
+                        </p>
 
 
-                                <div class="panel panel-success">
-                                    <!-- Default panel contents -->
-                                    <div class="panel-heading">Horarios</div>
-                                    <div class="panel-body">
-                            <p>Los horarios que se configuren en esta opcion seran automaticamente replicados por semana</p>
-                            <!-- Table -->
-                            <table class="table" id="DetHorario">
-                                <!--Esta seccion -->
 
-                            </table>
-                            </div>
+                        <div class="panel panel-success">
+                            <!-- Default panel contents -->
+                            <div class="panel-heading">Horarios</div>
+                            <div class="panel-body">
+                                <p>Los horarios que se configuren en esta opcion seran automaticamente replicados por semana</p>
+                                <!-- Table -->
+
+
+                                <table class="table" id="DetHorario">
+                                    <!--Esta seccion -->
+
+                                </table>
 
 
                             </div>
 
 
                         </div>
-                        </div>
 
 
-
-
-
-
-                    <div class="modal-footer">
-
-                    
-
-                        <button type="button" onclick="contar()" class="btn btn-success">Contar</button>
-                        <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
                     </div>
+                </div>
+
+
+
+
+
+
+                <div class="modal-footer">
+
+
+
+                    <button type="button" onclick="contar()" class="btn btn-success">Contar</button>
+                    <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
 
 
             }
-            </div>
+        </div>
         <div class="text-danger" id="error"></div>
     </div>
 </div>
@@ -238,283 +242,281 @@
 
 <input type="hidden" id="urlSP_Execute" value="@Url.Action("SP_Execute","MaeCursos")" />
 
-<script>
-    var num = 0;
-
-    toastr.options = {
-        "closeButton": false,
-        "debug": false,
-        "newestOnTop": false,
-        "progressBar": false,
-        "positionClass": "toast-bottom-right",
-        "preventDuplicates": false,
-        "onclick": null,
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-    }
-
-    function eliminarFila(e) {
-        alert("Hola");
-    }
-
-    
-
-    function contar() {
-
-        let DetHorario = document.getElementById("Horarios")
-
-        alert(DetHorario.rows.length);
 
 
-        for (var i = 0; i < DetHorario.rows.length; i++) {
-
-            //alert(DetHorario.rows[i].getElementsByTagName("td"));
-            alert(  document.getElementById("DetHorario").rows[i].cells[0].innerText + " " +
-                document.getElementById("DetHorario").rows[i].cells[1].innerText + " " +
-                document.getElementById("DetHorario").rows[i].cells[2].innerText);
-
-
-
-            // alert(document.getElementById("DetHorario.Horarios[" + num + "].SCH_DIA.value"));
-
-            // HiddenDia.name = "Horarios[" + num + "].SCH_DIA";
-
-        }
+    <script>
+        var num = 0;
         
 
-    }
 
-    function AgregarHorario() {
+        function contar() {
 
-        
+            let DetHorario = document.getElementById("Horarios")
 
-        var comboDIA = document.getElementById("SCH_DIA");
-        var Dia = comboDIA.options[comboDIA.selectedIndex].text;
+            alert(DetHorario.rows.length);
 
-        var comboHora = document.getElementById("SCH_HORA");
-        let Hora = comboHora.options[comboHora.selectedIndex].text;
 
-        var comboMT = document.getElementById("SCH_MT");
-        let MT = comboMT.options[comboMT.selectedIndex].text;
+            for (var i = 0; i < DetHorario.rows.length; i++) {
 
-        let tabla = document.getElementById("DetHorario");
+                //alert(DetHorario.rows[i].getElementsByTagName("td"));
+                alert(document.getElementById("DetHorario").rows[i].cells[0].innerText + " " +
+                    document.getElementById("DetHorario").rows[i].cells[1].innerText + " " +
+                    document.getElementById("DetHorario").rows[i].cells[2].innerText);
 
-        for (var i = 0; i < tabla.rows.length; i++) {
 
-            //alert(DetHorario.rows[i].getElementsByTagName("td"));
-            if (document.getElementById("DetHorario").rows[i].cells[0].innerText == Dia &&
-                document.getElementById("DetHorario").rows[i].cells[1].innerText == Hora) {
-                toastr["success"]("¡El horario ya se encuetra registrado!", "Horarios");
-                return;
+
+                // alert(document.getElementById("DetHorario.Horarios[" + num + "].SCH_DIA.value"));
+
+                // HiddenDia.name = "Horarios[" + num + "].SCH_DIA";
+
             }
 
 
-
-            // alert(document.getElementById("DetHorario.Horarios[" + num + "].SCH_DIA.value"));
-
-            // HiddenDia.name = "Horarios[" + num + "].SCH_DIA";
-
-        }
-
-        //capturando valores de horiario
-        let ValueDia = document.getElementById("SCH_DIA").value;
-        let ValueHora = document.getElementById("SCH_HORA").value;
-        let ValueMT = document.getElementById("SCH_MT").value;
-
-
-        //boton eliminar
-        const tdRemove = document.createElement('td');
-        const buttonRemove = document.createElement("img");
-
-
-        buttonRemove.src = "/Content/imagenes/garbage.png";
-        buttonRemove.onclick = eliminarFila;
-        tdRemove.appendChild(buttonRemove);
-        //ternina boton eliminar
-
-        //aqui estba el id de la tabla horarios
-
-        //pintar el el tabla
-        let TR = document.createElement("tr");
-        let TDDia = document.createElement("td");
-        let TDHora = document.createElement("td");
-        let TDMT = document.createElement("td");
-        
-        TR.appendChild(TDDia);
-        TR.appendChild(TDHora);
-        TR.appendChild(TDMT);
-        TR.appendChild(tdRemove);
-        //termina de pintar en la tabla
-        
-
-        TDDia.innerHTML = Dia
-        TDHora.innerHTML = Hora
-        TDMT.innerHTML = MT
-
-        tabla.appendChild(TR)
-
-        //agregar el hidden
-
-        let DetHorario = document.getElementById("DetHorario");
-
-        //aqui estaban las varaibles de arreglo
-        var HiddenIndex = document.createElement("input");
-        var HiddenDia = document.createElement("input");
-        var HiddenHora = document.createElement("input");
-        var HiddenMT = document.createElement("input");
-
-
-        HiddenIndex.name = "Horarios.Index";
-        HiddenIndex.type = "text";
-        HiddenIndex.value = num;
-
-        HiddenDia.name = "Horarios[" + num + "].SCH_DIA";
-        HiddenDia.type = "text";
-        HiddenDia.value = ValueDia;
-
-        HiddenHora.name = "Horarios[" + num + "].SCH_HORA";
-        HiddenHora.type = "text";
-        HiddenHora.value = ValueHora;
-
-        HiddenMT.name = "Horarios[" + num + "].SCH_MT";
-        HiddenMT.type = "text";
-        HiddenMT.value = ValueMT;
-
-
-        DetHorario.appendChild(HiddenIndex);
-        DetHorario.appendChild(HiddenDia);
-        DetHorario.appendChild(HiddenHora);
-        DetHorario.appendChild(HiddenMT);
-
-        num = num + 1;
-        //termina el hidden
-
-    }
-
-
-    var nombre = document.getElementById("nombreCurso");
-    nombre.onkeyup = function () {
-        $("#frmFiltro").trigger("submit");
-    }
-
-
-    function eliminarFila() {
-
-        let DetHorario = document.getElementById("DetHorario");
-
-        //fila = boton.parentNode.parentNode;
-        //DetHorario.removeChild(fila)
-
-
-
-        alert($(this).parents("tr"));
-        var valor = $(this).parents("td").val();
-        var indicie = HiddenDia.selectedIndex(valor);
-        $(this).parents("tr").remove();
-        toastr["success"]("¡Se ha eliminado el registro correctamente!", "Segmento Comentario");
-    }
-
-    function limpiar() {
-        var controles = document.getElementsByClassName("form-control");
-        var ncontroles = controles.length;
-
-        for (var i = 0; i < ncontroles; i++) {
-            controles[i] = value = "";
-
         }
 
 
-        document.getElementById("CUR_NOMBRE").value = "";
-        document.getElementById("CUR_DESCRIPCION").value = "";
-        //document.getElementById("CUR_RESULTADOS").value = "";
-        document.getElementById("CUR_PRECIO").value = "";
+
+        function AgregarHorario() {
 
 
-        document.getElementById("error").innerHTML = "";
 
-    }
+            var comboDIA = document.getElementById("SCH_DIA");
+            var Dia = comboDIA.options[comboDIA.selectedIndex].text;
 
-    function ConfirmarActivarDescativar(estado) {
-        var id = document.getElementById("accion").value;
-        $.get("MaeCursos/ActivarDesactivar/?id=" + id + "&estado=" + estado, function (data) {
+            var comboHora = document.getElementById("SCH_HORA");
+            let Hora = comboHora.options[comboHora.selectedIndex].text;
 
-            if (data == 1) {
-                toastr["success"]("¡Se ejecuto correctamente", "Administracion de cursos");
-                document.getElementById("btnCerrarConfirmacion").click();
+            var comboMT = document.getElementById("SCH_MT");
+            let MT = comboMT.options[comboMT.selectedIndex].text;
+
+            let tabla = document.getElementById("DetHorario");
+
+            for (var i = 0; i < tabla.rows.length; i++) {
+
+                //alert(DetHorario.rows[i].getElementsByTagName("td"));
+                if (document.getElementById("DetHorario").rows[i].cells[0].innerText == Dia &&
+                    document.getElementById("DetHorario").rows[i].cells[1].innerText == Hora) {
+                    toastr["success"]("¡El horario ya se encuetra registrado!", "Horarios");
+                    return;
+                }
+
+
+
+                // alert(document.getElementById("DetHorario.Horarios[" + num + "].SCH_DIA.value"));
+
+                // HiddenDia.name = "Horarios[" + num + "].SCH_DIA";
+
+            }
+
+            //capturando valores de horiario
+            let ValueDia = document.getElementById("SCH_DIA").value;
+            let ValueHora = document.getElementById("SCH_HORA").value;
+            let ValueMT = document.getElementById("SCH_MT").value;
+
+
+            //boton eliminar
+            const tdRemove = document.createElement('td');
+            const buttonRemove = document.createElement("img");
+
+
+            buttonRemove.src = "/Content/imagenes/garbage.png";
+            buttonRemove.onclick = eliminarFila;
+            tdRemove.appendChild(buttonRemove);
+            //ternina boton eliminar
+
+            //aqui estba el id de la tabla horarios
+
+            //pintar el el tabla
+            let TR = document.createElement("tr");
+            let TDDia = document.createElement("td");
+            let TDHora = document.createElement("td");
+            let TDMT = document.createElement("td");
+
+            TR.appendChild(TDDia);
+            TR.appendChild(TDHora);
+            TR.appendChild(TDMT);
+            TR.appendChild(tdRemove);
+            
+            TDDia.innerHTML = Dia
+            TDHora.innerHTML = Hora
+            TDMT.innerHTML = MT
+            //termina de pintar en la tabla
+
+
+            //aqui estaban las varaibles de arreglo
+            const tdIndex = document.createElement('td');
+            const HiddenIndex = document.createElement("input");
+            HiddenIndex.name = "Horarios.Index";
+            HiddenIndex.type = "hidden";
+            HiddenIndex.value = num;
+            tdIndex.appendChild(HiddenIndex);
+            TR.appendChild(tdIndex);
+
+            const tdDia = document.createElement('td');
+            const HiddenDia = document.createElement("input");
+            HiddenDia.name = "Horarios[" + num + "].SCH_DIA";
+            HiddenDia.type = "hidden";
+            HiddenDia.value = ValueDia;
+            tdDia.appendChild(HiddenDia);
+            TR.appendChild(tdDia);
+
+            const tdHora = document.createElement('td');
+            const HiddenHora = document.createElement("input");
+            HiddenHora.name = "Horarios[" + num + "].SCH_HORA";
+            HiddenHora.type = "hidden";
+            HiddenHora.value = ValueHora;
+            tdHora.appendChild(HiddenHora);
+            TR.appendChild(tdHora);
+
+            const tdMT = document.createElement('td');
+            const HiddenMT = document.createElement("input");
+            HiddenMT.name = "Horarios[" + num + "].SCH_MT";
+            HiddenMT.type = "hidden";
+            HiddenMT.value = ValueMT;
+            tdMT.appendChild(HiddenMT);
+            TR.appendChild(tdMT);
+
+
+
+            //DetHorario.appendChild(HiddenIndex);
+            //DetHorario.appendChild(HiddenDia);
+            //DetHorario.appendChild(HiddenHora);
+            //DetHorario.appendChild(HiddenMT);
+
+
+            tabla.appendChild(TR)
+            num = num + 1;
+
+
+            //termina el hidden
+
+        }
+
+
+        var nombre = document.getElementById("nombreCurso");
+        nombre.onkeyup = function () {
+            $("#frmFiltro").trigger("submit");
+        }
+
+
+        function eliminarFila() {
+
+            let DetHorario = document.getElementById("DetHorario");
+
+            //fila = boton.parentNode.parentNode;
+            //DetHorario.removeChild(fila)
+
+
+
+            //alert($(this).parents("tr"));
+            //var valor = $(this).parents("td").val();
+            //var indicie = HiddenDia.selectedIndex(valor);
+
+
+
+            $(this).parents("tr").remove();
+            toastr["success"]("¡Se ha eliminado el registro correctamente!", "Segmento Comentario");
+        }
+
+        function limpiar() {
+            var controles = document.getElementsByClassName("form-control");
+            var ncontroles = controles.length;
+
+            for (var i = 0; i < ncontroles; i++) {
+                controles[i] = value = "";
+
+            }
+
+
+            document.getElementById("CUR_NOMBRE").value = "";
+            document.getElementById("CUR_DESCRIPCION").value = "";
+            //document.getElementById("CUR_RESULTADOS").value = "";
+            document.getElementById("CUR_PRECIO").value = "";
+
+
+            document.getElementById("error").innerHTML = "";
+
+        }
+
+        function ConfirmarActivarDescativar(estado) {
+            var id = document.getElementById("accion").value;
+            $.get("MaeCursos/ActivarDesactivar/?id=" + id + "&estado=" + estado, function (data) {
+
+                if (data == 1) {
+                    toastr["success"]("¡Se ejecuto correctamente", "Administracion de cursos");
+                    document.getElementById("btnCerrarConfirmacion").click();
+                    $("#frmFiltro").trigger("submit");
+                } else {
+                    alert("Ocurrio un error");
+                }
+
+            })
+
+        }
+
+        function ActivarDesactivar(idCurso) {
+            document.getElementById("accion").value = idCurso;
+        }
+
+        function Agregar() {
+            limpiar();
+            document.getElementById("accion").value = -1;
+
+
+
+        }
+
+        function Guardar(resultado) {
+            if (resultado == 1) {
+
+                document.getElementById("btnClose").click();
                 $("#frmFiltro").trigger("submit");
+                alert("Se guardo correctamente");
             } else {
                 alert("Ocurrio un error");
             }
 
-        })
-
-    }
-
-    function ActivarDesactivar(idCurso) {
-        document.getElementById("accion").value = idCurso;
-    }
-
-    function Agregar() {
-        limpiar();
-        document.getElementById("accion").value = -1;
-
-
-
-    }
-
-    function Guardar(resultado) {
-        if (resultado == 1) {
-
-            document.getElementById("btnClose").click();
-            $("#frmFiltro").trigger("submit");
-            alert("Se guardo correctamente");
-        } else {
-            alert("Ocurrio un error");
         }
 
-    }
+        function SP_Execute() {
+            $.ajax({
+                type: "post",
+                url: $("#urlSP_Execute").val(),
+                dataType: "json",
+                success: function (res) {
+                    toastr["success"]("¡Se ha ejecutado el comando correctamente!", "SP Execute");
+                }
+            });
+        }
 
-    function SP_Execute() {
-        $.ajax({
-            type: "post",
-            url: $("#urlSP_Execute").val(),
-            dataType: "json",
-            success: function (res) {
-                toastr["success"]("¡Se ha ejecutado el comando correctamente!", "SP Execute");
+        function Editar(idCurso) {
+            limpiar();
+            //document.getElementById("error").innerHTML = "";
+            //document.getElementById("accion").value = idUsuario;
+            document.getElementById("accion").value = idCurso;
+
+            $.get("MaeCursos/recuperarDatos/?IdCurso=" + idCurso, function (data) {
+
+
+                document.getElementById("CUR_NOMBRE").value = data.CUR_NOMBRE;
+                document.getElementById("CUR_DESCRIPCION").value = data.CUR_DESCRIPCION;
+                //document.getElementById("CUR_RESULTADOS").value = data.CUR_RESULTADOS;
+                document.getElementById("CAT_ID").value = data.CAT_ID;
+                document.getElementById("CUR_PRECIO").value = data.CUR_PRECIO;
+                document.getElementById("USU_CONTRASENA").value = data.USU_CONTRASENA;
+
+                for (var i = 0; i < data.getHorarios.length; i++){
+                    data.getHorarios[i]
             }
-        });
-    }
 
-    function Editar(idCurso) {
-        limpiar();
-        //document.getElementById("error").innerHTML = "";
-        //document.getElementById("accion").value = idUsuario;
-        document.getElementById("accion").value = idCurso;
+            })
 
-        $.get("MaeCursos/recuperarDatos/?IdCurso=" + idCurso, function (data) {
-
-
-            document.getElementById("CUR_NOMBRE").value = data.CUR_NOMBRE;
-            document.getElementById("CUR_DESCRIPCION").value = data.CUR_DESCRIPCION;
-            //document.getElementById("CUR_RESULTADOS").value = data.CUR_RESULTADOS;
-            document.getElementById("CAT_ID").value = data.CAT_ID;
-            document.getElementById("CUR_PRECIO").value = data.CUR_PRECIO;
-            document.getElementById("USU_CONTRASENA").value = data.USU_CONTRASENA;
+        }
 
 
 
-        })
-
-    }
+    </script>
 
 
-
-</script>
 
 
