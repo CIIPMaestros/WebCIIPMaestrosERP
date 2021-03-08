@@ -37,7 +37,8 @@ namespace WebCIIPMaestrosERP.Models
         public virtual DbSet<MAE_CURSOS_LANZAMIENTOS> MAE_CURSOS_LANZAMIENTOS { get; set; }
         public virtual DbSet<SEG_USUARIOS_LINKS> SEG_USUARIOS_LINKS { get; set; }
         public virtual DbSet<MKT_DOCENTES> MKT_DOCENTES { get; set; }
-        public virtual DbSet<MAE_CURSOS> MAE_CURSOS { get; set; }
         public virtual DbSet<MAE_CURSOS_HORARIOS> MAE_CURSOS_HORARIOS { get; set; }
+        public virtual DbSet<SEG_CURSOS_USUARIOS_LINKS> SEG_CURSOS_USUARIOS_LINKS { get; set; }
+        public virtual DbSet<MAE_CURSOS> MAE_CURSOS { get; set; }
     }
 }

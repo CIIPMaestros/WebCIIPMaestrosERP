@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using WebCIIPMaestrosERP.Models;
@@ -251,7 +254,10 @@ namespace WebCIIPMaestrosERP.Controllers
         public string GuardarNuevoControladorParcial(MaeCursosCLS oMaeCursosCLS, int accion)
         {
 
+            int idCurso = 0;
             string rpta="";
+            
+            string cadenaContraCifrada = "";
 
             if (!ModelState.IsValid && accion==-1)
             {
@@ -278,6 +284,10 @@ namespace WebCIIPMaestrosERP.Controllers
                 {
                     if (accion.Equals(-1))
                     {
+
+
+
+
                         MAE_CURSOS oMaeCursos = new MAE_CURSOS();
                         oMaeCursos.CUR_NOMBRE = oMaeCursosCLS.CUR_NOMBRE;
                         oMaeCursos.CUR_DESCRIPCION = oMaeCursosCLS.CUR_DESCRIPCION;
@@ -289,6 +299,28 @@ namespace WebCIIPMaestrosERP.Controllers
                         oMaeCursos.CUR_IMAGEN = oMaeCursosCLS.CUR_IMAGEN;
                         db.MAE_CURSOS.Add(oMaeCursos);
                         rpta = db.SaveChanges().ToString();
+
+                        //debemos recuperar el numero del id para encriptarlo
+                        idCurso = oMaeCursos.CUR_ID; // recuperar
+
+                        //iniciamos la encriptacion
+
+                        using (var transacction = new TransactionScope())
+                        {
+
+                            SHA256Managed sha = new SHA256Managed();
+                            byte[] byteContra = Encoding.Default.GetBytes(idCurso.ToString());
+                            byte[] byteContraCifrado = sha.ComputeHash(byteContra);
+                            cadenaContraCifrada = "";
+                            cadenaContraCifrada = BitConverter.ToString(byteContraCifrado).Replace("-", "");
+
+
+                            MAE_CURSOS ooMAE_CURSOS = db.MAE_CURSOS.Where(p => p.CUR_ID == idCurso).First();
+                            ooMAE_CURSOS.CUR_ID_ENCRIPTADO = cadenaContraCifrada;
+                            db.SaveChanges().ToString();
+                            transacction.Complete();
+
+                        }
 
                         // recorremos la lsita de horarios
 
@@ -320,6 +352,28 @@ namespace WebCIIPMaestrosERP.Controllers
                         oMaeCursos.CAT_ID = oMaeCursosCLS.CAT_ID;
                         //oSEG_USUARIOS.USU_CONTRASENA = cadenaContraCifrada;
                         //oSEG_USUARIOS.USU_ACTIVO = "1";
+
+                        using (var transacction = new TransactionScope())
+                        {
+
+                            if (oMaeCursosCLS.CUR_ID_ENCRIPTADO =="" || oMaeCursosCLS.CUR_ID_ENCRIPTADO is null)
+                            { 
+
+                            SHA256Managed sha = new SHA256Managed();
+                            byte[] byteContra = Encoding.Default.GetBytes(accion.ToString());
+                            byte[] byteContraCifrado = sha.ComputeHash(byteContra);
+                            cadenaContraCifrada = "";
+                            cadenaContraCifrada = BitConverter.ToString(byteContraCifrado).Replace("-", "");
+
+
+                            MAE_CURSOS ooMAE_CURSOS = db.MAE_CURSOS.Where(p => p.CUR_ID == accion).First();
+                            ooMAE_CURSOS.CUR_ID_ENCRIPTADO = cadenaContraCifrada;
+                            transacction.Complete();
+
+                            }
+
+                        }
+
 
                         rpta = db.SaveChanges().ToString();
 

@@ -84,7 +84,7 @@
             {
 
                 @Html.Hidden("accion") //Para  saber si esta guardando o actualizando, -1 = insertar, -2 actualuzar
-                
+
 
                     <div class="modal-body">
                         <div class="form-group">
@@ -156,7 +156,7 @@
                         </div>
                         </div>
 
-                
+
 
 
 
@@ -165,13 +165,13 @@
 
                     
 
-                        
+                        <button type="button" onclick="contar()" class="btn btn-success">Contar</button>
                         <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-primary">Guardar</button>
                     </div>
 
 
-                    }
+            }
             </div>
         <div class="text-danger" id="error"></div>
     </div>
@@ -239,10 +239,32 @@
 <script>
     var num = 0;
 
-    function eliminarFila(e) {
-        alert("Hola");
-    }
+    
 
+    function contar() {
+
+        let DetHorario = document.getElementById("Horarios")
+
+        alert(DetHorario.rows.length);
+
+
+        for (var i = 0; i < DetHorario.rows.length; i++) {
+
+            //alert(DetHorario.rows[i].getElementsByTagName("td"));
+            alert(  document.getElementById("DetHorario").rows[i].cells[0].innerText + " " +
+                document.getElementById("DetHorario").rows[i].cells[1].innerText + " " +
+                document.getElementById("DetHorario").rows[i].cells[2].innerText);
+
+
+
+            // alert(document.getElementById("DetHorario.Horarios[" + num + "].SCH_DIA.value"));
+
+            // HiddenDia.name = "Horarios[" + num + "].SCH_DIA";
+
+        }
+        
+
+    }
 
     function AgregarHorario() {
 
@@ -257,23 +279,45 @@
         var comboMT = document.getElementById("SCH_MT");
         let MT = comboMT.options[comboMT.selectedIndex].text;
 
+        let tabla = document.getElementById("DetHorario");
+
+        for (var i = 0; i < tabla.rows.length; i++) {
+
+            //alert(DetHorario.rows[i].getElementsByTagName("td"));
+            if (document.getElementById("DetHorario").rows[i].cells[0].innerText == Dia &&
+                document.getElementById("DetHorario").rows[i].cells[1].innerText == Hora) {
+                toastr["success"]("¡El horario ya se encuetra registrado!", "Horarios");
+                return;
+            }
+
+
+
+            // alert(document.getElementById("DetHorario.Horarios[" + num + "].SCH_DIA.value"));
+
+            // HiddenDia.name = "Horarios[" + num + "].SCH_DIA";
+
+        }
+
         //capturando valores de horiario
         let ValueDia = document.getElementById("SCH_DIA").value;
         let ValueHora = document.getElementById("SCH_HORA").value;
         let ValueMT = document.getElementById("SCH_MT").value;
 
 
-
+        //boton eliminar
         const tdRemove = document.createElement('td');
         const buttonRemove = document.createElement("img");
-        //buttonRemove.src = "garbage.png";
+
+
+        buttonRemove.src = "/Content/imagenes/garbage.png";
         buttonRemove.onclick = eliminarFila;
         tdRemove.appendChild(buttonRemove);
+        //ternina boton eliminar
 
+        //aqui estba el id de la tabla horarios
 
-        let tabla = document.getElementById("DetHorario");
+        //pintar el el tabla
         let TR = document.createElement("tr");
-
         let TDDia = document.createElement("td");
         let TDHora = document.createElement("td");
         let TDMT = document.createElement("td");
@@ -282,6 +326,7 @@
         TR.appendChild(TDHora);
         TR.appendChild(TDMT);
         TR.appendChild(tdRemove);
+        //termina de pintar en la tabla
         
 
         TDDia.innerHTML = Dia
@@ -294,25 +339,27 @@
 
         let DetHorario = document.getElementById("DetHorario");
 
-        let HiddenIndex = document.createElement("input");
-        let HiddenDia = document.createElement("input");
-        let HiddenHora = document.createElement("input");
-        let HiddenMT = document.createElement("input");
+        //aqui estaban las varaibles de arreglo
+        var HiddenIndex = document.createElement("input");
+        var HiddenDia = document.createElement("input");
+        var HiddenHora = document.createElement("input");
+        var HiddenMT = document.createElement("input");
+
 
         HiddenIndex.name = "Horarios.Index";
-        HiddenIndex.type = "hidden";
+        HiddenIndex.type = "text";
         HiddenIndex.value = num;
 
         HiddenDia.name = "Horarios[" + num + "].SCH_DIA";
-        HiddenDia.type = "hidden";
+        HiddenDia.type = "text";
         HiddenDia.value = ValueDia;
 
         HiddenHora.name = "Horarios[" + num + "].SCH_HORA";
-        HiddenHora.type = "hidden";
+        HiddenHora.type = "text";
         HiddenHora.value = ValueHora;
 
         HiddenMT.name = "Horarios[" + num + "].SCH_MT";
-        HiddenMT.type = "hidden";
+        HiddenMT.type = "text";
         HiddenMT.value = ValueMT;
 
 
@@ -322,8 +369,8 @@
         DetHorario.appendChild(HiddenMT);
 
         num = num + 1;
+        //termina el hidden
 
-        alert(num);
     }
 
 
@@ -332,6 +379,22 @@
         $("#frmFiltro").trigger("submit");
     }
 
+
+    function eliminarFila() {
+
+        let DetHorario = document.getElementById("DetHorario");
+
+        //fila = boton.parentNode.parentNode;
+        //DetHorario.removeChild(fila)
+
+
+
+        alert($(this).parents("tr"));
+        var valor = $(this).parents("td").val();
+        var indicie = HiddenDia.selectedIndex(valor);
+        $(this).parents("tr").remove();
+        toastr["success"]("¡Se ha eliminado el registro correctamente!", "Segmento Comentario");
+    }
 
     function limpiar() {
         var controles = document.getElementsByClassName("form-control");
@@ -358,7 +421,7 @@
         $.get("MaeCursos/ActivarDesactivar/?id=" + id + "&estado=" + estado, function (data) {
 
             if (data == 1) {
-                alert("Se ejecuto correctamente");
+                toastr["success"]("¡Se ejecuto correctamente", "Administracion de cursos");
                 document.getElementById("btnCerrarConfirmacion").click();
                 $("#frmFiltro").trigger("submit");
             } else {

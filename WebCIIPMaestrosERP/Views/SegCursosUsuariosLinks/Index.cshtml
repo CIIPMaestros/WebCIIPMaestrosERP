@@ -1,0 +1,302 @@
+﻿@using WebCIIPMaestrosERP.Models;
+@model List<SegCursoUsuarioLinksCLS>
+
+@{
+    ViewBag.Title = "Index";
+    List<SelectListItem> ListaCursos = (List<SelectListItem>)ViewBag.ListaCursos;
+    List<SelectListItem> ListaUsuarios = (List<SelectListItem>)ViewBag.ListaUsuarios;
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+
+
+
+
+
+
+    @using (Ajax.BeginForm("Filtro", "", new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "divRol",
+        InsertionMode = InsertionMode.Replace
+    }, new { @id = "frmFiltro" }))
+    {
+
+
+        <div class="container">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <h2>Relacionar Cursos y Usuarios</h2>
+                        </div>
+                        <div class="col-sm-4">
+                            <form class="navbar-form navbar-left ">
+                                <div class="form-group">
+                                    @Html.TextBox("nombreUsuario", null, new { @class = "form-control", @placeholder = "Buscar usuario" })
+                                </div>
+
+                            </form>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <a href="#myModalCurso" onclick="Agregar()" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar</span></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="divRol">
+
+
+
+
+
+                    @Html.Partial("_Index", Model)
+
+
+
+
+                </div>
+            </div>
+        </div>
+    }
+
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModalCurso" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Registrar</h4>
+                </div>
+
+
+                @using (Ajax.BeginForm("GuardarNuevoControladorParcial", "SegCursosUsuariosLinks", null, new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    OnSuccess = "Guardar",
+                    UpdateTargetId = "error"
+                }))
+                {
+
+                    @Html.Hidden("accion") //Para  saber si esta guardando o actualizando, -1 = insertar, -2 actualuzar
+
+
+                    <div class="modal-body">
+                        <div class="form-group">
+
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    @Html.LabelFor(p => Model[0].USU_NOMBRES)
+                                    @Html.DropDownList("USU_ID", ListaUsuarios, new { @class = "form-control" })
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    @Html.LabelFor(p => Model[0].CUR_ID)
+                                    @Html.DropDownList("CUR_ID", ListaCursos, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+
+                                <div class="form-group col-lg-12">
+                                    @Html.LabelFor(p => Model[0].USU_LINK_CORTO)
+                                    @Html.TextBox("USU_LINK_CORTO", null, new { @class = "form-control" })
+                                </div>
+
+                               
+                            </div>
+
+
+
+                           
+
+                        </div>
+                    </div>
+
+
+
+
+
+
+                    <div class="modal-footer">
+
+
+
+
+                        <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+
+
+                }
+            </div>
+            <div class="text-danger" id="error"></div>
+        </div>
+    </div>
+
+
+    <!-- Modal Eliminar
+    <div class="modal fade" id="ModalConfirmacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <div class="alert alert-danger" role="alert"><h5 class="modal-title" id="exampleModalLabel">¿Desea desactivar el registro?</h5></div>
+
+                </div>
+
+                <div style="padding:1em">
+                    <button type="button" id="btnCerrarConfirmacion" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" onclick="ConfirmarActivarDescativar(2)" class="btn btn-danger">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+        -->
+    <!-- Delete Modal HTML -->
+    <div id="ModalConfirmacion" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form>
+                    <div class="modal-header">
+                        <h4 class="modal-title">¿Desea desactivar el registro?</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Esta seguro que desea desactivar el curso?</p>
+                        <p class="text-warning"><small>Esta accion puede deshacerse.</small></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnCerrarConfirmacion" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" onclick="ConfirmarActivarDescativar(2)" class="btn btn-danger">Aceptar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Activar -->
+    <div class="modal fade" id="ModalActivar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <div class="alert alert-success" role="alert"><h5 class="modal-title" id="exampleModalLabel">¿Desea activar el registro?</h5></div>
+
+                </div>
+
+                <div style="padding:1em">
+                    <button type="button" id="btnCerrarConfirmacion" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" onclick="ConfirmarActivarDescativar(1)" class="btn btn-success">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+               
+
+
+        var nombre = document.getElementById("nombreUsuario");
+        nombre.onkeyup = function () {
+            $("#frmFiltro").trigger("submit");
+        }
+
+
+        function limpiar() {
+            var controles = document.getElementsByClassName("form-control");
+            var ncontroles = controles.length;
+
+            for (var i = 0; i < ncontroles; i++) {
+                controles[i] = value = "";
+
+            }
+
+
+            document.getElementById("USU_ID").value = "";
+            document.getElementById("CUR_ID").value = "";
+            document.getElementById("USU_LINK_CORTO").value = "";
+
+
+            document.getElementById("error").innerHTML = "";
+
+        }
+
+        function ConfirmarActivarDescativar(estado) {
+            var id = document.getElementById("accion").value;
+            $.get("SegCursosUsuariosLinks/ActivarDesactivar/?id=" + id + "&estado=" + estado, function (data) {
+
+                if (data == 1) {
+                    alert("Se ejecuto correctamente");
+                    document.getElementById("btnCerrarConfirmacion").click();
+                    $("#frmFiltro").trigger("submit");
+                } else {
+                    alert("Ocurrio un error");
+                }
+
+            })
+
+        }
+
+        function ActivarDesactivar(idCus) {
+            document.getElementById("accion").value = idCus;
+        }
+
+        function Agregar() {
+            limpiar();
+            document.getElementById("accion").value = -1;
+
+
+
+        }
+
+        function Guardar(resultado) {
+            if (resultado == 1) {
+
+                document.getElementById("btnClose").click();
+                $("#frmFiltro").trigger("submit");
+                alert("Se guardo correctamente");
+            } else {
+                alert("Ocurrio un error");
+            }
+
+        }
+
+        function Editar(idCus) {
+            limpiar();
+            //document.getElementById("error").innerHTML = "";
+            //document.getElementById("accion").value = idUsuario;
+            document.getElementById("accion").value = idCus;
+
+            $.get("SegCursosUsuariosLinks/recuperarDatos/?IdCus=" + idCus, function (data) {
+
+
+                document.getElementById("CUR_ID").value = data.CUR_ID;
+                document.getElementById("USU_ID").value = data.USU_ID;
+                document.getElementById("USU_LINK_CORTO").value = data.USU_LINK_CORTO;
+
+
+            })
+
+        }
+
+
+
+    </script>
+
+
+
+</body>
+</html>

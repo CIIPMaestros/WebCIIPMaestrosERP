@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="38b341f4e7f541c8be6206023e8fd59f" Name="Diagram1">
+      <Diagram DiagramId="38b341f4e7f541c8be6206023e8fd59f" Name="Diagram1" ZoomLevel="86">
         <EntityTypeShape EntityType="DB_WebCIIPModel.MAE_CATEGORIAS" Width="2" PointX="0.75" PointY="5.75" />
         <EntityTypeShape EntityType="DB_WebCIIPModel.MAE_CURSOS_PUNTUACION" Width="1.75" PointX="3.125" PointY="4.25" />
         <EntityTypeShape EntityType="DB_WebCIIPModel.MAE_DEPARTAMENTOS" Width="1.75" PointX="5.5" PointY="6.75" />
@@ -28,13 +28,16 @@
         <AssociationConnector Association="DB_WebCIIPModel.FK_MAE_CURSOS_PUNTUACION_MKT_DOCENTES" />
         <AssociationConnector Association="DB_WebCIIPModel.FK_MKT_DOCENTE_CURSO_MKT_DOCENTES" />
         <AssociationConnector Association="DB_WebCIIPModel.FK_PRV_DOCENTE_SEGUIMIENTO_MKT_DOCENTES" />
-        <EntityTypeShape EntityType="DB_WebCIIPModel.MAE_CURSOS" Width="1.5" PointX="0.625" PointY="0.875" />
+        <EntityTypeShape EntityType="DB_WebCIIPModel.MAE_CURSOS_HORARIOS" Width="1.5" PointX="9.125" PointY="0.625" />
+        <EntityTypeShape EntityType="DB_WebCIIPModel.SEG_CURSOS_USUARIOS_LINKS" Width="1.5" PointX="11" PointY="7.375" />
+        <AssociationConnector Association="DB_WebCIIPModel.FK_SEG_CURSOS_USUARIOS_LINKS_SEG_USUARIOS" />
+        <EntityTypeShape EntityType="DB_WebCIIPModel.MAE_CURSOS" Width="1.5" PointX="0.75" PointY="0.75" />
         <AssociationConnector Association="DB_WebCIIPModel.FK_MAE_CURSOS_MAE_CATEGORIAS" />
+        <AssociationConnector Association="DB_WebCIIPModel.FK_MAE_CURSOS_HORARIOS_MAE_CURSOS" />
         <AssociationConnector Association="DB_WebCIIPModel.FK_MAE_CURSOS_LANZAMIENTOS_MAE_CURSOS" />
         <AssociationConnector Association="DB_WebCIIPModel.FK_MAE_CURSOS_PUNTUACION_MAE_CURSOS" />
+        <AssociationConnector Association="DB_WebCIIPModel.FK_SEG_CURSOS_USUARIOS_LINKS_MAE_CURSOS" />
         <AssociationConnector Association="DB_WebCIIPModel.FK_SEG_USUARIOS_LINKS_MAE_CURSOS" />
-        <EntityTypeShape EntityType="DB_WebCIIPModel.MAE_CURSOS_HORARIOS" Width="1.5" PointX="9.125" PointY="0.625" />
-        <AssociationConnector Association="DB_WebCIIPModel.FK_MAE_CURSOS_HORARIOS_MAE_CURSOS" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -144,6 +144,7 @@
     <Compile Include="Controllers\MaeCursosController.cs" />
     <Compile Include="Controllers\MaeTutorController.cs" />
     <Compile Include="Controllers\MktDocenteCursoController.cs" />
+    <Compile Include="Controllers\SegCursosUsuariosLinksController.cs" />
     <Compile Include="Controllers\SegUsuariosController.cs" />
     <Compile Include="Controllers\SegUsuariosLinksController.cs" />
     <Compile Include="Global.asax.cs">
@@ -206,8 +207,12 @@
     <Compile Include="Models\PRV_DOCENTE_SEGUIMIENTO.cs">
       <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SegCursoUsuarioLinksCLS.cs" />
     <Compile Include="Models\SegUsuariosCLS.cs" />
     <Compile Include="Models\SegUsuariosLinksCLS.cs" />
+    <Compile Include="Models\SEG_CURSOS_USUARIOS_LINKS.cs">
+      <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SEG_USUARIOS.cs">
       <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
     </Compile>
@@ -222,6 +227,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\imagenes\garbage.png" />
     <Content Include="Content\SweetAlert2\sweetalert2.all.js" />
     <Content Include="Content\SweetAlert2\sweetalert2.all.min.js" />
     <Content Include="Content\SweetAlert2\sweetalert2.css" />
@@ -412,10 +418,11 @@
     <Content Include="Views\AsignarProspectoAsesor\_AgregarSeguimiento.cshtml" />
     <Content Include="Views\DocenteSeguimiento\Index.cshtml" />
     <Content Include="Views\MaeCursos\Registrar.cshtml" />
+    <Content Include="Views\SegCursosUsuariosLinks\Index.cshtml" />
+    <Content Include="Views\SegCursosUsuariosLinks\_Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\imagenes\" />
     <Folder Include="Data\" />
   </ItemGroup>
   <ItemGroup>

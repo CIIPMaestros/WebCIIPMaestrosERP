@@ -28,6 +28,7 @@ namespace WebCIIPMaestrosERP.Models
         public string TUT_ACTIVO { get; set; }
         public byte[] FOTO { get; set; }
         public string TUT_TELEFONO { get; set; }
+        public string TUT_CUR_GRATUITO { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MAE_CURSOS_LANZAMIENTOS> MAE_CURSOS_LANZAMIENTOS { get; set; }

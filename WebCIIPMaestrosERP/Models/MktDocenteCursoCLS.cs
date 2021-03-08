@@ -39,6 +39,9 @@ namespace WebCIIPMaestrosERP.Models
 
         public string IdCurso { get; set; }
 
+        [Display(Name = "Curso")]
+        public string CUR_NOMBRE { get; set; }
+
         public string IdLanzamiento { get; set; }
 
         [Display(Name = "Fecha Registro")]

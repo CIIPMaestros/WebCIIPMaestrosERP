@@ -100,14 +100,19 @@ namespace WebCIIPMaestrosERP.Controllers
 
             using (var db = new DB_WebCIIPEntitiesERP())
             {
-                if (idLan != 0 && idCurso != 0 && idusuario != 0)
+                if (idusuario != 0 && idCurso != 0 && idLan != 0)
                 {
 
                     ListaDocente = (from DocenteCurso in db.MKT_DOCENTE_CURSO
                                     join Docente in db.MKT_DOCENTES
                                     on DocenteCurso.DOC_ID equals Docente.DOC_ID
+                                    join lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
+                                    on DocenteCurso.LAN_ID equals lanzamiento.LAN_ID
+                                    join curso in db.MAE_CURSOS
+                                    on lanzamiento.CUR_ID equals curso.CUR_ID
                                     where DocenteCurso.MKT_ID == idusuario &&
-                                            DocenteCurso.LAN_ID == idLan
+                                          lanzamiento.CUR_ID == idCurso &&
+                                          lanzamiento.LAN_ID == idLan
 
                                     select new MktDocenteCursoCLS
                                     {
@@ -119,10 +124,74 @@ namespace WebCIIPMaestrosERP.Controllers
                                         DOC_CELULAR = Docente.DOC_CELULAR,
                                         DOC_EMAIL = Docente.DOC_EMAIL,
                                         DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
-                                        DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString()
+                                        DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
+                                        CUR_NOMBRE = curso.CUR_NOMBRE
 
-                }).ToList();
+                                    }).ToList();
                     Session["SessionMktReporteByUser"] = ListaDocente;
+
+                }
+                else if (idusuario != 0 && idCurso != 0 && idLan == 0) //cuando quier ver todo del bot sin importar el curso
+                {
+
+                    ListaDocente = (from DocenteCurso in db.MKT_DOCENTE_CURSO
+                                    join Docente in db.MKT_DOCENTES
+                                    on DocenteCurso.DOC_ID equals Docente.DOC_ID
+                                    join lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
+                                    on DocenteCurso.LAN_ID equals lanzamiento.LAN_ID
+                                    join curso in db.MAE_CURSOS
+                                    on lanzamiento.CUR_ID equals curso.CUR_ID
+                                    where DocenteCurso.MKT_ID == idusuario &&
+                                            lanzamiento.CUR_ID == idCurso
+
+
+                                    select new MktDocenteCursoCLS
+                                    {
+                                        DOC_ID = DocenteCurso.DOC_ID,
+                                        LAN_ID = DocenteCurso.LAN_ID,
+                                        MKT_ID = (int)DocenteCurso.MKT_ID,
+                                        DOC_NOMBRES = Docente.DOC_NOMBRES,
+                                        DOC_APELLIDOS = Docente.DOC_APELLIDOS,
+                                        DOC_CELULAR = Docente.DOC_CELULAR,
+                                        DOC_EMAIL = Docente.DOC_EMAIL,
+                                        DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
+                                        DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
+                                        CUR_NOMBRE = curso.CUR_NOMBRE
+                                    }).ToList();
+                    Session["SessionMktReporteByUser"] = ListaDocente;
+
+
+                }
+                else if (idusuario != 0 && idCurso == 0 && idLan == 0) //cuando quier ver todo del bot sin importar el curso
+                {
+
+                    ListaDocente = (from DocenteCurso in db.MKT_DOCENTE_CURSO
+                                    join Docente in db.MKT_DOCENTES
+                                    on DocenteCurso.DOC_ID equals Docente.DOC_ID
+                                    join lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
+                                    on DocenteCurso.LAN_ID equals lanzamiento.LAN_ID
+                                    join curso in db.MAE_CURSOS
+                                    on lanzamiento.CUR_ID equals curso.CUR_ID
+                                    where DocenteCurso.MKT_ID == idusuario
+
+
+
+                                    select new MktDocenteCursoCLS
+                                    {
+                                        DOC_ID = DocenteCurso.DOC_ID,
+                                        LAN_ID = DocenteCurso.LAN_ID,
+                                        MKT_ID = (int)DocenteCurso.MKT_ID,
+                                        DOC_NOMBRES = Docente.DOC_NOMBRES,
+                                        DOC_APELLIDOS = Docente.DOC_APELLIDOS,
+                                        DOC_CELULAR = Docente.DOC_CELULAR,
+                                        DOC_EMAIL = Docente.DOC_EMAIL,
+                                        DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
+                                        DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
+                                        CUR_NOMBRE = curso.CUR_NOMBRE
+                                    }).ToList();
+                    Session["SessionMktReporteByUser"] = ListaDocente;
+
+
                 }
                 else
                 {
@@ -130,8 +199,12 @@ namespace WebCIIPMaestrosERP.Controllers
                     ListaDocente = (from DocenteCurso in db.MKT_DOCENTE_CURSO
                                     join Docente in db.MKT_DOCENTES
                                     on DocenteCurso.DOC_ID equals Docente.DOC_ID
-                                    where DocenteCurso.MKT_ID == idusuario &&
-                                            DocenteCurso.LAN_ID == idLan
+                                    join lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
+                                    on DocenteCurso.LAN_ID equals lanzamiento.LAN_ID
+                                    join curso in db.MAE_CURSOS
+                                    on lanzamiento.CUR_ID equals curso.CUR_ID
+
+
 
                                     select new MktDocenteCursoCLS
                                     {
@@ -143,14 +216,13 @@ namespace WebCIIPMaestrosERP.Controllers
                                         DOC_CELULAR = Docente.DOC_CELULAR,
                                         DOC_EMAIL = Docente.DOC_EMAIL,
                                         DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
-                                        DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString()
+                                        DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
+                                        CUR_NOMBRE = curso.CUR_NOMBRE
                                     }).ToList();
                     Session["SessionMktReporteByUser"] = ListaDocente;
-
-
                 }
-
                 return View(ListaDocente);
+                
             }
         }
 
@@ -172,12 +244,15 @@ namespace WebCIIPMaestrosERP.Controllers
 
             using (var db = new DB_WebCIIPEntitiesERP())
             {
-                if (idLan == 0)
-                {
+                /*if (idLan == 0)
+                {*/
                     ListaDocente = (from DocenteCurso in db.MKT_DOCENTE_CURSO
                                     join Docente in db.MKT_DOCENTES
                                     on DocenteCurso.DOC_ID equals Docente.DOC_ID
-                                    where DocenteCurso.MKT_ID == idusuario
+                                    join lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
+                                    on DocenteCurso.LAN_ID equals lanzamiento.LAN_ID
+                                    where   DocenteCurso.MKT_ID == idusuario &&
+                                            lanzamiento.CUR_ID == idCurso
 
                                     select new MktDocenteCursoCLS
                                     {
@@ -189,7 +264,7 @@ namespace WebCIIPMaestrosERP.Controllers
                                         DOC_CELULAR = Docente.DOC_CELULAR,
                                         DOC_EMAIL = Docente.DOC_EMAIL
                                     }).ToList();
-                }
+                /*}
                 else {
 
                     ListaDocente = (from DocenteCurso in db.MKT_DOCENTE_CURSO
@@ -209,7 +284,7 @@ namespace WebCIIPMaestrosERP.Controllers
                                         DOC_EMAIL = Docente.DOC_EMAIL
                                     }).ToList();
 
-                }
+                }*/
 
             }
 
@@ -227,10 +302,11 @@ namespace WebCIIPMaestrosERP.Controllers
             using (var db = new DB_WebCIIPEntitiesERP())
             {
 
-                ListaCursos = (from UsuarioLink in db.SEG_USUARIOS_LINKS
+                ListaCursos = (from CursoUsuarioLink in db.SEG_CURSOS_USUARIOS_LINKS
                                join cursos in db.MAE_CURSOS
-                               on UsuarioLink.CUR_ID equals cursos.CUR_ID
-                               where UsuarioLink.USU_ID == idusuario
+                               on CursoUsuarioLink.CUR_ID equals cursos.CUR_ID
+                               where    CursoUsuarioLink.USU_ID == idusuario &&
+                                        CursoUsuarioLink.LNK_ACTIVO == "1"
 
                                select new SelectListItem
                                {
@@ -239,7 +315,7 @@ namespace WebCIIPMaestrosERP.Controllers
 
                                }).Distinct()
                                .ToList();
-                ListaCursos.Insert(0, new SelectListItem { Text = "Elija una curso", Value = "" });
+                ListaCursos.Insert(0, new SelectListItem { Text = "Todos", Value = "0" });
             }
 
         }
@@ -262,7 +338,7 @@ namespace WebCIIPMaestrosERP.Controllers
                                    Value = UsuarioMkt.USU_ID.ToString()
 
                                }).ToList();
-                ListaUsuMkt.Insert(0, new SelectListItem { Text = "Elija un usuario", Value = "" });
+                ListaUsuMkt.Insert(0, new SelectListItem { Text = "Todos", Value = "0" });
             }
 
         }
@@ -279,7 +355,7 @@ namespace WebCIIPMaestrosERP.Controllers
                     Text = x.LAN_ID.ToString() + " - " + x.LAN_FEC_CAPACITACION.ToString(),
                 }).ToList();
 
-                resp.Insert(0, new SelectListItem() { Value = "", Text = "Elija una opcion" });
+                resp.Insert(0, new SelectListItem() { Value = "0", Text = "Todos" });
 
                 return resp;
             }
@@ -308,10 +384,10 @@ namespace WebCIIPMaestrosERP.Controllers
             using (var db = new DB_WebCIIPEntitiesERP())
             {
                 Lanzamientos = (from lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
-                                join usuarioLink in db.SEG_USUARIOS_LINKS
-                                on lanzamiento.LAN_ID equals usuarioLink.LAN_ID
-                                where usuarioLink.USU_ID == IdUser &&
-                                        usuarioLink.CUR_ID == IdCurso
+                                join MktDocenteCurso in db.MKT_DOCENTE_CURSO
+                                on lanzamiento.LAN_ID equals MktDocenteCurso.LAN_ID
+                                where MktDocenteCurso.MKT_ID == IdUser &&
+                                        lanzamiento.CUR_ID == IdCurso
 
                                 select new SelectListItem
                                 {
@@ -321,7 +397,7 @@ namespace WebCIIPMaestrosERP.Controllers
                                 }).Distinct().ToList();
 
 
-                Lanzamientos.Insert(0, new SelectListItem() { Value = "", Text = "Elija una opcion" });
+                Lanzamientos.Insert(0, new SelectListItem() { Value = "0", Text = "Todos" });
 
                 return Lanzamientos;
             }
@@ -334,9 +410,9 @@ namespace WebCIIPMaestrosERP.Controllers
             {
 
                 Lista = (from cursos in db.MAE_CURSOS
-                         join usuarioLink in db.SEG_USUARIOS_LINKS
-                         on cursos.CUR_ID equals usuarioLink.CUR_ID
-                         where usuarioLink.USU_ID == Idusuario
+                         join CursosUsuarioLink in db.SEG_CURSOS_USUARIOS_LINKS
+                         on cursos.CUR_ID equals CursosUsuarioLink.CUR_ID
+                         where CursosUsuarioLink.USU_ID == Idusuario 
 
                          select new SelectListItem
                          {
@@ -346,7 +422,7 @@ namespace WebCIIPMaestrosERP.Controllers
                          }).Distinct().ToList();
 
 
-                Lista.Insert(0, new SelectListItem() { Value = "", Text = "Elija una opcion" });
+                Lista.Insert(0, new SelectListItem() { Value = "0", Text = "Todos" });
 
                 return Lista;
             }

@@ -50,6 +50,9 @@ namespace WebCIIPMaestrosERP.Models
 
         public List<Horarios> horarios { get; set; }
 
+
+        public string CUR_ID_ENCRIPTADO { get; set; }
+
     }
 
     public class Horarios { 

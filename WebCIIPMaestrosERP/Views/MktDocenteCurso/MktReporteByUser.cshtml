@@ -49,7 +49,7 @@
 
                         <select id="CUR_ID" name="CUR_ID" class="form-control">
                             <!-- Opciones de la lista -->
-                            <option value="">Elija un curso</option>
+                            <option value="0">Todos</option>
                         </select>
 
 
@@ -63,7 +63,7 @@
 
                         <select id="LAN_ID" name="LAN_ID" onchange="ShowSelectedLan();" class="form-control">
                             <!-- Opciones de la lista -->
-                            <option value="">Elija una opcion</option>
+                            <option value="0">Todos</option>
                         </select>
 
 
@@ -106,7 +106,9 @@
                     <td>@Html.LabelFor(p => Model[0].DOC_APELLIDOS)</td>
                     <td>@Html.LabelFor(p => Model[0].DOC_EMAIL)</td>
                     <td>@Html.LabelFor(p => Model[0].DOC_CELULAR)</td>
+                    <td>@Html.LabelFor(p => Model[0].CUR_NOMBRE)</td>
                     <td>@Html.LabelFor(p => Model[0].DCU_FEC)</td>
+
 
 
                 </tr>
@@ -120,6 +122,7 @@
                     <td>@item.DOC_APELLIDOS</td>
                     <td>@item.DOC_EMAIL</td>
                     <td>@item.DOC_CELULAR</td>
+                    <td>@item.CUR_NOMBRE</td>
                     <td>@item.DCU_FEC</td>
 
                 </tr>

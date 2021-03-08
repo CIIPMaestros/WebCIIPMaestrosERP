@@ -19,6 +19,7 @@ namespace WebCIIPMaestrosERP.Models
         {
             this.MKT_DOCENTE_CURSO = new HashSet<MKT_DOCENTE_CURSO>();
             this.SEG_USUARIOS_LINKS = new HashSet<SEG_USUARIOS_LINKS>();
+            this.SEG_CURSOS_USUARIOS_LINKS = new HashSet<SEG_CURSOS_USUARIOS_LINKS>();
         }
     
         public int USU_ID { get; set; }
@@ -37,5 +38,7 @@ namespace WebCIIPMaestrosERP.Models
         public virtual ICollection<MKT_DOCENTE_CURSO> MKT_DOCENTE_CURSO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SEG_USUARIOS_LINKS> SEG_USUARIOS_LINKS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SEG_CURSOS_USUARIOS_LINKS> SEG_CURSOS_USUARIOS_LINKS { get; set; }
     }
 }
