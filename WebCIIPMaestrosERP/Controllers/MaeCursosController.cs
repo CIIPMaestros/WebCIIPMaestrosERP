@@ -14,6 +14,10 @@ namespace WebCIIPMaestrosERP.Controllers
     [Acceder]
     public class MaeCursosController : Controller
     {
+
+        List<SelectListItem> ListaHoras;
+        List<SelectListItem> ListaDias;
+        List<SelectListItem> ListaCategorias;
         // GET: MaeCursos
         public ActionResult Index(MaeCursosCLS oMaeCursosCLS)
         {
@@ -125,9 +129,6 @@ namespace WebCIIPMaestrosERP.Controllers
 
         }
 
-
-        List<SelectListItem> ListaHoras;
-
         public void LlenarHoras()
         {
 
@@ -146,9 +147,6 @@ namespace WebCIIPMaestrosERP.Controllers
 
         }
 
-
-        List<SelectListItem> ListaDias;
-
         public void LlenarDias()
         {
 
@@ -166,8 +164,6 @@ namespace WebCIIPMaestrosERP.Controllers
             }
 
         }
-
-        List<SelectListItem> ListaCategorias;
 
         public void LlenarCategorias()
         {
@@ -251,7 +247,7 @@ namespace WebCIIPMaestrosERP.Controllers
             return PartialView("_Index", listaCursos);
         }
 
-        public string GuardarNuevoControladorParcial(MaeCursosCLS oMaeCursosCLS, int accion)
+        public string GuardarNuevoControladorParcial(MaeCursosCLS oMaeCursosCLS, int? accion)
         {
 
             int idCurso = 0;
@@ -342,7 +338,7 @@ namespace WebCIIPMaestrosERP.Controllers
                     else//modificar
                     {
 
-                        MAE_CURSOS oMaeCursos = db.MAE_CURSOS.Where(p => p.CUR_ID == accion).First();
+                        MAE_CURSOS oMaeCursos = db.MAE_CURSOS.Where(p => p.CUR_ID == oMaeCursosCLS.CUR_ID).First();
 
                         oMaeCursos.CUR_NOMBRE = oMaeCursosCLS.CUR_NOMBRE;
                         oMaeCursos.CUR_DESCRIPCION = oMaeCursosCLS.CUR_DESCRIPCION;
@@ -360,13 +356,13 @@ namespace WebCIIPMaestrosERP.Controllers
                             { 
 
                             SHA256Managed sha = new SHA256Managed();
-                            byte[] byteContra = Encoding.Default.GetBytes(accion.ToString());
+                            byte[] byteContra = Encoding.Default.GetBytes(oMaeCursosCLS.CUR_ID.ToString());
                             byte[] byteContraCifrado = sha.ComputeHash(byteContra);
                             cadenaContraCifrada = "";
                             cadenaContraCifrada = BitConverter.ToString(byteContraCifrado).Replace("-", "");
 
 
-                            MAE_CURSOS ooMAE_CURSOS = db.MAE_CURSOS.Where(p => p.CUR_ID == accion).First();
+                            MAE_CURSOS ooMAE_CURSOS = db.MAE_CURSOS.Where(p => p.CUR_ID == oMaeCursosCLS.CUR_ID).First();
                             ooMAE_CURSOS.CUR_ID_ENCRIPTADO = cadenaContraCifrada;
                             transacction.Complete();
 
@@ -374,6 +370,19 @@ namespace WebCIIPMaestrosERP.Controllers
 
                         }
 
+                        // recorremos la lsita de horarios
+
+                        foreach (var Horario in oMaeCursosCLS.horarios)
+                        {
+
+                            MAE_CURSOS_HORARIOS oMAE_CURSOS_HORARIOS = new MAE_CURSOS_HORARIOS();
+                            oMAE_CURSOS_HORARIOS.CUR_ID = oMaeCursos.CUR_ID;
+                            oMAE_CURSOS_HORARIOS.SCH_DIA = Horario.SCH_DIA;
+                            oMAE_CURSOS_HORARIOS.SCH_HORA = Horario.SCH_HORA;
+                            oMAE_CURSOS_HORARIOS.SCH_MT = Horario.SCH_MT;
+                            db.MAE_CURSOS_HORARIOS.Add(oMAE_CURSOS_HORARIOS);
+
+                        }
 
                         rpta = db.SaveChanges().ToString();
 
@@ -390,28 +399,45 @@ namespace WebCIIPMaestrosERP.Controllers
             using (var db = new DB_WebCIIPEntitiesERP())
             {
                 db.Sp_Crear_Lanzamientos_Masivo(0, 0);
+                db.SaveChanges();
             }
                 return Json(new { res = true }, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult recuperarDatos(int IdCurso)
         {
+            var db = new DB_WebCIIPEntitiesERP();
+
+            db.Configuration.ProxyCreationEnabled = false;
+            db.Configuration.LazyLoadingEnabled = false;
 
             MaeCursosCLS oMaeCursosCLS = new MaeCursosCLS();
+            MAE_CURSOS oMAE_CURSOS = db.MAE_CURSOS.Where(p => p.CUR_ID == IdCurso).First();
+            oMaeCursosCLS.CUR_NOMBRE = oMAE_CURSOS.CUR_NOMBRE;
+            oMaeCursosCLS.CUR_DESCRIPCION = oMAE_CURSOS.CUR_DESCRIPCION;
+            oMaeCursosCLS.CUR_CERTIFICACION = oMAE_CURSOS.CUR_CERTIFICACION;
+            oMaeCursosCLS.CUR_RESULTADOS = oMAE_CURSOS.CUR_RESULTADOS;
+            oMaeCursosCLS.CAT_ID = (int)oMAE_CURSOS.CAT_ID;
+            oMaeCursosCLS.CUR_PRECIO = (decimal)oMAE_CURSOS.CUR_PRECIO;
+            
+            var listadoHorarios = db.MAE_CURSOS_HORARIOS.Where(x => x.CUR_ID == IdCurso).ToList();
+            listadoHorarios.ForEach(x => x.MAE_CURSOS = null);
+
+            oMaeCursosCLS.GetHorarios = listadoHorarios;
+            return Json(oMaeCursosCLS, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult EliminarHorario(int id)
+        {
             using (var db = new DB_WebCIIPEntitiesERP())
             {
-                MAE_CURSOS oMAE_CURSOS = db.MAE_CURSOS.Where(p => p.CUR_ID == IdCurso).First();
-                oMaeCursosCLS.CUR_NOMBRE = oMAE_CURSOS.CUR_NOMBRE;
-                oMaeCursosCLS.CUR_DESCRIPCION = oMAE_CURSOS.CUR_DESCRIPCION;
-                oMaeCursosCLS.CUR_CERTIFICACION = oMAE_CURSOS.CUR_CERTIFICACION;
-                oMaeCursosCLS.CUR_RESULTADOS = oMAE_CURSOS.CUR_RESULTADOS;
-                oMaeCursosCLS.CAT_ID = (int)oMAE_CURSOS.CAT_ID;
-                oMaeCursosCLS.CUR_PRECIO = (decimal)oMAE_CURSOS.CUR_PRECIO;
-
+                MAE_CURSOS_HORARIOS getHoratio = db.MAE_CURSOS_HORARIOS.Where(x => x.SCH_ID == id).Single();
+                db.MAE_CURSOS_HORARIOS.Remove(getHoratio);
+                db.SaveChanges();
             }
-            return Json(oMaeCursosCLS, JsonRequestBehavior.AllowGet);
 
-
+            return Json(new { Exito = true }, JsonRequestBehavior.AllowGet);
         }
     }
 }
