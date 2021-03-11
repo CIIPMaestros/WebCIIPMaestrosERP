@@ -536,6 +536,17 @@ namespace WebCIIPMaestrosERP.Controllers
         }
 
         [HttpPost]
+        public JsonResult SP_Lanzamiento(int idCurso)
+        {
+            using (var db = new DB_WebCIIPEntitiesERP())
+            {
+                db.Sp_Crear_Lanzamientos_By_Curso(idCurso);
+                db.SaveChanges();
+            }
+            return Json(new { res = true }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
         public JsonResult EliminarHorario(int id)
         {
             using (var db = new DB_WebCIIPEntitiesERP())

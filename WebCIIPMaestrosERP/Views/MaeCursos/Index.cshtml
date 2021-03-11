@@ -171,7 +171,7 @@
                         </div>
 
                         <!--onclick="ProcesoHorarioActual()"-->
-                        <button type="button" class="btn btn-success"><i class="material-icons" data-toggle="tooltip" title="Proceso Horario de esta semana">&#xe916;</i></button>
+                        <button type="button" class="btn btn-success btnSPLanzamiento"><i class="material-icons" data-toggle="tooltip" title="Proceso Horario de esta semana">&#xe916;</i></button>
                         <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-success">Guardar</button>
 
@@ -243,6 +243,7 @@
 </div>
 
 <input type="hidden" id="urlSP_Execute" value="@Url.Action("SP_Execute","MaeCursos")" />
+<input type="hidden" id="urlSP_Lanzamiento" value="@Url.Action("SP_Lanzamiento","MaeCursos")" />
 <input id="urlQuitHorario" type="hidden" value="@Url.Action("EliminarHorario", "MaeCursos")" />
 
 @section  Scripts{
@@ -421,6 +422,7 @@
             //        + isets + '"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a></td></tr>');
             //}
 
+
             //let TR = document.createElement("tr");
             //let TDDia = document.createElement("td");
             //let TDHora = document.createElement("td");
@@ -539,6 +541,35 @@
                 }
             });
         }
+
+        $(document).on('click', '.btnSPLanzamiento', function (e) {
+            var id = document.getElementById("CUR_ID").value;
+
+            $.ajax({
+                type: "post",
+                url: $("#urlSP_Lanzamiento").val(),
+                dataType: "json",
+                data: { idCurso: id },
+                success: function (res) {
+                    toastr["success"]("¡Se ha ejecutado el comando correctamente!", "SP Execute");
+                }
+            });
+        });
+
+        //function SP_Lanzamiento() {
+
+        //    var id = document.getElementById("CUR_ID").value;
+
+        //    $.ajax({
+        //        type: "post",
+        //        url: $("#urlSP_Lanzamiento").val(),
+        //        dataType: "json",
+        //        data: { idCurso: id},
+        //        success: function (res) {
+        //            toastr["success"]("¡Se ha ejecutado el comando correctamente!", "SP Execute");
+        //        }
+        //    });
+        //}
 
         function Editar(idCurso) {
 
