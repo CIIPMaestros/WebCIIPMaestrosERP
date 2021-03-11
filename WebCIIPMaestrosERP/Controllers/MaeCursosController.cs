@@ -355,7 +355,7 @@ namespace WebCIIPMaestrosERP.Controllers
             return PartialView("_Index", GetCursos);
         }
 
-        public string GuardarNuevoControladorParcial(MaeCursosCLS oMaeCursosCLS, int? accion)
+        public string GuardarNuevoControladorParcial(MaeCursosCLS oMaeCursosCLS, int ? accion)
         {
 
             int idCurso = 0;

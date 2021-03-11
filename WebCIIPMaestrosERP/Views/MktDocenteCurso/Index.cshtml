@@ -2,9 +2,10 @@
 @model List<MktDocenteCursoCLS>
 
 @{
-
+    
     List<SelectListItem> CargaCursos = (List<SelectListItem>)ViewBag.CargaCursos;
     int idusuario = (int)Session["UsuID"];
+
 }
 
 
@@ -12,7 +13,11 @@
 <br>
 
 @using (Html.BeginForm("Index", "MktDocenteCurso", FormMethod.Get))
+
 {
+
+
+    
 
     @Html.Hidden("IdLanzamiento")
 
@@ -45,7 +50,7 @@
 
                         <select id="LAN_ID" name="LAN_ID" onchange="ShowSelected();" class="form-control">
                             <!-- Opciones de la lista -->
-                            <option value="">Elija una opcion</option>
+                            <option value="0">Todos</option>
                         </select>
 
 
@@ -54,7 +59,14 @@
                     <td>
                         <input type="submit" value="Buscar" class="btn btn-success" />
                     </td>
-                    
+
+                    <td>
+                        <p>&nbsp&nbsp&nbsp</p>
+                    </td>
+
+                    <td>
+                        Total de Registros recuperados: @ViewBag.ContarDocentesCapturados
+                    </td>
 
                 </tr>
             </table>
@@ -73,21 +85,22 @@
                     <td>@Html.LabelFor(p => Model[0].DOC_APELLIDOS)</td>
                     <td>@Html.LabelFor(p => Model[0].DOC_EMAIL)</td>
                     <td>@Html.LabelFor(p => Model[0].DOC_CELULAR)</td>
-
+                    <td>@Html.LabelFor(p => Model[0].DCU_FEC)</td>
 
                 </tr>
             <thead>
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>@item.DOC_ID</td>
-                        <td>@item.DOC_NOMBRES</td>
-                        <td>@item.DOC_APELLIDOS</td>
-                        <td>@item.DOC_EMAIL</td>
-                        <td>@item.DOC_CELULAR</td>
+                <tr>
+                    <td>@item.DOC_ID</td>
+                    <td>@item.DOC_NOMBRES</td>
+                    <td>@item.DOC_APELLIDOS</td>
+                    <td>@item.DOC_EMAIL</td>
+                    <td>@item.DOC_CELULAR</td>
+                    <td>@item.DCU_FEC</td>
 
-                    </tr>
+                </tr>
                 }
             </tbody>
         </table>
@@ -98,6 +111,14 @@
 }
 
     <script>
+
+        function Count() {
+
+            alert(Session["ContarDocentesCapturados"]);
+
+        }
+
+        //Count();
 
         //este evento es solo para captura la variable seleccionado para realizar el filtro con el boton buscar... no es para cargar las siguientes listas desplegables
         function ShowSelected() {
