@@ -6,7 +6,7 @@ using System.Web;
 
 namespace WebCIIPMaestrosERP.Models
 {
-    public class MaeCursosCLS
+    public class MaeCursosCLS : BaseModel
     {
 
         [Display(Name = "Id")]
@@ -50,15 +50,21 @@ namespace WebCIIPMaestrosERP.Models
 
         public List<Horarios> horarios { get; set; }
 
+        public List<MAE_CURSOS_HORARIOS> GetHorarios { get; set; }
+
 
         public string CUR_ID_ENCRIPTADO { get; set; }
 
         public List<MAE_CURSOS_HORARIOS> getHorarios { get; set; }
 
+        public List<MaeCursosCLS> ListadoCursos { get; set; }
+
     }
 
     public class Horarios { 
         
+        public int CURS_ID { get; set; }
+
         public string SCH_DIA { get; set; }
                 
         public string SCH_HORA { get; set; }
