@@ -8,6 +8,9 @@
     List<SelectListItem> CargaCursos = (List<SelectListItem>)ViewBag.CargaCursos;
     List<SelectListItem> CargaUsuMktAll = (List<SelectListItem>)ViewBag.CargaUsuMktAll;
 
+    //guardamos las varialbes de los combos para la recarga del mismo.
+    string varSubDominio = System.Configuration.ConfigurationManager.AppSettings["SubDominio"];
+    
 
 }
 
@@ -80,6 +83,13 @@
 
                     <td>@Html.ActionLink(" ", "generarExcel", "MktDocenteCurso", null, new { @class = "btn btn-success glyphicon glyphicon-save form-control", @target = "_blank" })</td>
 
+                    <td>
+                        <p>&nbsp&nbsp&nbsp</p>
+                    </td>
+
+                    <td>
+                        Total de Registros recuperados: @ViewBag.ContarDocentesCapturados
+                    </td>
 
 
 
@@ -137,8 +147,14 @@
 
 <script>
 
+    //retiene el valor para recargar los combos cuando se recarga la pagina al presionar el valor buscar.
+    var cboUsu = document.getElementById("CUR_ID").value;
+    var cboCur = document.getElementById("USU_ID").value;
+    var cboLan = document.getElementById("LAN_ID").value;
 
-  
+
+   
+
 
     function ShowSelectedLan() {
         /* Para obtener el valor */
@@ -174,7 +190,7 @@
             $.each(data, function (index, row) {
 
                 $("#CUR_ID").append("<option value=" + row.Value + ">" + row.Text + "</option>")
-
+                
 
             });
         });
@@ -207,5 +223,8 @@
             });
         });
     }
+
+
+    
 
 </script>

@@ -94,7 +94,7 @@ namespace WebCIIPMaestrosERP.Controllers
             int idCurso = oMktDocenteCursoCLS.CUR_ID;
             int idLan = oMktDocenteCursoCLS.LAN_ID;
 
-            
+
 
             List<MktDocenteCursoCLS> ListaDocente = null;
 
@@ -128,7 +128,14 @@ namespace WebCIIPMaestrosERP.Controllers
                                         CUR_NOMBRE = curso.CUR_NOMBRE
 
                                     }).ToList();
+
+                    
+
+
+
+
                     Session["SessionMktReporteByUser"] = ListaDocente;
+                    
 
                 }
                 else if (idusuario != 0 && idCurso != 0 && idLan == 0) //cuando quier ver todo del bot sin importar el curso
@@ -221,6 +228,9 @@ namespace WebCIIPMaestrosERP.Controllers
                                     }).ToList();
                     Session["SessionMktReporteByUser"] = ListaDocente;
                 }
+
+                ViewBag.ContarDocentesCapturados = ListaDocente.Count().ToString();
+
                 return View(ListaDocente);
                 
             }
@@ -244,14 +254,16 @@ namespace WebCIIPMaestrosERP.Controllers
 
             using (var db = new DB_WebCIIPEntitiesERP())
             {
-                /*if (idLan == 0)
-                {*/
+                if (idCurso != 0 && idLan == 0)
+                {
                     ListaDocente = (from DocenteCurso in db.MKT_DOCENTE_CURSO
                                     join Docente in db.MKT_DOCENTES
                                     on DocenteCurso.DOC_ID equals Docente.DOC_ID
                                     join lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
                                     on DocenteCurso.LAN_ID equals lanzamiento.LAN_ID
-                                    where   DocenteCurso.MKT_ID == idusuario &&
+                                    join curso in db.MAE_CURSOS
+                                    on lanzamiento.CUR_ID equals curso.CUR_ID
+                                    where DocenteCurso.MKT_ID == idusuario &&
                                             lanzamiento.CUR_ID == idCurso
 
                                     select new MktDocenteCursoCLS
@@ -262,15 +274,24 @@ namespace WebCIIPMaestrosERP.Controllers
                                         DOC_NOMBRES = Docente.DOC_NOMBRES,
                                         DOC_APELLIDOS = Docente.DOC_APELLIDOS,
                                         DOC_CELULAR = Docente.DOC_CELULAR,
-                                        DOC_EMAIL = Docente.DOC_EMAIL
+                                        DOC_EMAIL = Docente.DOC_EMAIL,
+                                        DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
+                                        DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
+                                        CUR_NOMBRE = curso.CUR_NOMBRE
                                     }).ToList();
-                /*}
-                else {
+                }
+                else if (idCurso != 0 && idLan != 0)
+                {
 
                     ListaDocente = (from DocenteCurso in db.MKT_DOCENTE_CURSO
                                     join Docente in db.MKT_DOCENTES
                                     on DocenteCurso.DOC_ID equals Docente.DOC_ID
+                                    join lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
+                                    on DocenteCurso.LAN_ID equals lanzamiento.LAN_ID
+                                    join curso in db.MAE_CURSOS
+                                    on lanzamiento.CUR_ID equals curso.CUR_ID
                                     where DocenteCurso.MKT_ID == idusuario &&
+                                            lanzamiento.CUR_ID == idCurso &&
                                             DocenteCurso.LAN_ID == idLan
 
                                     select new MktDocenteCursoCLS
@@ -281,12 +302,45 @@ namespace WebCIIPMaestrosERP.Controllers
                                         DOC_NOMBRES = Docente.DOC_NOMBRES,
                                         DOC_APELLIDOS = Docente.DOC_APELLIDOS,
                                         DOC_CELULAR = Docente.DOC_CELULAR,
-                                        DOC_EMAIL = Docente.DOC_EMAIL
+                                        DOC_EMAIL = Docente.DOC_EMAIL,
+                                        DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
+                                        DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
+                                        CUR_NOMBRE = curso.CUR_NOMBRE
                                     }).ToList();
 
-                }*/
+                }
+                else {
+                    ListaDocente = (from DocenteCurso in db.MKT_DOCENTE_CURSO
+                                    join Docente in db.MKT_DOCENTES
+                                    on DocenteCurso.DOC_ID equals Docente.DOC_ID
+                                    join lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
+                                    on DocenteCurso.LAN_ID equals lanzamiento.LAN_ID
+                                    join curso in db.MAE_CURSOS
+                                    on lanzamiento.CUR_ID equals curso.CUR_ID
+                                    where DocenteCurso.MKT_ID == idusuario 
 
+                                    select new MktDocenteCursoCLS
+                                    {
+                                        DOC_ID = DocenteCurso.DOC_ID,
+                                        LAN_ID = DocenteCurso.LAN_ID,
+                                        MKT_ID = (int)DocenteCurso.MKT_ID,
+                                        DOC_NOMBRES = Docente.DOC_NOMBRES,
+                                        DOC_APELLIDOS = Docente.DOC_APELLIDOS,
+                                        DOC_CELULAR = Docente.DOC_CELULAR,
+                                        DOC_EMAIL = Docente.DOC_EMAIL,
+                                        DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
+                                        DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
+                                        CUR_NOMBRE = curso.CUR_NOMBRE
+                                    }).ToList();
+
+                }
+            
             }
+
+            
+            
+            ViewBag.ContarDocentesCapturados = ListaDocente.Count().ToString();
+
 
             return View(ListaDocente);
 
