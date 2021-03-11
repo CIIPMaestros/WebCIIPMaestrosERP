@@ -29,6 +29,7 @@ namespace WebCIIPMaestrosERP.Models
         public string LAN_ID_ENCRIPTADO { get; set; }
         public string IND_TIPO_LAN { get; set; }
         public string DIA_SEMANA { get; set; }
+        public string IND_AUTO { get; set; }
     
         public virtual MAE_TUTOR MAE_TUTOR { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

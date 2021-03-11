@@ -43,17 +43,26 @@ namespace WebCIIPMaestrosERP.Models
         public virtual DbSet<SEG_CURSOS_USUARIOS_LINKS> SEG_CURSOS_USUARIOS_LINKS { get; set; }
         public virtual DbSet<MAE_CURSOS> MAE_CURSOS { get; set; }
     
-        public virtual ObjectResult<Nullable<System.DateTime>> Sp_Crear_Lanzamientos_Masivo(Nullable<int> var1, Nullable<int> var2)
+        public virtual ObjectResult<Nullable<System.DateTime>> Sp_Crear_Lanzamientos_Masivo(Nullable<int> vAR1, Nullable<int> vAR2)
         {
-            var var1Parameter = var1.HasValue ?
-                new ObjectParameter("Var1", var1) :
-                new ObjectParameter("Var1", typeof(int));
+            var vAR1Parameter = vAR1.HasValue ?
+                new ObjectParameter("VAR1", vAR1) :
+                new ObjectParameter("VAR1", typeof(int));
     
-            var var2Parameter = var2.HasValue ?
-                new ObjectParameter("Var2", var2) :
-                new ObjectParameter("Var2", typeof(int));
+            var vAR2Parameter = vAR2.HasValue ?
+                new ObjectParameter("VAR2", vAR2) :
+                new ObjectParameter("VAR2", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<System.DateTime>>("Sp_Crear_Lanzamientos_Masivo", var1Parameter, var2Parameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<System.DateTime>>("Sp_Crear_Lanzamientos_Masivo", vAR1Parameter, vAR2Parameter);
+        }
+    
+        public virtual int Sp_Crear_Lanzamientos_By_Curso(Nullable<int> cUR_ID)
+        {
+            var cUR_IDParameter = cUR_ID.HasValue ?
+                new ObjectParameter("CUR_ID", cUR_ID) :
+                new ObjectParameter("CUR_ID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Sp_Crear_Lanzamientos_By_Curso", cUR_IDParameter);
         }
     }
 }

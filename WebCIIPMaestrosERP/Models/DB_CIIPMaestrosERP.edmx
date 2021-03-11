@@ -50,6 +50,7 @@
           <Property Name="LAN_ID_ENCRIPTADO" Type="varchar" MaxLength="250" />
           <Property Name="IND_TIPO_LAN" Type="varchar" MaxLength="1" />
           <Property Name="DIA_SEMANA" Type="varchar" MaxLength="15" />
+          <Property Name="IND_AUTO" Type="varchar" MaxLength="1" />
         </EntityType>
         <EntityType Name="MAE_CURSOS_PUNTUACION">
           <Key>
@@ -366,9 +367,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="Sp_Crear_Lanzamientos_By_Curso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CUR_ID" Type="int" Mode="In" />
+        </Function>
         <Function Name="Sp_Crear_Lanzamientos_Masivo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Var1" Type="int" Mode="In" />
-          <Parameter Name="Var2" Type="int" Mode="In" />
+          <Parameter Name="VAR1" Type="int" Mode="In" />
+          <Parameter Name="VAR2" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="DB_WebCIIPModelStoreContainer">
           <EntitySet Name="MAE_CATEGORIAS" EntityType="Self.MAE_CATEGORIAS" Schema="dbo" store:Type="Tables" />
@@ -536,8 +540,11 @@
             <End Role="SEG_USUARIOS_LINKS" EntitySet="SEG_USUARIOS_LINKS" />
           </AssociationSet>
           <FunctionImport Name="Sp_Crear_Lanzamientos_Masivo" ReturnType="Collection(DateTime)">
-            <Parameter Name="Var1" Mode="In" Type="Int32" />
-            <Parameter Name="Var2" Mode="In" Type="Int32" />
+            <Parameter Name="VAR1" Mode="In" Type="Int32" />
+            <Parameter Name="VAR2" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_Crear_Lanzamientos_By_Curso">
+            <Parameter Name="CUR_ID" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="MAE_CATEGORIAS">
@@ -657,6 +664,7 @@
           <NavigationProperty Name="SEG_USUARIOS_LINKS" Relationship="DB_WebCIIPModel.FK_SEG_USUARIOS_LINKS_MAE_CURSOS_LANZAMIENTOS" FromRole="MAE_CURSOS_LANZAMIENTOS" ToRole="SEG_USUARIOS_LINKS" />
           <Property Name="DIA_SEMANA" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="MAE_CURSOS" Relationship="DB_WebCIIPModel.FK_MAE_CURSOS_LANZAMIENTOS_MAE_CURSOS" FromRole="MAE_CURSOS_LANZAMIENTOS" ToRole="MAE_CURSOS" />
+          <Property Name="IND_AUTO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_MAE_CURSOS_LANZAMIENTOS_MAE_TUTOR">
           <End Type="DB_WebCIIPModel.MAE_TUTOR" Role="MAE_TUTOR" Multiplicity="1" />
@@ -1038,6 +1046,7 @@
           <EntitySetMapping Name="MAE_CURSOS_LANZAMIENTOS">
             <EntityTypeMapping TypeName="DB_WebCIIPModel.MAE_CURSOS_LANZAMIENTOS">
               <MappingFragment StoreEntitySet="MAE_CURSOS_LANZAMIENTOS">
+                <ScalarProperty Name="IND_AUTO" ColumnName="IND_AUTO" />
                 <ScalarProperty Name="DIA_SEMANA" ColumnName="DIA_SEMANA" />
                 <ScalarProperty Name="IND_TIPO_LAN" ColumnName="IND_TIPO_LAN" />
                 <ScalarProperty Name="LAN_ID_ENCRIPTADO" ColumnName="LAN_ID_ENCRIPTADO" />
@@ -1123,6 +1132,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="Sp_Crear_Lanzamientos_Masivo" FunctionName="DB_WebCIIPModel.Store.Sp_Crear_Lanzamientos_Masivo" />
+          <FunctionImportMapping FunctionImportName="Sp_Crear_Lanzamientos_By_Curso" FunctionName="DB_WebCIIPModel.Store.Sp_Crear_Lanzamientos_By_Curso" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

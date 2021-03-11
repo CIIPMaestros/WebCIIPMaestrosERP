@@ -94,6 +94,7 @@ namespace WebCIIPMaestrosERP.Controllers
             int idCurso = oMktDocenteCursoCLS.CUR_ID;
             int idLan = oMktDocenteCursoCLS.LAN_ID;
 
+            //cargar listas
 
 
             List<MktDocenteCursoCLS> ListaDocente = null;
