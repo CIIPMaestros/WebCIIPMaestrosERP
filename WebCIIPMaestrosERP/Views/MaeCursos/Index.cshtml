@@ -84,6 +84,9 @@
                 UpdateTargetId = "error"
             }))
             {
+
+                
+
                 <div class="modal-body">
                     <div class="form-group">
                         <div class="row">
@@ -167,9 +170,10 @@
 
                         </div>
 
-                        <button type="button" onclick="contar()" class="btn btn-success">Contar</button>
+                        <!--onclick="ProcesoHorarioActual()"-->
+                        <button type="button" class="btn btn-success"><i class="material-icons" data-toggle="tooltip" title="Proceso Horario de esta semana">&#xe916;</i></button>
                         <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="submit" class="btn btn-success">Guardar</button>
 
                     </div>
                 </div>
@@ -274,31 +278,40 @@
         });
 
 
+        /*
+        function ProcesoHorarioActual() {
 
-        function contar() {
+            Swal.fire({
+                title: "¿Está seguro?",
+                text: "¡Este proceso anulara todos los horarios actuales y activara los ultimos horarios definidos!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "¡Sí, procesar!",
+                closeOnConfirm: false,
+                closeOnCancel: true
 
-            let DetHorario = document.getElementById("Horarios")
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: "post",
+                        //url: $("#urlQuitHorario").val(),
+                        url: $("").val(),
+                        dataType: "json",
+                        data: { id: indice },
+                        success: function (res) {
+                            //$("#tr_" + indice).remove();
+                            toastr["success"]("¡Se repplicaron los horarios correctamente!", "Horario");
+                        },
+                        error: function (er) {
+                            Swal.fire("Error", "¡Parece que algo salio mal, intentelo nuevamente!", "error");
+                        }
+                    });
+                }
+            })
 
-            alert(DetHorario.rows.length);
 
-
-            for (var i = 0; i < DetHorario.rows.length; i++) {
-
-                //alert(DetHorario.rows[i].getElementsByTagName("td"));
-                alert(document.getElementById("DetHorario").rows[i].cells[0].innerText + " " +
-                    document.getElementById("DetHorario").rows[i].cells[1].innerText + " " +
-                    document.getElementById("DetHorario").rows[i].cells[2].innerText);
-
-
-
-                // alert(document.getElementById("DetHorario.Horarios[" + num + "].SCH_DIA.value"));
-
-                //HiddenDia.name = "Horarios[" + num + "].SCH_DIA";
-
-            }
-
-
-        }
+        }*/
 
         function AgregarHorario() {
 
