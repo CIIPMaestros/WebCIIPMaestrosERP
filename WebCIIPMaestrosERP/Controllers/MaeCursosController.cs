@@ -19,10 +19,10 @@ namespace WebCIIPMaestrosERP.Controllers
         List<SelectListItem> ListaDias;
         List<SelectListItem> ListaCategorias;
         // GET: MaeCursos
-        public ActionResult Index(MaeCursosCLS oMaeCursosCLS)
+        public ActionResult Index(MaeCursosCLS oMaeCursosCLS, int? page)
         {
-            List<MaeCursosCLS> ListaCursos = null;
-            
+            MaeCursosCLS GetCursos = new MaeCursosCLS();
+
 
             LlenarCategorias();
             LlenarDias();
@@ -36,15 +36,15 @@ namespace WebCIIPMaestrosERP.Controllers
 
 
             string nombreCurso = oMaeCursosCLS.CUR_NOMBRE;
-
+            page = page == null ? 1 : page;
+            int cantidadRegistrosPorPagina = 10;
 
             using (var db = new DB_WebCIIPEntitiesERP())
             {
-
                 if (nombreCurso == null)
                 {
 
-                    ListaCursos = (from cursos in db.MAE_CURSOS
+                    GetCursos.ListadoCursos = (from cursos in db.MAE_CURSOS
                                    join categorias in db.MAE_CATEGORIAS
                                    on cursos.CAT_ID equals categorias.CAT_ID
                                    join tablas in db.MAE_TABLAS
@@ -64,13 +64,39 @@ namespace WebCIIPMaestrosERP.Controllers
                                        CUR_ACTIVO = cursos.CUR_ACTIVO,
                                        CUR_ESTADO = tablas.DESCRIPCION,
                                        CAT_ID = (int)cursos.CAT_ID
-                                   }).ToList();
+                                   }).Skip(((int)page - 1) * cantidadRegistrosPorPagina)
+                                   .Take(cantidadRegistrosPorPagina)
+                                   .ToList();
+
+                    GetCursos.RegPerPage = cantidadRegistrosPorPagina;
+                    GetCursos.Page = (int)page;
+                    GetCursos.TotalReg = (from cursos in db.MAE_CURSOS
+                                          join categorias in db.MAE_CATEGORIAS
+                                          on cursos.CAT_ID equals categorias.CAT_ID
+                                          join tablas in db.MAE_TABLAS
+                                          on cursos.CUR_ACTIVO equals tablas.ID.ToString()
+                                          where tablas.COD_TABLA == "ACT"
+                                          orderby cursos.CUR_ID
+
+                                          select new MaeCursosCLS
+
+                                          {
+                                              CUR_ID = cursos.CUR_ID,
+                                              CUR_NOMBRE = cursos.CUR_NOMBRE,
+                                              CUR_DESCRIPCION = cursos.CUR_DESCRIPCION,
+                                              CUR_CERTIFICACION = cursos.CUR_CERTIFICACION,
+                                              CUR_RESULTADOS = cursos.CUR_RESULTADOS,
+                                              CAT_DESCRIPCION = categorias.CAT_NOMBRE,
+                                              CUR_ACTIVO = cursos.CUR_ACTIVO,
+                                              CUR_ESTADO = tablas.DESCRIPCION,
+                                              CAT_ID = (int)cursos.CAT_ID
+                                          }).ToList().Count();
 
                 }
                 else if (nombreCurso != null)
                 {
 
-                    ListaCursos = (from cursos in db.MAE_CURSOS
+                    GetCursos.ListadoCursos = (from cursos in db.MAE_CURSOS
                                    join categorias in db.MAE_CATEGORIAS
                                     on cursos.CAT_ID equals categorias.CAT_ID
                                    join tablas in db.MAE_TABLAS
@@ -91,7 +117,33 @@ namespace WebCIIPMaestrosERP.Controllers
                                        CUR_ACTIVO = cursos.CUR_ACTIVO,
                                        CUR_ESTADO = tablas.DESCRIPCION,
                                        CAT_ID = (int)cursos.CAT_ID
-                                   }).ToList();
+                                   }).Skip(((int)page - 1) * cantidadRegistrosPorPagina)
+                                   .Take(cantidadRegistrosPorPagina)
+                                   .ToList();
+
+                    GetCursos.RegPerPage = cantidadRegistrosPorPagina;
+                    GetCursos.Page = (int)page;
+                    GetCursos.TotalReg = (from cursos in db.MAE_CURSOS
+                                          join categorias in db.MAE_CATEGORIAS
+                                          on cursos.CAT_ID equals categorias.CAT_ID
+                                          join tablas in db.MAE_TABLAS
+                                          on cursos.CUR_ACTIVO equals tablas.ID.ToString()
+                                          where tablas.COD_TABLA == "ACT"
+                                          orderby cursos.CUR_ID
+
+                                          select new MaeCursosCLS
+
+                                          {
+                                              CUR_ID = cursos.CUR_ID,
+                                              CUR_NOMBRE = cursos.CUR_NOMBRE,
+                                              CUR_DESCRIPCION = cursos.CUR_DESCRIPCION,
+                                              CUR_CERTIFICACION = cursos.CUR_CERTIFICACION,
+                                              CUR_RESULTADOS = cursos.CUR_RESULTADOS,
+                                              CAT_DESCRIPCION = categorias.CAT_NOMBRE,
+                                              CUR_ACTIVO = cursos.CUR_ACTIVO,
+                                              CUR_ESTADO = tablas.DESCRIPCION,
+                                              CAT_ID = (int)cursos.CAT_ID
+                                          }).ToList().Count();
 
                 }
 
@@ -100,7 +152,7 @@ namespace WebCIIPMaestrosERP.Controllers
             }
 
 
-            return View(ListaCursos);
+            return View(GetCursos);
         }
 
 
@@ -205,46 +257,102 @@ namespace WebCIIPMaestrosERP.Controllers
             return nregistrosAfectados;
         }
 
-        public ActionResult Filtro(string nombreCurso)
+        public ActionResult Filtro(string nombreCurso, int? page)
         {
-
-            List<MaeCursosCLS> listaCursos = new List<MaeCursosCLS>();
+            MaeCursosCLS GetCursos = new MaeCursosCLS();
+            page = page == null ? 1 : page;
+            int cantidadRegistrosPorPagina = 10;
             using (var db = new DB_WebCIIPEntitiesERP())
             {
                 if (nombreCurso == null)
-                    listaCursos = (from cursos in db.MAE_CURSOS
-                                   join tablas in db.MAE_TABLAS
-                                   on cursos.CUR_ACTIVO equals tablas.ID.ToString()
-                                   where tablas.COD_TABLA == "ACT"
-                                   orderby cursos.CUR_ID
+                {
+                    GetCursos.ListadoCursos = (from cursos in db.MAE_CURSOS
+                                               join categorias in db.MAE_CATEGORIAS
+                                               on cursos.CAT_ID equals categorias.CAT_ID
+                                               join tablas in db.MAE_TABLAS
+                                               on cursos.CUR_ACTIVO equals tablas.ID.ToString()
+                                               where tablas.COD_TABLA == "ACT"
+                                               orderby cursos.CUR_ID
 
-                                     select new MaeCursosCLS
-                                     {
-                                         CUR_ID = cursos.CUR_ID,
-                                         CUR_NOMBRE = cursos.CUR_NOMBRE,
-                                         CUR_DESCRIPCION = cursos.CUR_DESCRIPCION,
-                                         CUR_CERTIFICACION = cursos.CUR_CERTIFICACION,
-                                         CUR_ESTADO = tablas.DESCRIPCION,
-                                         CAT_ID = (int)cursos.CAT_ID
-                                     }).ToList();
-                else
-                    listaCursos = (from cursos in db.MAE_CURSOS
-                                   join tablas in db.MAE_TABLAS
-                                   on cursos.CUR_ACTIVO equals tablas.ID.ToString()
-                                   where cursos.CUR_NOMBRE.Contains(nombreCurso) && tablas.COD_TABLA == "ACT"
-                                   orderby cursos.CUR_ID
+                                               select new MaeCursosCLS
+                                               {
+                                                   CUR_ID = cursos.CUR_ID,
+                                                   CUR_NOMBRE = cursos.CUR_NOMBRE,
+                                                   CUR_DESCRIPCION = cursos.CUR_DESCRIPCION,
+                                                   CUR_CERTIFICACION = cursos.CUR_CERTIFICACION,
+                                                   CAT_DESCRIPCION = categorias.CAT_NOMBRE,
+                                                   CUR_ESTADO = tablas.DESCRIPCION,
+                                                   CAT_ID = (int)cursos.CAT_ID
+                                               }).Skip(((int)page-1) * cantidadRegistrosPorPagina)
+                                               .Take(cantidadRegistrosPorPagina)
+                                               .ToList();
+
+                    GetCursos.RegPerPage = cantidadRegistrosPorPagina;
+                    GetCursos.Page = (int)page;
+                    GetCursos.TotalReg = (from cursos in db.MAE_CURSOS
+                                          join categorias in db.MAE_CATEGORIAS
+                                          on cursos.CAT_ID equals categorias.CAT_ID
+                                          join tablas in db.MAE_TABLAS
+                                          on cursos.CUR_ACTIVO equals tablas.ID.ToString()
+                                          where tablas.COD_TABLA == "ACT"
+                                          orderby cursos.CUR_ID
+
+                                          select new MaeCursosCLS
+
+                                          {
+                                              CUR_ID = cursos.CUR_ID,
+                                              CUR_NOMBRE = cursos.CUR_NOMBRE,
+                                              CUR_DESCRIPCION = cursos.CUR_DESCRIPCION,
+                                              CUR_CERTIFICACION = cursos.CUR_CERTIFICACION,
+                                              CUR_RESULTADOS = cursos.CUR_RESULTADOS,
+                                              CAT_DESCRIPCION = categorias.CAT_NOMBRE,
+                                              CUR_ACTIVO = cursos.CUR_ACTIVO,
+                                              CUR_ESTADO = tablas.DESCRIPCION,
+                                              CAT_ID = (int)cursos.CAT_ID
+                                          }).ToList().Count();
+                }
+                else {
+                    GetCursos.ListadoCursos = (from cursos in db.MAE_CURSOS
+                                               join categorias in db.MAE_CATEGORIAS
+                                               on cursos.CAT_ID equals categorias.CAT_ID
+                                               join tablas in db.MAE_TABLAS
+                                               on cursos.CUR_ACTIVO equals tablas.ID.ToString()
+                                               where cursos.CUR_NOMBRE.Contains(nombreCurso) && tablas.COD_TABLA == "ACT"
+                                               orderby cursos.CUR_ID
 
                                    select new MaeCursosCLS
-                                     {
-                                         CUR_ID = cursos.CUR_ID,
-                                         CUR_NOMBRE = cursos.CUR_NOMBRE,
-                                         CUR_DESCRIPCION = cursos.CUR_DESCRIPCION,
-                                         CUR_CERTIFICACION = cursos.CUR_CERTIFICACION,
-                                         CUR_ESTADO = tablas.DESCRIPCION,
-                                         CAT_ID = (int)cursos.CAT_ID
-                                     }).ToList();
+                                   {
+                                       CUR_ID = cursos.CUR_ID,
+                                       CUR_NOMBRE = cursos.CUR_NOMBRE,
+                                       CUR_DESCRIPCION = cursos.CUR_DESCRIPCION,
+                                       CUR_CERTIFICACION = cursos.CUR_CERTIFICACION,
+                                       CUR_ESTADO = tablas.DESCRIPCION,
+                                       CAT_DESCRIPCION = categorias.CAT_NOMBRE,
+                                       CAT_ID = (int)cursos.CAT_ID
+                                   }).Skip(((int)page - 1) * cantidadRegistrosPorPagina)
+                                   .Take(cantidadRegistrosPorPagina)
+                                   .ToList();
+
+                    GetCursos.RegPerPage = cantidadRegistrosPorPagina;
+                    GetCursos.Page = (int)page;
+                    GetCursos.TotalReg = (from cursos in db.MAE_CURSOS
+                                          join tablas in db.MAE_TABLAS
+                                          on cursos.CUR_ACTIVO equals tablas.ID.ToString()
+                                          where cursos.CUR_NOMBRE.Contains(nombreCurso) && tablas.COD_TABLA == "ACT"
+                                          orderby cursos.CUR_ID
+
+                                          select new MaeCursosCLS
+                                          {
+                                              CUR_ID = cursos.CUR_ID,
+                                              CUR_NOMBRE = cursos.CUR_NOMBRE,
+                                              CUR_DESCRIPCION = cursos.CUR_DESCRIPCION,
+                                              CUR_CERTIFICACION = cursos.CUR_CERTIFICACION,
+                                              CUR_ESTADO = tablas.DESCRIPCION,
+                                              CAT_ID = (int)cursos.CAT_ID
+                                          }).ToList().Count();
+                }
             }
-            return PartialView("_Index", listaCursos);
+            return PartialView("_Index", GetCursos);
         }
 
         public string GuardarNuevoControladorParcial(MaeCursosCLS oMaeCursosCLS, int? accion)

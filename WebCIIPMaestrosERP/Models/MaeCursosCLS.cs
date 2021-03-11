@@ -57,6 +57,8 @@ namespace WebCIIPMaestrosERP.Models
 
         public List<MAE_CURSOS_HORARIOS> getHorarios { get; set; }
 
+        public List<MaeCursosCLS> ListadoCursos { get; set; }
+
     }
 
     public class Horarios { 

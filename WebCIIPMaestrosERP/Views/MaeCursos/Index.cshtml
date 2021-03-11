@@ -1,5 +1,5 @@
 ﻿@using WebCIIPMaestrosERP.Models;
-@model List<MaeCursosCLS>
+@model WebCIIPMaestrosERP.Models.MaeCursosCLS
 
 @{
     ViewBag.Title = "Index";
@@ -34,6 +34,8 @@
                     <div class="col-sm-4">
                         <form class="navbar-form navbar-left ">
                             <div class="form-group">
+                                @*<input id="optPage" type="hidden" name="page"/>*@
+                                @Html.Hidden("page", null, new { @id= "optPage"})
                                 @Html.TextBox("nombreCurso", null, new { @class = "form-control", @placeholder = "Buscar curso" })
                             </div>
                         </form>
@@ -82,95 +84,95 @@
                 UpdateTargetId = "error"
             }))
             {
-        <div class="modal-body">
-            <div class="form-group">
-                <div class="row">
-                    <div class="form-group col-lg-6">
-                        @Html.LabelFor(p => Model[0].CUR_NOMBRE)
-                        @Html.TextBox("CUR_NOMBRE", null, new { @class = "form-control" })
-                    </div>
-                    <div class="form-group col-lg-6">
-                        @Html.LabelFor(p => Model[0].CUR_DESCRIPCION)
-                        @Html.TextBox("CUR_DESCRIPCION", null, new { @class = "form-control" })
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="form-group col-lg-6">
+                                <label>Nombre Curso</label>
+                                @Html.TextBox("CUR_NOMBRE", null, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>Descripción</label>
+                                @Html.TextBox("CUR_DESCRIPCION", null, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="form-group col-lg-6">
+                                <label>Categoria</label>
+                                @Html.DropDownList("CAT_ID", ListaCategorias, new { @class = "form-control" })
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label>Precio</label>
+                                @Html.Editor("CUR_PRECIO", null, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                            </div>
+                        </div>
+
+                        @Html.Hidden("CUR_ID")
+
+                        <div class="alert alert-success" role="alert">
+                            Configuracion
+
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-4">
+                                @Html.DropDownList("SCH_DIA", ListaDias, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group col-sm-4">
+                                @Html.DropDownList("SCH_HORA", ListaHoras, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group col-sm-4">
+                                @Html.DropDownList("SCH_MT", ListaMT, new { @class = "form-control" })
+                            </div>
+
+                        </div>
+                        <p>
+                            <button type="button" onclick="AgregarHorario(); return false" class="btn btn-success">Agregar</button>
+                        </p>
+
+
+
+                        <div class="panel panel-success">
+                            <!-- Default panel contents -->
+                            <div class="panel-heading">Horarios</div>
+                            <div class="panel-body">
+                                <p>Los horarios que se configuren en esta opcion seran automaticamente replicados por semana</p>
+                                <!-- Table -->
+                                <table class="table" id="DetHorario">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Dia
+                                            </th>
+                                            <th>
+                                                Hora
+                                            </th>
+                                            <th>
+                                                Turno
+                                            </th>
+                                            <th>
+
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyH"></tbody>
+
+                                </table>
+                            </div>
+
+
+                        </div>
+
+                        <button type="button" onclick="contar()" class="btn btn-success">Contar</button>
+                        <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+
                     </div>
                 </div>
-
-
-                <div class="row">
-
-                    <div class="form-group col-lg-6">
-                        @Html.LabelFor(p => Model[0].CAT_ID)
-                        @Html.DropDownList("CAT_ID", ListaCategorias, new { @class = "form-control" })
-                    </div>
-
-                    <div class="form-group col-lg-6">
-                        @Html.LabelFor(p => Model[0].CUR_PRECIO)
-                        @Html.Editor("CUR_PRECIO", null, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
-                    </div>
-                </div>
-
-                @Html.Hidden("CUR_ID")
-
-                <div class="alert alert-success" role="alert">
-                    Configuracion
-
-                </div>
-
-                <div class="row">
-                    <div class="form-group col-sm-4">
-                        @Html.DropDownList("SCH_DIA", ListaDias, new { @class = "form-control" })
-                    </div>
-                    <div class="form-group col-sm-4">
-                        @Html.DropDownList("SCH_HORA", ListaHoras, new { @class = "form-control" })
-                    </div>
-                    <div class="form-group col-sm-4">
-                        @Html.DropDownList("SCH_MT", ListaMT, new { @class = "form-control" })
-                    </div>
-
-                </div>
-                <p>
-                    <button type="button" onclick="AgregarHorario(); return false" class="btn btn-success">Agregar</button>
-                </p>
-
-
-
-                <div class="panel panel-success">
-                    <!-- Default panel contents -->
-                    <div class="panel-heading">Horarios</div>
-                    <div class="panel-body">
-                        <p>Los horarios que se configuren en esta opcion seran automaticamente replicados por semana</p>
-                        <!-- Table -->
-                        <table class="table" id="DetHorario">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Dia
-                                    </th>
-                                    <th>
-                                        Hora
-                                    </th>
-                                    <th>
-                                        Turno
-                                    </th>
-                                    <th>
-
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody id="tbodyH"></tbody>
-
-                        </table>
-                    </div>
-
-
-                </div>
-
-                <button type="button" onclick="contar()" class="btn btn-success">Contar</button>
-                <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary">Guardar</button>
-
-            </div>
-        </div>
             }
         </div>
         <div class="text-danger" id="error"></div>
@@ -263,9 +265,13 @@
             "hideMethod": "fadeOut"
         }
 
-        function eliminarFila(e) {
-            alert("Hola");
-        }
+
+        $(document).on('click', '.pagerNum', function (e) {
+            var page = $(this).data('codigo');
+            document.getElementById("optPage").value = page;
+            $("#frmFiltro").trigger("submit");
+            document.getElementById("optPage").value = "";
+        });
 
 
 
@@ -428,10 +434,10 @@
         }
 
 
-       //  nombre.onkeyup = function () {
-       //var nombre = document.getElementById("nombreCurso");
-       //     $("#frmFiltro").trigger("submit");
-       // }
+        //  nombre.onkeyup = function () {
+        //var nombre = document.getElementById("nombreCurso");
+        //     $("#frmFiltro").trigger("submit");
+        // }
 
 
         $(document).on('click', '.btnEliminar', function (e) {
@@ -502,15 +508,12 @@
         function Agregar() {
             limpiar();
             document.getElementById("accion").value = -1;
-
-
-
         }
 
         function Guardar() {
-                document.getElementById("btnClose").click();
-                $("#frmFiltro").trigger("submit");
-                Swal.fire("BIEN!", "El registro se edito con Exito!", "success");
+            document.getElementById("btnClose").click();
+            $("#frmFiltro").trigger("submit");
+            Swal.fire("BIEN!", "El registro se edito con Exito!", "success");
         }
 
         function SP_Execute() {
@@ -557,7 +560,7 @@
                         + Hora + '</td><td>' + ListadoHorarios[s].SCH_MT + '</td><td><a class = "btnEliminarHorario text-white" data-codigo = "'
                         + ListadoHorarios[s].SCH_ID + '"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a></td></tr>');
                 }
-          })
+            })
 
         }
 

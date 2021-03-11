@@ -1,0 +1,53 @@
+﻿@model WebCIIPMaestrosERP.Models.BaseModel
+
+@{
+
+    var cantidadPaginas = (int)Math.Ceiling((double)Model.TotalReg / Model.RegPerPage);
+    int Inicial = 1;
+    var radio = 2;
+    var cantidadMaximaDePaginas = radio * 2 + 1;
+    int Final = (cantidadPaginas > cantidadMaximaDePaginas) ? cantidadMaximaDePaginas : cantidadPaginas;
+    if (Model.Page > radio + 1)
+    {
+        Inicial = Model.Page - radio;
+        if (cantidadPaginas > Model.Page + radio)
+        {
+            Final = Model.Page + radio;
+        }
+        else
+        {
+            Final = cantidadPaginas;
+        }
+    }
+}
+
+
+<nav aria-label="Page Navigation">
+    <ul class="pagination">
+        @*@Html.ActionLink("Primera", null, new { page = 1 }, new { @class = "page-link" })*@
+        <li class="page-item">
+            <a data-codigo="1" class="btn page-link pagerNum">Primera</a>
+        </li>
+        @for (int i = Inicial; i <= Final; i++)
+        {
+            if (i == Model.Page)
+            {
+                @*<li class="page-item active">@Html.ActionLink(i.ToString(), null, new { page = i }, new { @class = "page-link" })</li>*@
+                <li class="page-item active">
+                    <input name="page" type="hidden" value="@i" />
+                    <a data-codigo="@i" class="page-link pagerNum">@i.ToString()</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a data-codigo="@i" class="page-link pagerNum">@i.ToString()</a>
+                </li>
+            }
+        }
+        @*<li class="page-item">@Html.ActionLink("Ultima", null, new { page = cantidadPaginas }, new { @class = "page-link" })</li>*@
+        <li class="page-item">
+            <a data-codigo="@cantidadPaginas" class="btn page-link pagerNum">Ultima</a>
+        </li>
+    </ul>
+</nav>
