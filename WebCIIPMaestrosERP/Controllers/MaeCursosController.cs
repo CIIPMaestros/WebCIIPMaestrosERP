@@ -27,12 +27,12 @@ namespace WebCIIPMaestrosERP.Controllers
             LlenarCategorias();
             LlenarDias();
             LlenarHoras();
-            LlenarMT();
+            
 
             ViewBag.ListaCategorias = ListaCategorias;
             ViewBag.ListaDias = ListaDias;
             ViewBag.ListaHoras = ListaHoras;
-            ViewBag.ListaMT = ListaMT;
+            
 
 
             string nombreCurso = oMaeCursosCLS.CUR_NOMBRE;
@@ -161,25 +161,7 @@ namespace WebCIIPMaestrosERP.Controllers
             return View();
         }
 
-        List<SelectListItem> ListaMT; //MANANA TARDE AM PM
-
-        public void LlenarMT()
-        {
-
-            using (var db = new DB_WebCIIPEntitiesERP())
-            {
-
-                ListaMT = (from Dias in db.MAE_TABLAS
-                             where Dias.COD_TABLA == "MT"
-                             select new SelectListItem
-                             {
-                                 Text = Dias.DESCRIPCION,
-                                 Value = Dias.CODIGO,
-                             }).ToList();
-
-            }
-
-        }
+        
 
         public void LlenarHoras()
         {
@@ -386,7 +368,7 @@ namespace WebCIIPMaestrosERP.Controllers
 
                 using (var db = new DB_WebCIIPEntitiesERP())
                 {
-                    if (accion.Equals(-1))
+                    if (oMaeCursosCLS.CUR_ID == 0)
                     {
 
 
@@ -434,7 +416,6 @@ namespace WebCIIPMaestrosERP.Controllers
                             oMAE_CURSOS_HORARIOS.CUR_ID = oMaeCursos.CUR_ID;
                             oMAE_CURSOS_HORARIOS.SCH_DIA = Horario.SCH_DIA;
                             oMAE_CURSOS_HORARIOS.SCH_HORA = Horario.SCH_HORA;
-                            oMAE_CURSOS_HORARIOS.SCH_MT = Horario.SCH_MT;
                             db.MAE_CURSOS_HORARIOS.Add(oMAE_CURSOS_HORARIOS);
 
                         }
@@ -478,21 +459,26 @@ namespace WebCIIPMaestrosERP.Controllers
 
                         }
 
+                        rpta = db.SaveChanges().ToString();
                         // recorremos la lsita de horarios
+                        // solo cuando es nuevo insertamos cuando es editar no mandamos nada por q se cae // corregir luego
 
-                        foreach (var Horario in oMaeCursosCLS.horarios)
-                        {
+                        if (oMaeCursosCLS.horarios != null) { 
 
-                            MAE_CURSOS_HORARIOS oMAE_CURSOS_HORARIOS = new MAE_CURSOS_HORARIOS();
-                            oMAE_CURSOS_HORARIOS.CUR_ID = oMaeCursos.CUR_ID;
-                            oMAE_CURSOS_HORARIOS.SCH_DIA = Horario.SCH_DIA;
-                            oMAE_CURSOS_HORARIOS.SCH_HORA = Horario.SCH_HORA;
-                            oMAE_CURSOS_HORARIOS.SCH_MT = Horario.SCH_MT;
-                            db.MAE_CURSOS_HORARIOS.Add(oMAE_CURSOS_HORARIOS);
+                            foreach (var Horario in oMaeCursosCLS.horarios)
+                            {
+
+                                    MAE_CURSOS_HORARIOS oMAE_CURSOS_HORARIOS = new MAE_CURSOS_HORARIOS();
+                                    oMAE_CURSOS_HORARIOS.CUR_ID = oMaeCursos.CUR_ID;
+                                    oMAE_CURSOS_HORARIOS.SCH_DIA = Horario.SCH_DIA;
+                                    oMAE_CURSOS_HORARIOS.SCH_HORA = Horario.SCH_HORA;
+                                    db.MAE_CURSOS_HORARIOS.Add(oMAE_CURSOS_HORARIOS);
+
+                            }
+
+                            rpta = db.SaveChanges().ToString();
 
                         }
-
-                        rpta = db.SaveChanges().ToString();
 
                     }
                 }
@@ -527,8 +513,11 @@ namespace WebCIIPMaestrosERP.Controllers
             oMaeCursosCLS.CUR_RESULTADOS = oMAE_CURSOS.CUR_RESULTADOS;
             oMaeCursosCLS.CAT_ID = (int)oMAE_CURSOS.CAT_ID;
             oMaeCursosCLS.CUR_PRECIO = (decimal)oMAE_CURSOS.CUR_PRECIO;
-            
+
             var listadoHorarios = db.MAE_CURSOS_HORARIOS.Where(x => x.CUR_ID == IdCurso).ToList();
+
+
+
             listadoHorarios.ForEach(x => x.MAE_CURSOS = null);
 
             oMaeCursosCLS.GetHorarios = listadoHorarios;

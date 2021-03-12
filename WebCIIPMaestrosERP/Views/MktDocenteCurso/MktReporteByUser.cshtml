@@ -112,12 +112,12 @@
             <thead>
                 <tr>
                     <td>@Html.LabelFor(p => Model[0].DOC_ID)</td>
-                    <td>@Html.LabelFor(p => Model[0].DOC_NOMBRES)</td>
-                    <td>@Html.LabelFor(p => Model[0].DOC_APELLIDOS)</td>
+                    <td>@Html.LabelFor(p => Model[0].DOC_NOMBRES_APELLIDOS)</td>
                     <td>@Html.LabelFor(p => Model[0].DOC_EMAIL)</td>
                     <td>@Html.LabelFor(p => Model[0].DOC_CELULAR)</td>
                     <td>@Html.LabelFor(p => Model[0].CUR_NOMBRE)</td>
                     <td>@Html.LabelFor(p => Model[0].DCU_FEC)</td>
+                    <td>@Html.LabelFor(p => Model[0].TurnoFecha)</td>
 
 
 
@@ -128,12 +128,12 @@
                 {
                 <tr>
                     <td>@item.DOC_ID</td>
-                    <td>@item.DOC_NOMBRES</td>
-                    <td>@item.DOC_APELLIDOS</td>
+                    <td>@item.DOC_NOMBRES_APELLIDOS</td>
                     <td>@item.DOC_EMAIL</td>
                     <td>@item.DOC_CELULAR</td>
                     <td>@item.CUR_NOMBRE</td>
                     <td>@item.DCU_FEC</td>
+                    <td>@item.TurnoFecha</td>
 
                 </tr>
                 }

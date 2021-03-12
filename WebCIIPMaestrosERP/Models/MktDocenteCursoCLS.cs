@@ -10,7 +10,7 @@ namespace WebCIIPMaestrosERP.Models
     {
 
 
-        [Display(Name = "ID Docente")]
+        [Display(Name = "ID")]
         public int DOC_ID { get; set; }
 
         [Display(Name = "ID Lanzamiento")]
@@ -26,6 +26,9 @@ namespace WebCIIPMaestrosERP.Models
 
         [Display(Name = "Apellidos")]
         public string DOC_APELLIDOS { get; set; }
+
+        [Display(Name = "Nombres y Apellidos")]
+        public string DOC_NOMBRES_APELLIDOS { get; set; }
 
         [Display(Name = "Celular")]
         public string DOC_CELULAR { get; set; }
@@ -50,6 +53,11 @@ namespace WebCIIPMaestrosERP.Models
         public string DCU_FECCADENA { get; set; }
 
         public List<DetalleSeguimiento> DetalleSeguimiento { get; set; }
+
+        [Display(Name = "Turno")]
+        public DateTime TurnoFecha { get; set; }
+
+        public string TurnoFechaCadena { get; set; }
 
 
     }
