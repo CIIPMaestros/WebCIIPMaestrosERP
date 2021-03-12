@@ -546,9 +546,6 @@
           <FunctionImport Name="Sp_Crear_Lanzamientos_By_Curso">
             <Parameter Name="CUR_ID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="Sp_Crear_Lanzamientos_By_Curso">
-          <Parameter Name="CUR_ID" Mode="In" Type="Int32" />
-          </FunctionImport>
         </EntityContainer>
         <EntityType Name="MAE_CATEGORIAS">
           <Key>

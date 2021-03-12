@@ -64,14 +64,5 @@ namespace WebCIIPMaestrosERP.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Sp_Crear_Lanzamientos_By_Curso", cUR_IDParameter);
         }
-    
-        public virtual int Sp_Crear_Lanzamientos_By_Curso(Nullable<int> cUR_ID)
-        {
-            var cUR_IDParameter = cUR_ID.HasValue ?
-                new ObjectParameter("CUR_ID", cUR_ID) :
-                new ObjectParameter("CUR_ID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Sp_Crear_Lanzamientos_By_Curso", cUR_IDParameter);
-        }
     }
 }
