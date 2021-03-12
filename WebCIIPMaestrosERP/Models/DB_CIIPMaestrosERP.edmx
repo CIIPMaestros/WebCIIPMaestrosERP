@@ -370,6 +370,10 @@
         <Function Name="Sp_Crear_Lanzamientos_By_Curso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CUR_ID" Type="int" Mode="In" />
         </Function>
+        <Function Name="Sp_Crear_Lanzamientos_Masivo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="VAR1" Type="int" Mode="In" />
+          <Parameter Name="VAR2" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="DB_WebCIIPModelStoreContainer">
           <EntitySet Name="MAE_CATEGORIAS" EntityType="Self.MAE_CATEGORIAS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MAE_CURSOS" EntityType="Self.MAE_CURSOS" Schema="dbo" store:Type="Tables" />
@@ -536,8 +540,11 @@
             <End Role="SEG_USUARIOS_LINKS" EntitySet="SEG_USUARIOS_LINKS" />
           </AssociationSet>
           <FunctionImport Name="Sp_Crear_Lanzamientos_Masivo" ReturnType="Collection(DateTime)">
-            <Parameter Name="Var1" Mode="In" Type="Int32" />
-            <Parameter Name="Var2" Mode="In" Type="Int32" />
+            <Parameter Name="VAR1" Mode="In" Type="Int32" />
+            <Parameter Name="VAR2" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_Crear_Lanzamientos_By_Curso">
+            <Parameter Name="CUR_ID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Sp_Crear_Lanzamientos_By_Curso">
           <Parameter Name="CUR_ID" Mode="In" Type="Int32" />
@@ -1127,6 +1134,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Crear_Lanzamientos_Masivo" FunctionName="DB_WebCIIPModel.Store.Sp_Crear_Lanzamientos_Masivo" />
           <FunctionImportMapping FunctionImportName="Sp_Crear_Lanzamientos_By_Curso" FunctionName="DB_WebCIIPModel.Store.Sp_Crear_Lanzamientos_By_Curso" />
         </EntityContainerMapping>
       </Mapping>

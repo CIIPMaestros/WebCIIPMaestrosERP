@@ -506,7 +506,7 @@ namespace WebCIIPMaestrosERP.Controllers
         {
             using (var db = new DB_WebCIIPEntitiesERP())
             {
-                db.Sp_Crear_Lanzamientos_Masivo(0, 0);
+                db.Sp_Crear_Lanzamientos_Masivo(0,0);
                 db.SaveChanges();
             }
                 return Json(new { res = true }, JsonRequestBehavior.AllowGet);
@@ -517,7 +517,7 @@ namespace WebCIIPMaestrosERP.Controllers
             var db = new DB_WebCIIPEntitiesERP();
 
             db.Configuration.ProxyCreationEnabled = false;
-            db.Configuration.LazyLoadingEnabled = false;
+            
 
             MaeCursosCLS oMaeCursosCLS = new MaeCursosCLS();
             MAE_CURSOS oMAE_CURSOS = db.MAE_CURSOS.Where(p => p.CUR_ID == IdCurso).First();
