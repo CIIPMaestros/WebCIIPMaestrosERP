@@ -6,7 +6,7 @@ using System.Web;
 
 namespace WebCIIPMaestrosERP.Models
 {
-    public class MktDocenteCursoCLS
+    public class MktDocenteCursoCLS : BaseModel
     {
 
 
@@ -50,6 +50,8 @@ namespace WebCIIPMaestrosERP.Models
         public string DCU_FECCADENA { get; set; }
 
         public List<DetalleSeguimiento> DetalleSeguimiento { get; set; }
+
+        public List<MktDocenteCursoCLS> Listado { get; set; }
 
 
     }

@@ -1,151 +1,133 @@
 ﻿@using WebCIIPMaestrosERP.Models;
-@model List<MktDocenteCursoCLS>
-
-
+@model MktDocenteCursoCLS
 
 @{
-
-    List<SelectListItem> CargaCursos = (List<SelectListItem>)ViewBag.CargaCursos;
-    List<SelectListItem> CargaUsuMktAll = (List<SelectListItem>)ViewBag.CargaUsuMktAll;
-
-    //guardamos las varialbes de los combos para la recarga del mismo.
-    string varSubDominio = System.Configuration.ConfigurationManager.AppSettings["SubDominio"];
-    
-
 }
 
-
-<br>
-<br>
-@using (Html.BeginForm("MktReporteByUser", "MktDocenteCurso", FormMethod.Get))
+@using (Ajax.BeginForm("Filters", "", new AjaxOptions
 {
-
-    @Html.Hidden("IdCurso")
-    @Html.Hidden("IdLanzamiento")
-
-
+    HttpMethod = "POST",
+    UpdateTargetId = "partialTab",
+    InsertionMode = InsertionMode.Replace
+}, new { @id = "frmFilters" }))
+{
     <div class="panel panel-success">
-        <!-- Default panel contents -->
         <div class="panel-heading">
-            <table>
-                <tr>
-                    <td>
-                    </td>
-                </tr>
-                <tr>
-                    <td><span class="glyphicon glyphicon-th btn-lg" aria-hidden="true"></span></td>
-                    <td><span class="glyphicon glyphicon-th-list btn-lg" aria-hidden="true"></span></td>
-                    <td>Usuario Marketing</td>
-
-                    <td>
-                        @Html.DropDownList("USU_ID", CargaUsuMktAll, new { @class = "form-control" })
-
-
-                    </td>
-
-
-                    <td>Cursos</td>
-
-                    <td>
-
-
-
-                        <select id="CUR_ID" name="CUR_ID" class="form-control">
-                            <!-- Opciones de la lista -->
-                            <option value="0">Todos</option>
-                        </select>
-
-
-                    </td>
-
-
-
-                    <td>Fecha de Curso</td>
-
-                    <td>
-
-                        <select id="LAN_ID" name="LAN_ID" onchange="ShowSelectedLan();" class="form-control">
-                            <!-- Opciones de la lista -->
-                            <option value="0">Todos</option>
-                        </select>
-
-
-                    </td>
-
-                    <td>
-                        <input type="submit" value="Buscar" class="btn btn-success" />
-                    </td>
-
-                    <td>
-                        &nbsp;
-                    </td>
-
-
-                    <td>@Html.ActionLink(" ", "generarExcel", "MktDocenteCurso", null, new { @class = "btn btn-success glyphicon glyphicon-save form-control", @target = "_blank" })</td>
-
-                    <td>
-                        <p>&nbsp&nbsp&nbsp</p>
-                    </td>
-
-                    <td>
-                        Total de Registros recuperados: @ViewBag.ContarDocentesCapturados
-                    </td>
-
-
-
-
-
-
-                </tr>
-            </table>
+            <form class="navbar-form navbar-left">
+                <table>
+                    <tr>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="glyphicon glyphicon-th btn-lg" aria-hidden="true"></span></td>
+                        <td><span class="glyphicon glyphicon-th-list btn-lg" aria-hidden="true"></span></td>
+                        <td>Usuario Marketing</td>
+                        @Html.Hidden("page", null, new { @id = "optPage" })
+                        <td>
+                            @Html.DropDownList("UserId", new SelectList(""), "Todos", new { @class = "form-control", @id = "User" })
+                        </td>
+                        <td>Cursos</td>
+                        <td>
+                            @Html.DropDownList("CursId", new SelectList(""), "Todos", new { @class = "form-control", @id = "Curso" })
+                        </td>
+                        <td>Fecha de Curso</td>
+                        <td>
+                            @Html.DropDownList("LanId", new SelectList(""), "Todos", new { @class = "form-control", @id = "Lanzamiento" })
+                        </td>
+                        <td>
+                            <input type="submit" value="Buscar" class="btn btn-success" />
+                        </td>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td>@Html.ActionLink(" ", "generarExcel", "MktDocenteCurso", null, new { @class = "btn btn-success glyphicon glyphicon-save form-control", @target = "_blank" })</td>
+                        <td>
+                            <p>&nbsp&nbsp&nbsp</p>
+                        </td>
+                        <td>
+                            Total de Registros recuperados: @ViewBag.ContarDocentesCapturados
+                        </td>
+                    </tr>
+                </table>
+            </form>
         </div>
-        <div class="panel-body">
-            <p></p>
+        <div class="panel-body"></div>
+        <div id="partialTab">
+            @Html.Partial("_MktReporteByUser", Model)
         </div>
-
-
-
-
-        <!-- Table -->
-        <table class="table border-bottom table-hover">
-
-            <thead>
-                <tr>
-                    <td>@Html.LabelFor(p => Model[0].DOC_ID)</td>
-                    <td>@Html.LabelFor(p => Model[0].DOC_NOMBRES)</td>
-                    <td>@Html.LabelFor(p => Model[0].DOC_APELLIDOS)</td>
-                    <td>@Html.LabelFor(p => Model[0].DOC_EMAIL)</td>
-                    <td>@Html.LabelFor(p => Model[0].DOC_CELULAR)</td>
-                    <td>@Html.LabelFor(p => Model[0].CUR_NOMBRE)</td>
-                    <td>@Html.LabelFor(p => Model[0].DCU_FEC)</td>
-
-
-
-                </tr>
-            <thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                <tr>
-                    <td>@item.DOC_ID</td>
-                    <td>@item.DOC_NOMBRES</td>
-                    <td>@item.DOC_APELLIDOS</td>
-                    <td>@item.DOC_EMAIL</td>
-                    <td>@item.DOC_CELULAR</td>
-                    <td>@item.CUR_NOMBRE</td>
-                    <td>@item.DCU_FEC</td>
-
-                </tr>
-                }
-            </tbody>
-        </table>
-
-
     </div>
-
 }
 
-<script>
+@section Scripts{
+    
+    <script>
+        $(document).ready(function () {
+
+            $.get("@Url.Action("GetDocentes", "MktDocenteCurso")", function (ListaUsuMkt) {
+                $("#User").html("");
+                $("#User").append('<option value="0">Todos</option>');
+                $("#Curso").attr("disabled", true);
+                $("#Lanzamiento").attr("disabled", true);
+                    $.each(ListaUsuMkt, function (index, item) {
+                        $("#User").append('<option value="' + item.Value + '">' + item.Text + '</option>');
+                    });
+            });
+        });
+
+        $("#User").change(function () {
+                var text = $(this).children("option:selected").text();
+                var val = $(this).children("option:selected").val();
+                if (text == "Todos") {
+                    $("#Curso").html("");
+                    $("#Curso").attr("disabled", true);
+                    $("#Curso").append('<option value="0" >Todos</option>');
+                    $("#Lanzamiento").html("");
+                    $("#Lanzamiento").attr("disabled", true);
+                    $("#Lanzamiento").append('<option value="0" >Todos</option>');
+                } else {
+                    $.get("@Url.Action("GetCursosByDoc", "MktDocenteCurso")?id=" + parseFloat(val), function (ListaCursos) {
+                        $("#Curso").html("");
+                        $("#Curso").append('<option value="0">Todos</option>');
+                        $("#Curso").attr("disabled", false);
+                        $.each(ListaCursos, function (index, item) {
+                            $("#Curso").append('<option value="' + item.Value + '">' + item.Text + '</option>');
+                        });
+                    });
+                }
+        });
+
+        $("#Curso").change(function () {
+                var Uval = $(User).children("option:selected").val();
+                var text = $(this).children("option:selected").text();
+                var val = $(this).children("option:selected").val();
+                if (text == "Todos") {
+                    $("#Lanzamiento").html("");
+                    $("#Lanzamiento").attr("disabled", true);
+                    $("#Lanzamiento").append('<option value="0" >Todos</option>');
+                } else {
+                    $.get("@Url.Action("GetLanzamientoByCurso", "MktDocenteCurso")?id=" + parseFloat(Uval) + "&IdCurso=" + val, function (Lanzamientos) {
+                        $("#Lanzamiento").html("");
+                        $("#Lanzamiento").append('<option value="0">Todos</option>');
+                        $("#Lanzamiento").attr("disabled", false);
+                        $.each(Lanzamientos, function (index, item) {
+                            $("#Lanzamiento").append('<option value="' + item.Value + '">' + item.Text + '</option>');
+                        });
+                    });
+                }
+        });
+
+        $(document).on('click', '.pagerNum', function (e) {
+            var page = $(this).data('codigo');
+            document.getElementById("optPage").value = page;
+            $("#frmFilters").trigger("submit");
+            document.getElementById("optPage").value = "";
+        });
+    </script>
+
+    }
+
+@*<script>
 
     //retiene el valor para recargar los combos cuando se recarga la pagina al presionar el valor buscar.
     var cboUsu = document.getElementById("CUR_ID").value;
@@ -153,7 +135,7 @@
     var cboLan = document.getElementById("LAN_ID").value;
 
 
-   
+
 
 
     function ShowSelectedLan() {
@@ -167,7 +149,7 @@
         IdLan = IdLan.slice(0, IdLan.indexOf("-")); // extraemos solo el codigo del LAN_ID.. No se me ocurrio otra forma... por ahora
 
         document.getElementById("IdLanzamiento").value = IdLan; //cargamos el id del lanzamiento, en la varialbe oculta...
-                
+
 
     }
 
@@ -177,7 +159,7 @@
     user.onchange = function () {
 
         var Idusuario = document.getElementById("USU_ID").value;
-        
+
 
         $.get("GetCursosByUser/?Idusuario=" + Idusuario, function (data) {
             // VACIAMOS EL DropDownList
@@ -190,7 +172,7 @@
             $.each(data, function (index, row) {
 
                 $("#CUR_ID").append("<option value=" + row.Value + ">" + row.Text + "</option>")
-                
+
 
             });
         });
@@ -201,11 +183,11 @@
     curso.onchange = function () {
 
         var Idcur = document.getElementById("CUR_ID").value;
-        
-        document.getElementById("IdCurso").value = Idcur;
-        
 
-        $.get("GetLanzamientosByUser/?IdCurso=" + Idcur + "&IdUser="+document.getElementById("USU_ID").value, function (data) {
+        document.getElementById("IdCurso").value = Idcur;
+
+
+        $.get("GetLanzamientosByUser/?IdCurso=" + Idcur + "&IdUser=" + document.getElementById("USU_ID").value, function (data) {
             // VACIAMOS EL DropDownList
             $("#LAN_ID").empty();
             // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
@@ -225,6 +207,6 @@
     }
 
 
-    
 
-</script>
+
+</script>*@
