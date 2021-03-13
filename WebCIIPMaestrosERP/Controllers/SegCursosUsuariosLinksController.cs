@@ -86,8 +86,10 @@ namespace WebCIIPMaestrosERP.Controllers
                                                CUS_ID = CursosByUsuarios.CUS_ID,
                                                CUR_ID = cursos.CUR_ID,
                                                CUR_NOMBRE = cursos.CUR_NOMBRE,
+                                               CUR_DESCRIPCION = cursos.CUR_DESCRIPCION,
                                                USU_ID = usuarios.USU_ID,
-                                               USU_NOMBRES = usuarios.USU_NOMBRES,
+                                               USU_NOMBRES = usuarios.USU_NOMBRES+" "+ usuarios.USU_APELLIDO,
+                                               USU_LINK = CursosByUsuarios.USU_LINK,
                                                USU_LINK_CORTO = CursosByUsuarios.USU_LINK_CORTO
                                            }).ToList();
 
@@ -110,8 +112,10 @@ namespace WebCIIPMaestrosERP.Controllers
                                                CUS_ID = CursosByUsuarios.CUS_ID,
                                                CUR_ID = cursos.CUR_ID,
                                                CUR_NOMBRE = cursos.CUR_NOMBRE,
+                                               CUR_DESCRIPCION = cursos.CUR_DESCRIPCION,
                                                USU_ID = usuarios.USU_ID,
-                                               USU_NOMBRES = usuarios.USU_NOMBRES,
+                                               USU_NOMBRES = usuarios.USU_NOMBRES + " " + usuarios.USU_APELLIDO,
+                                               USU_LINK = CursosByUsuarios.USU_LINK,
                                                USU_LINK_CORTO = CursosByUsuarios.USU_LINK_CORTO
                                            }).ToList();
 
@@ -154,6 +158,7 @@ namespace WebCIIPMaestrosERP.Controllers
                 SEG_CURSOS_USUARIOS_LINKS oSEG_CURSOS_USUARIOS_LINKS = db.SEG_CURSOS_USUARIOS_LINKS.Where(p => p.CUS_ID == IdCus).First();
                 oSegCursoUsuarioLinksCLS.CUR_ID = oSEG_CURSOS_USUARIOS_LINKS.CUR_ID;
                 oSegCursoUsuarioLinksCLS.USU_ID = oSEG_CURSOS_USUARIOS_LINKS.USU_ID;
+                oSegCursoUsuarioLinksCLS.USU_LINK = oSEG_CURSOS_USUARIOS_LINKS.USU_LINK;
                 oSegCursoUsuarioLinksCLS.USU_LINK_CORTO = oSEG_CURSOS_USUARIOS_LINKS.USU_LINK_CORTO;
                 
             }
@@ -282,6 +287,60 @@ namespace WebCIIPMaestrosERP.Controllers
 
             }
             return rpta;
+        }
+
+
+        public ActionResult Filtro(string nombreUsuario)
+        {
+
+            List<SegCursoUsuarioLinksCLS> ListaCursoByUsuario = new List<SegCursoUsuarioLinksCLS>();
+            using (var db = new DB_WebCIIPEntitiesERP())
+            {
+                if (nombreUsuario == null)
+                    ListaCursoByUsuario = (from CursosByUsuarios in db.SEG_CURSOS_USUARIOS_LINKS
+                                           join cursos in db.MAE_CURSOS
+                                            on CursosByUsuarios.CUR_ID equals cursos.CUR_ID
+                                           join usuarios in db.SEG_USUARIOS
+                                           on CursosByUsuarios.USU_ID equals usuarios.USU_ID
+
+                                           orderby cursos.CUR_ID
+
+                                           select new SegCursoUsuarioLinksCLS
+
+                                           {
+                                               CUS_ID = CursosByUsuarios.CUS_ID,
+                                               CUR_ID = cursos.CUR_ID,
+                                               CUR_NOMBRE = cursos.CUR_NOMBRE,
+                                               CUR_DESCRIPCION = cursos.CUR_DESCRIPCION,
+                                               USU_ID = usuarios.USU_ID,
+                                               USU_NOMBRES = usuarios.USU_NOMBRES + " " + usuarios.USU_APELLIDO,
+                                               USU_LINK = CursosByUsuarios.USU_LINK,
+                                               USU_LINK_CORTO = CursosByUsuarios.USU_LINK_CORTO
+                                           }).ToList();
+                else
+                    ListaCursoByUsuario = (from CursosByUsuarios in db.SEG_CURSOS_USUARIOS_LINKS
+                                           join cursos in db.MAE_CURSOS
+                                            on CursosByUsuarios.CUR_ID equals cursos.CUR_ID
+                                           join usuarios in db.SEG_USUARIOS
+                                           on CursosByUsuarios.USU_ID equals usuarios.USU_ID
+                                           where
+                                               usuarios.USU_NOMBRES.Contains(nombreUsuario)
+                                           orderby cursos.CUR_ID
+
+                                           select new SegCursoUsuarioLinksCLS
+
+                                           {
+                                               CUS_ID = CursosByUsuarios.CUS_ID,
+                                               CUR_ID = cursos.CUR_ID,
+                                               CUR_NOMBRE = cursos.CUR_NOMBRE,
+                                               CUR_DESCRIPCION = cursos.CUR_DESCRIPCION,
+                                               USU_ID = usuarios.USU_ID,
+                                               USU_NOMBRES = usuarios.USU_NOMBRES + " " + usuarios.USU_APELLIDO,
+                                               USU_LINK = CursosByUsuarios.USU_LINK,
+                                               USU_LINK_CORTO = CursosByUsuarios.USU_LINK_CORTO
+                                           }).ToList();
+            }
+            return PartialView("_Index", ListaCursoByUsuario);
         }
 
 

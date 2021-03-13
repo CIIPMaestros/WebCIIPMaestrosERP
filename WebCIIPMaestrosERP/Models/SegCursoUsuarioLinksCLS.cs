@@ -28,6 +28,9 @@ namespace WebCIIPMaestrosERP.Models
         [Display(Name = "Curso")]
         public string CUR_NOMBRE { get; set; }
 
+        [Display(Name = "Stream")]
+        public string CUR_DESCRIPCION { get; set; }
+
         [Display(Name = "Link")]
         //[Required(ErrorMessage = "ingresar link")]
         [DataType(DataType.MultilineText)]

@@ -115,12 +115,12 @@
                                     @Html.TextBox("USU_LINK_CORTO", null, new { @class = "form-control" })
                                 </div>
 
-                               
+
                             </div>
 
 
 
-                           
+
 
                         </div>
                     </div>
@@ -187,6 +187,27 @@
         </div>
     </div>
 
+
+    <!-- Modal Ver Link -->
+    <div class="modal fade" id="ModalVerLink" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <div class="alert alert-success" role="alert"><h5 class="modal-title" id="ModalLabel">Ver Link</h5></div>
+
+                    <textarea class="col-md-12" id="Link" cols="100" rows="10"></textarea>
+
+
+                </div>
+
+                <div style="padding:1em">
+                    <button type="button" id="btnCerrarConfirmacion" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Activar -->
     <div class="modal fade" id="ModalActivar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -206,7 +227,7 @@
     </div>
 
     <script>
-               
+
 
 
         var nombre = document.getElementById("nombreUsuario");
@@ -280,7 +301,7 @@
             //document.getElementById("accion").value = idUsuario;
             document.getElementById("accion").value = idCus;
 
-            $.get("SegCursosUsuariosLinks/recuperarDatos/?IdCus=" + idCus, function (data) {
+            $.get("/SegCursosUsuariosLinks/recuperarDatos/?IdCus=" + idCus, function (data) {
 
 
                 document.getElementById("CUR_ID").value = data.CUR_ID;
@@ -290,6 +311,15 @@
 
             })
 
+        }
+
+        function VerLink(idCus) {
+
+            $.get("/SegCursosUsuariosLinks/recuperarDatos/?IdCus=" + idCus, function (data) {
+
+                document.getElementById('Link').innerHTML = data.USU_LINK;
+            })
+            
         }
 
 

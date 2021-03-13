@@ -61,6 +61,12 @@
                     </td>
 
                     <td>
+                        &nbsp;
+                    </td>
+
+                    <td>@Html.ActionLink(" ", "generarExcel", "MktDocenteCurso", null, new { @class = "btn btn-success glyphicon glyphicon-save form-control", @target = "_blank" })</td>
+
+                    <td>
                         <p>&nbsp&nbsp&nbsp</p>
                     </td>
 
@@ -81,11 +87,12 @@
             <thead>
                 <tr>
                     <td>@Html.LabelFor(p => Model[0].DOC_ID)</td>
-                    <td>@Html.LabelFor(p => Model[0].DOC_NOMBRES)</td>
-                    <td>@Html.LabelFor(p => Model[0].DOC_APELLIDOS)</td>
+                    <td>@Html.LabelFor(p => Model[0].DOC_NOMBRES_APELLIDOS)</td>
                     <td>@Html.LabelFor(p => Model[0].DOC_EMAIL)</td>
                     <td>@Html.LabelFor(p => Model[0].DOC_CELULAR)</td>
+                    <td>@Html.LabelFor(p => Model[0].CUR_NOMBRE)</td>
                     <td>@Html.LabelFor(p => Model[0].DCU_FEC)</td>
+                    <td>@Html.LabelFor(p => Model[0].TurnoFecha)</td>
 
                 </tr>
             <thead>
@@ -94,11 +101,12 @@
                 {
                 <tr>
                     <td>@item.DOC_ID</td>
-                    <td>@item.DOC_NOMBRES</td>
-                    <td>@item.DOC_APELLIDOS</td>
+                    <td>@item.DOC_NOMBRES_APELLIDOS</td>
                     <td>@item.DOC_EMAIL</td>
                     <td>@item.DOC_CELULAR</td>
+                    <td>@item.CUR_NOMBRE</td>
                     <td>@item.DCU_FEC</td>
+                    <td>@item.TurnoFecha</td>
 
                 </tr>
                 }
@@ -143,7 +151,7 @@
             var Idcurso = document.getElementById("CUR_ID").value;
             //alert(Idcurso);
 
-            $.get("GetLanzamientosByUser/?IdCurso=" + Idcurso + "&IdUser=" + @idusuario, function (data) {
+            $.get("MktDocenteCurso/GetLanzamientosByUser/?IdCurso=" + Idcurso + "&IdUser=" + @idusuario, function (data) {
                 // VACIAMOS EL DropDownList
                 $("#LAN_ID").empty();
                 // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO

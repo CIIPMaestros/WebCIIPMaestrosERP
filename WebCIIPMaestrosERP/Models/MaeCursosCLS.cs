@@ -15,10 +15,10 @@ namespace WebCIIPMaestrosERP.Models
 
         [Required]
         public string CUR_NOMBRE { get; set; }
-        [Display(Name = "Descripcion")]
+        [Display(Name = "Diploma")]
         [Required]
         public string CUR_DESCRIPCION { get; set; }
-        [Display(Name = "Certificacion")]
+        [Display(Name = "Stream")]
         public string CUR_CERTIFICACION { get; set; }
         
         [Display(Name = "Resultados")]
@@ -57,7 +57,7 @@ namespace WebCIIPMaestrosERP.Models
 
         //public List<MAE_CURSOS_HORARIOS> getHorarios { get; set; }
 
-        public List<MaeCursosCLS> ListadoCursos { get; set; }
+        public List<MaeCursosCLS> ListadoCursos { get; set; } //contructor de clase (es uana propiedad de una clase, en este caso de la misma clase mae_curso)
 
     }
 

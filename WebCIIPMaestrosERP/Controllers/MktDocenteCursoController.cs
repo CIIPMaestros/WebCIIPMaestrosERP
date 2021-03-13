@@ -18,6 +18,7 @@ namespace WebCIIPMaestrosERP.Controllers
     {
         // GET: MktDocenteCurso
 
+        
 
         public FileResult generarExcel()
         {
@@ -38,7 +39,9 @@ namespace WebCIIPMaestrosERP.Controllers
                 ew.Cells[1, 3].Value = "Apellidos";
                 ew.Cells[1, 4].Value = "Email";
                 ew.Cells[1, 5].Value = "Celular";
-                ew.Cells[1, 6].Value = "Fecha Registro";
+                ew.Cells[1, 6].Value = "Curso";
+                ew.Cells[1, 7].Value = "Fecha Registro";
+                ew.Cells[1, 8].Value = "Turno";
 
 
                 ew.Column(1).Width = 5;
@@ -47,10 +50,12 @@ namespace WebCIIPMaestrosERP.Controllers
                 ew.Column(4).Width = 50;
                 ew.Column(5).Width = 10;
                 ew.Column(6).Width = 30;
+                ew.Column(7).Width = 30;
+                ew.Column(8).Width = 30;
 
 
 
-                using (var range = ew.Cells[1, 1, 1, 6])
+                using (var range = ew.Cells[1, 1, 1, 8])
                 {
                     range.Style.Fill.PatternType = ExcelFillStyle.Solid;
                     range.Style.Font.Color.SetColor(Color.White);
@@ -68,7 +73,9 @@ namespace WebCIIPMaestrosERP.Controllers
                     ew.Cells[i + 2, 3].Value = lista[i].DOC_APELLIDOS;
                     ew.Cells[i + 2, 4].Value = lista[i].DOC_EMAIL;
                     ew.Cells[i + 2, 5].Value = lista[i].DOC_CELULAR;
-                    ew.Cells[i + 2, 6].Value = lista[i].DCU_FECCADENA;
+                    ew.Cells[i + 2, 6].Value = lista[i].CUR_NOMBRE;
+                    ew.Cells[i + 2, 7].Value = lista[i].DCU_FECCADENA;
+                    ew.Cells[i + 2, 8].Value = lista[i].TurnoFechaCadena;
 
                 }
                 //Pendiente
@@ -372,6 +379,9 @@ namespace WebCIIPMaestrosERP.Controllers
                                         MKT_ID = (int)DocenteCurso.MKT_ID,
                                         DOC_NOMBRES = Docente.DOC_NOMBRES,
                                         DOC_APELLIDOS = Docente.DOC_APELLIDOS,
+                                        DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES +" "+ Docente.DOC_APELLIDOS,
+                                        TurnoFecha = (DateTime)lanzamiento.LAN_FEC_CAPACITACION,
+                                        TurnoFechaCadena = ((DateTime)lanzamiento.LAN_FEC_CAPACITACION).ToString(),
                                         DOC_CELULAR = Docente.DOC_CELULAR,
                                         DOC_EMAIL = Docente.DOC_EMAIL,
                                         DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
@@ -431,9 +441,12 @@ namespace WebCIIPMaestrosERP.Controllers
                                         MKT_ID = (int)DocenteCurso.MKT_ID,
                                         DOC_NOMBRES = Docente.DOC_NOMBRES,
                                         DOC_APELLIDOS = Docente.DOC_APELLIDOS,
+                                        DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + " " + Docente.DOC_APELLIDOS,
                                         DOC_CELULAR = Docente.DOC_CELULAR,
                                         DOC_EMAIL = Docente.DOC_EMAIL,
                                         DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
+                                        TurnoFecha = (DateTime)lanzamiento.LAN_FEC_CAPACITACION,
+                                        TurnoFechaCadena = ((DateTime)lanzamiento.LAN_FEC_CAPACITACION).ToString(),
                                         DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
                                         CUR_NOMBRE = curso.CUR_NOMBRE
                                     }).Skip(((int)page - 1) * cantidadRegistrosPorPagina)
@@ -487,10 +500,13 @@ namespace WebCIIPMaestrosERP.Controllers
                                         MKT_ID = (int)DocenteCurso.MKT_ID,
                                         DOC_NOMBRES = Docente.DOC_NOMBRES,
                                         DOC_APELLIDOS = Docente.DOC_APELLIDOS,
+                                        DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + " " + Docente.DOC_APELLIDOS,
                                         DOC_CELULAR = Docente.DOC_CELULAR,
                                         DOC_EMAIL = Docente.DOC_EMAIL,
                                         DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
                                         DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
+                                        TurnoFecha = (DateTime)lanzamiento.LAN_FEC_CAPACITACION,
+                                        TurnoFechaCadena = ((DateTime)lanzamiento.LAN_FEC_CAPACITACION).ToString(),
                                         CUR_NOMBRE = curso.CUR_NOMBRE
                                     }).Skip(((int)page - 1) * cantidadRegistrosPorPagina)
                      .Take(cantidadRegistrosPorPagina)
@@ -542,10 +558,13 @@ namespace WebCIIPMaestrosERP.Controllers
                                         MKT_ID = (int)DocenteCurso.MKT_ID,
                                         DOC_NOMBRES = Docente.DOC_NOMBRES,
                                         DOC_APELLIDOS = Docente.DOC_APELLIDOS,
+                                        DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + " " + Docente.DOC_APELLIDOS,
                                         DOC_CELULAR = Docente.DOC_CELULAR,
                                         DOC_EMAIL = Docente.DOC_EMAIL,
                                         DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
                                         DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
+                                        TurnoFecha = (DateTime)lanzamiento.LAN_FEC_CAPACITACION,
+                                        TurnoFechaCadena = ((DateTime)lanzamiento.LAN_FEC_CAPACITACION).ToString(),
                                         CUR_NOMBRE = curso.CUR_NOMBRE
                                     }).Skip(((int)page - 1) * cantidadRegistrosPorPagina)
                      .Take(cantidadRegistrosPorPagina)
@@ -620,12 +639,18 @@ namespace WebCIIPMaestrosERP.Controllers
                                         MKT_ID = (int)DocenteCurso.MKT_ID,
                                         DOC_NOMBRES = Docente.DOC_NOMBRES,
                                         DOC_APELLIDOS = Docente.DOC_APELLIDOS,
+                                        DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + " " + Docente.DOC_APELLIDOS,
                                         DOC_CELULAR = Docente.DOC_CELULAR,
                                         DOC_EMAIL = Docente.DOC_EMAIL,
                                         DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
                                         DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
+                                        TurnoFecha = (DateTime)lanzamiento.LAN_FEC_CAPACITACION,
+                                        TurnoFechaCadena = ((DateTime)lanzamiento.LAN_FEC_CAPACITACION).ToString(),
                                         CUR_NOMBRE = curso.CUR_NOMBRE
                                     }).ToList();
+
+                    Session["SessionMktReporteByUser"] = ListaDocente;
+
                 }
                 else if (idCurso != 0 && idLan != 0)
                 {
@@ -648,12 +673,17 @@ namespace WebCIIPMaestrosERP.Controllers
                                         MKT_ID = (int)DocenteCurso.MKT_ID,
                                         DOC_NOMBRES = Docente.DOC_NOMBRES,
                                         DOC_APELLIDOS = Docente.DOC_APELLIDOS,
+                                        DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + " " + Docente.DOC_APELLIDOS,
                                         DOC_CELULAR = Docente.DOC_CELULAR,
                                         DOC_EMAIL = Docente.DOC_EMAIL,
                                         DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
                                         DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
+                                        TurnoFecha = (DateTime)lanzamiento.LAN_FEC_CAPACITACION,
+                                        TurnoFechaCadena = ((DateTime)lanzamiento.LAN_FEC_CAPACITACION).ToString(),
                                         CUR_NOMBRE = curso.CUR_NOMBRE
                                     }).ToList();
+
+                    Session["SessionMktReporteByUser"] = ListaDocente;
 
                 }
                 else {
@@ -673,12 +703,16 @@ namespace WebCIIPMaestrosERP.Controllers
                                         MKT_ID = (int)DocenteCurso.MKT_ID,
                                         DOC_NOMBRES = Docente.DOC_NOMBRES,
                                         DOC_APELLIDOS = Docente.DOC_APELLIDOS,
+                                        DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + " " + Docente.DOC_APELLIDOS,
                                         DOC_CELULAR = Docente.DOC_CELULAR,
                                         DOC_EMAIL = Docente.DOC_EMAIL,
                                         DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
                                         DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
+                                        TurnoFecha = (DateTime)lanzamiento.LAN_FEC_CAPACITACION,
+                                        TurnoFechaCadena = ((DateTime)lanzamiento.LAN_FEC_CAPACITACION).ToString(),
                                         CUR_NOMBRE = curso.CUR_NOMBRE
                                     }).ToList();
+                    Session["SessionMktReporteByUser"] = ListaDocente;
 
                 }
             

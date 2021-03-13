@@ -6,7 +6,7 @@ using System.Web;
 
 namespace WebCIIPMaestrosERP.Models
 {
-    public class MaeTutorCLS
+    public class MaeTutorCLS: BaseModel
     {
         [Display(Name = "ID Ponente")]
         public int TUT_ID { get; set; }

@@ -20,6 +20,7 @@ namespace WebCIIPMaestrosERP.Controllers
 
             ViewBag.ListaEstado = ListaEstado;
 
+            
             List<MaeTutorCLS> ListaTutores = null;
 
             using (var db = new DB_WebCIIPEntitiesERP())

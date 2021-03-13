@@ -10,6 +10,7 @@
         <tr>
             <th width="10%">@Html.LabelFor(p => Model[0].CUS_ID)</th>
             <th width="20%">@Html.LabelFor(p => Model[0].CUR_NOMBRE)</th>
+            <th width="5%">@Html.LabelFor(p => Model[0].CUR_DESCRIPCION)</th>
             <th width="5%">@Html.LabelFor(p => Model[0].USU_NOMBRES)</th>
             <th width="10%">@Html.LabelFor(p => Model[0].USU_LINK_CORTO)</th>
             <th width="20%">OPERACIONES</th>
@@ -19,20 +20,22 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@item.CUS_ID</td>
-                <td>@item.CUR_NOMBRE</td>
-                <td>@item.USU_NOMBRES</td>
-                <td>@item.USU_LINK_CORTO</td>
-                <td>
+        <tr>
+            <td>@item.CUS_ID</td>
+            <td>@item.CUR_NOMBRE</td>
+            <td>@item.CUR_DESCRIPCION</td>
+            <td>@item.USU_NOMBRES</td>
+            <td>@item.USU_LINK_CORTO</td>
+            <td>
 
 
-                    <a href="#myModalCurso" class="edit" onclick="Editar(@item.CUS_ID)" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                    <a href="#ModalConfirmacion" class="delete" onclick="ActivarDesactivar(@item.CUS_ID)" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Activar">&#xe003;</i></a>
-                    <a href="#ModalActivar" class="active" onclick="ActivarDesactivar(@item.CUS_ID)" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                <a href="#myModalCurso" class="edit" onclick="Editar(@item.CUS_ID)" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                <a href="#ModalVerLink" class="edit" onclick="VerLink(@item.CUS_ID)" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xe894;</i></a>
+                <a href="#ModalConfirmacion" class="delete" onclick="ActivarDesactivar(@item.CUS_ID)" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Activar">&#xe003;</i></a>
+                <a href="#ModalActivar" class="active" onclick="ActivarDesactivar(@item.CUS_ID)" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
 
-                </td>
-            </tr>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
