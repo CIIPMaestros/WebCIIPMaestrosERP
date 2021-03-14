@@ -6,7 +6,7 @@ using System.Web;
 
 namespace WebCIIPMaestrosERP.Models
 {
-    public class MktDocenteCursoCLS
+    public class MktDocenteCursoCLS : BaseModel
     {
 
 
@@ -58,6 +58,8 @@ namespace WebCIIPMaestrosERP.Models
         public DateTime TurnoFecha { get; set; }
 
         public string TurnoFechaCadena { get; set; }
+
+        public List<MktDocenteCursoCLS> Listado { get; set; }
 
 
     }
