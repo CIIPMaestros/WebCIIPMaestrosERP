@@ -16,11 +16,11 @@ namespace WebCIIPMaestrosERP.Models
     {
         public int DOC_ID { get; set; }
         public int LAN_ID { get; set; }
-        public Nullable<int> MKT_ID { get; set; }
+        public int MKT_ID { get; set; }
         public Nullable<System.DateTime> DCU_FEC { get; set; }
     
         public virtual MAE_CURSOS_LANZAMIENTOS MAE_CURSOS_LANZAMIENTOS { get; set; }
-        public virtual SEG_USUARIOS SEG_USUARIOS { get; set; }
         public virtual MKT_DOCENTES MKT_DOCENTES { get; set; }
+        public virtual SEG_USUARIOS SEG_USUARIOS { get; set; }
     }
 }

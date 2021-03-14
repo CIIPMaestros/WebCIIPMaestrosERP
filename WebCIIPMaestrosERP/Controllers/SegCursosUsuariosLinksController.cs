@@ -53,6 +53,12 @@ namespace WebCIIPMaestrosERP.Controllers
         }
 
 
+        public ActionResult VerLinks(SegCursoUsuarioLinksCLS oSegCursoUsuarioLinksCLS)
+        {
+            
+            return View();
+        }
+
         // GET: SegCursosUsuariosLinks
         public ActionResult Index(SegCursoUsuarioLinksCLS oSegCursoUsuarioLinksCLS)
         {

@@ -101,10 +101,11 @@
           <Key>
             <PropertyRef Name="DOC_ID" />
             <PropertyRef Name="LAN_ID" />
+            <PropertyRef Name="MKT_ID" />
           </Key>
           <Property Name="DOC_ID" Type="int" Nullable="false" />
           <Property Name="LAN_ID" Type="int" Nullable="false" />
-          <Property Name="MKT_ID" Type="int" />
+          <Property Name="MKT_ID" Type="int" Nullable="false" />
           <Property Name="DCU_FEC" Type="datetime" />
         </EntityType>
         <EntityType Name="MKT_DOCENTES">
@@ -270,7 +271,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MKT_DOCENTE_CURSO_SEG_USUARIOS">
-          <End Role="SEG_USUARIOS" Type="Self.SEG_USUARIOS" Multiplicity="0..1" />
+          <End Role="SEG_USUARIOS" Type="Self.SEG_USUARIOS" Multiplicity="1" />
           <End Role="MKT_DOCENTE_CURSO" Type="Self.MKT_DOCENTE_CURSO" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SEG_USUARIOS">
@@ -462,7 +463,6 @@
           <EntitySet Name="MAE_CURSOS_PUNTUACION" EntityType="DB_WebCIIPModel.MAE_CURSOS_PUNTUACION" />
           <EntitySet Name="MAE_DEPARTAMENTOS" EntityType="DB_WebCIIPModel.MAE_DEPARTAMENTOS" />
           <EntitySet Name="MAE_TUTOR" EntityType="DB_WebCIIPModel.MAE_TUTOR" />
-          <EntitySet Name="MKT_DOCENTE_CURSO" EntityType="DB_WebCIIPModel.MKT_DOCENTE_CURSO" />
           <EntitySet Name="PRV_DOCENTE_SEGUIMIENTO" EntityType="DB_WebCIIPModel.PRV_DOCENTE_SEGUIMIENTO" />
           <EntitySet Name="SEG_USUARIOS" EntityType="DB_WebCIIPModel.SEG_USUARIOS" />
           <EntitySet Name="MAE_TABLAS" EntityType="DB_WebCIIPModel.MAE_TABLAS" />
@@ -472,10 +472,6 @@
             <End Role="MAE_TUTOR" EntitySet="MAE_TUTOR" />
             <End Role="MAE_CURSOS_LANZAMIENTOS" EntitySet="MAE_CURSOS_LANZAMIENTOS" />
           </AssociationSet>
-          <AssociationSet Name="FK_MKT_DOCENTE_CURSO_MAE_CURSOS_LANZAMIENTOS" Association="DB_WebCIIPModel.FK_MKT_DOCENTE_CURSO_MAE_CURSOS_LANZAMIENTOS">
-            <End Role="MAE_CURSOS_LANZAMIENTOS" EntitySet="MAE_CURSOS_LANZAMIENTOS" />
-            <End Role="MKT_DOCENTE_CURSO" EntitySet="MKT_DOCENTE_CURSO" />
-          </AssociationSet>
           <EntitySet Name="SEG_USUARIOS_LINKS" EntityType="DB_WebCIIPModel.SEG_USUARIOS_LINKS" />
           <AssociationSet Name="FK_SEG_USUARIOS_LINKS_MAE_CURSOS_LANZAMIENTOS" Association="DB_WebCIIPModel.FK_SEG_USUARIOS_LINKS_MAE_CURSOS_LANZAMIENTOS">
             <End Role="MAE_CURSOS_LANZAMIENTOS" EntitySet="MAE_CURSOS_LANZAMIENTOS" />
@@ -484,10 +480,6 @@
           <AssociationSet Name="FK_SEG_USUARIOS_MAE_ROLES" Association="DB_WebCIIPModel.FK_SEG_USUARIOS_MAE_ROLES">
             <End Role="MAE_ROLES" EntitySet="MAE_ROLES" />
             <End Role="SEG_USUARIOS" EntitySet="SEG_USUARIOS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MKT_DOCENTE_CURSO_SEG_USUARIOS" Association="DB_WebCIIPModel.FK_MKT_DOCENTE_CURSO_SEG_USUARIOS">
-            <End Role="SEG_USUARIOS" EntitySet="SEG_USUARIOS" />
-            <End Role="MKT_DOCENTE_CURSO" EntitySet="MKT_DOCENTE_CURSO" />
           </AssociationSet>
           <AssociationSet Name="FK_SEG_USUARIOS_LINKS_SEG_USUARIOS" Association="DB_WebCIIPModel.FK_SEG_USUARIOS_LINKS_SEG_USUARIOS">
             <End Role="SEG_USUARIOS" EntitySet="SEG_USUARIOS" />
@@ -536,13 +528,22 @@
             <End Role="MKT_DOCENTES" EntitySet="MKT_DOCENTES" />
             <End Role="MAE_CURSOS_PUNTUACION" EntitySet="MAE_CURSOS_PUNTUACION" />
           </AssociationSet>
+          <AssociationSet Name="FK_PRV_DOCENTE_SEGUIMIENTO_MKT_DOCENTES" Association="DB_WebCIIPModel.FK_PRV_DOCENTE_SEGUIMIENTO_MKT_DOCENTES">
+            <End Role="MKT_DOCENTES" EntitySet="MKT_DOCENTES" />
+            <End Role="PRV_DOCENTE_SEGUIMIENTO" EntitySet="PRV_DOCENTE_SEGUIMIENTO" />
+          </AssociationSet>
+          <EntitySet Name="MKT_DOCENTE_CURSO" EntityType="DB_WebCIIPModel.MKT_DOCENTE_CURSO" />
+          <AssociationSet Name="FK_MKT_DOCENTE_CURSO_MAE_CURSOS_LANZAMIENTOS" Association="DB_WebCIIPModel.FK_MKT_DOCENTE_CURSO_MAE_CURSOS_LANZAMIENTOS">
+            <End Role="MAE_CURSOS_LANZAMIENTOS" EntitySet="MAE_CURSOS_LANZAMIENTOS" />
+            <End Role="MKT_DOCENTE_CURSO" EntitySet="MKT_DOCENTE_CURSO" />
+          </AssociationSet>
           <AssociationSet Name="FK_MKT_DOCENTE_CURSO_MKT_DOCENTES" Association="DB_WebCIIPModel.FK_MKT_DOCENTE_CURSO_MKT_DOCENTES">
             <End Role="MKT_DOCENTES" EntitySet="MKT_DOCENTES" />
             <End Role="MKT_DOCENTE_CURSO" EntitySet="MKT_DOCENTE_CURSO" />
           </AssociationSet>
-          <AssociationSet Name="FK_PRV_DOCENTE_SEGUIMIENTO_MKT_DOCENTES" Association="DB_WebCIIPModel.FK_PRV_DOCENTE_SEGUIMIENTO_MKT_DOCENTES">
-            <End Role="MKT_DOCENTES" EntitySet="MKT_DOCENTES" />
-            <End Role="PRV_DOCENTE_SEGUIMIENTO" EntitySet="PRV_DOCENTE_SEGUIMIENTO" />
+          <AssociationSet Name="FK_MKT_DOCENTE_CURSO_SEG_USUARIOS" Association="DB_WebCIIPModel.FK_MKT_DOCENTE_CURSO_SEG_USUARIOS">
+            <End Role="SEG_USUARIOS" EntitySet="SEG_USUARIOS" />
+            <End Role="MKT_DOCENTE_CURSO" EntitySet="MKT_DOCENTE_CURSO" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="MAE_CATEGORIAS">
@@ -586,19 +587,6 @@
           <NavigationProperty Name="MAE_CURSOS_LANZAMIENTOS" Relationship="DB_WebCIIPModel.FK_MAE_CURSOS_LANZAMIENTOS_MAE_TUTOR" FromRole="MAE_TUTOR" ToRole="MAE_CURSOS_LANZAMIENTOS" />
           <Property Name="TUT_CUR_GRATUITO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="MKT_DOCENTE_CURSO">
-          <Key>
-            <PropertyRef Name="DOC_ID" />
-            <PropertyRef Name="LAN_ID" />
-          </Key>
-          <Property Name="DOC_ID" Type="Int32" Nullable="false" />
-          <Property Name="LAN_ID" Type="Int32" Nullable="false" />
-          <Property Name="MKT_ID" Type="Int32" />
-          <Property Name="DCU_FEC" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="MAE_CURSOS_LANZAMIENTOS" Relationship="DB_WebCIIPModel.FK_MKT_DOCENTE_CURSO_MAE_CURSOS_LANZAMIENTOS" FromRole="MKT_DOCENTE_CURSO" ToRole="MAE_CURSOS_LANZAMIENTOS" />
-          <NavigationProperty Name="SEG_USUARIOS" Relationship="DB_WebCIIPModel.FK_MKT_DOCENTE_CURSO_SEG_USUARIOS" FromRole="MKT_DOCENTE_CURSO" ToRole="SEG_USUARIOS" />
-          <NavigationProperty Name="MKT_DOCENTES" Relationship="DB_WebCIIPModel.FK_MKT_DOCENTE_CURSO_MKT_DOCENTES" FromRole="MKT_DOCENTE_CURSO" ToRole="MKT_DOCENTES" />
-        </EntityType>
         <EntityType Name="PRV_DOCENTE_SEGUIMIENTO">
           <Key>
             <PropertyRef Name="SGM_ID" />
@@ -625,9 +613,9 @@
           <Property Name="USU_ID_ENCRIPTADO" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <Property Name="USU_CONTRASENA" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="MAE_ROLES" Relationship="DB_WebCIIPModel.FK_SEG_USUARIOS_MAE_ROLES" FromRole="SEG_USUARIOS" ToRole="MAE_ROLES" />
-          <NavigationProperty Name="MKT_DOCENTE_CURSO" Relationship="DB_WebCIIPModel.FK_MKT_DOCENTE_CURSO_SEG_USUARIOS" FromRole="SEG_USUARIOS" ToRole="MKT_DOCENTE_CURSO" />
           <NavigationProperty Name="SEG_USUARIOS_LINKS" Relationship="DB_WebCIIPModel.FK_SEG_USUARIOS_LINKS_SEG_USUARIOS" FromRole="SEG_USUARIOS" ToRole="SEG_USUARIOS_LINKS" />
           <NavigationProperty Name="SEG_CURSOS_USUARIOS_LINKS" Relationship="DB_WebCIIPModel.FK_SEG_CURSOS_USUARIOS_LINKS_SEG_USUARIOS" FromRole="SEG_USUARIOS" ToRole="SEG_CURSOS_USUARIOS_LINKS" />
+          <NavigationProperty Name="MKT_DOCENTE_CURSO" Relationship="DB_WebCIIPModel.FK_MKT_DOCENTE_CURSO_SEG_USUARIOS" FromRole="SEG_USUARIOS" ToRole="MKT_DOCENTE_CURSO" />
         </EntityType>
         <EntityType Name="MAE_TABLAS">
           <Key>
@@ -658,11 +646,11 @@
           <Property Name="LAN_ID_ENCRIPTADO" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="IND_TIPO_LAN" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="MAE_TUTOR" Relationship="DB_WebCIIPModel.FK_MAE_CURSOS_LANZAMIENTOS_MAE_TUTOR" FromRole="MAE_CURSOS_LANZAMIENTOS" ToRole="MAE_TUTOR" />
-          <NavigationProperty Name="MKT_DOCENTE_CURSO" Relationship="DB_WebCIIPModel.FK_MKT_DOCENTE_CURSO_MAE_CURSOS_LANZAMIENTOS" FromRole="MAE_CURSOS_LANZAMIENTOS" ToRole="MKT_DOCENTE_CURSO" />
           <NavigationProperty Name="SEG_USUARIOS_LINKS" Relationship="DB_WebCIIPModel.FK_SEG_USUARIOS_LINKS_MAE_CURSOS_LANZAMIENTOS" FromRole="MAE_CURSOS_LANZAMIENTOS" ToRole="SEG_USUARIOS_LINKS" />
           <Property Name="DIA_SEMANA" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="IND_AUTO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="MAE_CURSOS" Relationship="DB_WebCIIPModel.FK_MAE_CURSOS_LANZAMIENTOS_MAE_CURSOS" FromRole="MAE_CURSOS_LANZAMIENTOS" ToRole="MAE_CURSOS" />
+          <NavigationProperty Name="MKT_DOCENTE_CURSO" Relationship="DB_WebCIIPModel.FK_MKT_DOCENTE_CURSO_MAE_CURSOS_LANZAMIENTOS" FromRole="MAE_CURSOS_LANZAMIENTOS" ToRole="MKT_DOCENTE_CURSO" />
         </EntityType>
         <Association Name="FK_MAE_CURSOS_LANZAMIENTOS_MAE_TUTOR">
           <End Type="DB_WebCIIPModel.MAE_TUTOR" Role="MAE_TUTOR" Multiplicity="1" />
@@ -673,18 +661,6 @@
             </Principal>
             <Dependent Role="MAE_CURSOS_LANZAMIENTOS">
               <PropertyRef Name="TUT_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MKT_DOCENTE_CURSO_MAE_CURSOS_LANZAMIENTOS">
-          <End Type="DB_WebCIIPModel.MAE_CURSOS_LANZAMIENTOS" Role="MAE_CURSOS_LANZAMIENTOS" Multiplicity="1" />
-          <End Type="DB_WebCIIPModel.MKT_DOCENTE_CURSO" Role="MKT_DOCENTE_CURSO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MAE_CURSOS_LANZAMIENTOS">
-              <PropertyRef Name="LAN_ID" />
-            </Principal>
-            <Dependent Role="MKT_DOCENTE_CURSO">
-              <PropertyRef Name="LAN_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -724,18 +700,6 @@
             </Principal>
             <Dependent Role="SEG_USUARIOS">
               <PropertyRef Name="ROL_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MKT_DOCENTE_CURSO_SEG_USUARIOS">
-          <End Type="DB_WebCIIPModel.SEG_USUARIOS" Role="SEG_USUARIOS" Multiplicity="0..1" />
-          <End Type="DB_WebCIIPModel.MKT_DOCENTE_CURSO" Role="MKT_DOCENTE_CURSO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SEG_USUARIOS">
-              <PropertyRef Name="USU_ID" />
-            </Principal>
-            <Dependent Role="MKT_DOCENTE_CURSO">
-              <PropertyRef Name="MKT_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -898,8 +862,8 @@
           <Property Name="DOC_DISPOSITIVO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="DOC_PAIS" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="MAE_CURSOS_PUNTUACION" Relationship="DB_WebCIIPModel.FK_MAE_CURSOS_PUNTUACION_MKT_DOCENTES" FromRole="MKT_DOCENTES" ToRole="MAE_CURSOS_PUNTUACION" />
-          <NavigationProperty Name="MKT_DOCENTE_CURSO" Relationship="DB_WebCIIPModel.FK_MKT_DOCENTE_CURSO_MKT_DOCENTES" FromRole="MKT_DOCENTES" ToRole="MKT_DOCENTE_CURSO" />
           <NavigationProperty Name="PRV_DOCENTE_SEGUIMIENTO" Relationship="DB_WebCIIPModel.FK_PRV_DOCENTE_SEGUIMIENTO_MKT_DOCENTES" FromRole="MKT_DOCENTES" ToRole="PRV_DOCENTE_SEGUIMIENTO" />
+          <NavigationProperty Name="MKT_DOCENTE_CURSO" Relationship="DB_WebCIIPModel.FK_MKT_DOCENTE_CURSO_MKT_DOCENTES" FromRole="MKT_DOCENTES" ToRole="MKT_DOCENTE_CURSO" />
         </EntityType>
         <Association Name="FK_MAE_CURSOS_PUNTUACION_MKT_DOCENTES">
           <End Type="DB_WebCIIPModel.MKT_DOCENTES" Role="MKT_DOCENTES" Multiplicity="0..1" />
@@ -910,6 +874,44 @@
             </Principal>
             <Dependent Role="MAE_CURSOS_PUNTUACION">
               <PropertyRef Name="DOC_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRV_DOCENTE_SEGUIMIENTO_MKT_DOCENTES">
+          <End Type="DB_WebCIIPModel.MKT_DOCENTES" Role="MKT_DOCENTES" Multiplicity="1" />
+          <End Type="DB_WebCIIPModel.PRV_DOCENTE_SEGUIMIENTO" Role="PRV_DOCENTE_SEGUIMIENTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MKT_DOCENTES">
+              <PropertyRef Name="DOC_ID" />
+            </Principal>
+            <Dependent Role="PRV_DOCENTE_SEGUIMIENTO">
+              <PropertyRef Name="DOC_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MKT_DOCENTE_CURSO">
+          <Key>
+            <PropertyRef Name="DOC_ID" />
+            <PropertyRef Name="LAN_ID" />
+            <PropertyRef Name="MKT_ID" />
+          </Key>
+          <Property Name="DOC_ID" Type="Int32" Nullable="false" />
+          <Property Name="LAN_ID" Type="Int32" Nullable="false" />
+          <Property Name="MKT_ID" Type="Int32" Nullable="false" />
+          <Property Name="DCU_FEC" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="MAE_CURSOS_LANZAMIENTOS" Relationship="DB_WebCIIPModel.FK_MKT_DOCENTE_CURSO_MAE_CURSOS_LANZAMIENTOS" FromRole="MKT_DOCENTE_CURSO" ToRole="MAE_CURSOS_LANZAMIENTOS" />
+          <NavigationProperty Name="MKT_DOCENTES" Relationship="DB_WebCIIPModel.FK_MKT_DOCENTE_CURSO_MKT_DOCENTES" FromRole="MKT_DOCENTE_CURSO" ToRole="MKT_DOCENTES" />
+          <NavigationProperty Name="SEG_USUARIOS" Relationship="DB_WebCIIPModel.FK_MKT_DOCENTE_CURSO_SEG_USUARIOS" FromRole="MKT_DOCENTE_CURSO" ToRole="SEG_USUARIOS" />
+        </EntityType>
+        <Association Name="FK_MKT_DOCENTE_CURSO_MAE_CURSOS_LANZAMIENTOS">
+          <End Type="DB_WebCIIPModel.MAE_CURSOS_LANZAMIENTOS" Role="MAE_CURSOS_LANZAMIENTOS" Multiplicity="1" />
+          <End Type="DB_WebCIIPModel.MKT_DOCENTE_CURSO" Role="MKT_DOCENTE_CURSO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MAE_CURSOS_LANZAMIENTOS">
+              <PropertyRef Name="LAN_ID" />
+            </Principal>
+            <Dependent Role="MKT_DOCENTE_CURSO">
+              <PropertyRef Name="LAN_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -925,15 +927,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PRV_DOCENTE_SEGUIMIENTO_MKT_DOCENTES">
-          <End Type="DB_WebCIIPModel.MKT_DOCENTES" Role="MKT_DOCENTES" Multiplicity="1" />
-          <End Type="DB_WebCIIPModel.PRV_DOCENTE_SEGUIMIENTO" Role="PRV_DOCENTE_SEGUIMIENTO" Multiplicity="*" />
+        <Association Name="FK_MKT_DOCENTE_CURSO_SEG_USUARIOS">
+          <End Type="DB_WebCIIPModel.SEG_USUARIOS" Role="SEG_USUARIOS" Multiplicity="1" />
+          <End Type="DB_WebCIIPModel.MKT_DOCENTE_CURSO" Role="MKT_DOCENTE_CURSO" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="MKT_DOCENTES">
-              <PropertyRef Name="DOC_ID" />
+            <Principal Role="SEG_USUARIOS">
+              <PropertyRef Name="USU_ID" />
             </Principal>
-            <Dependent Role="PRV_DOCENTE_SEGUIMIENTO">
-              <PropertyRef Name="DOC_ID" />
+            <Dependent Role="MKT_DOCENTE_CURSO">
+              <PropertyRef Name="MKT_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -981,16 +983,6 @@
                 <ScalarProperty Name="TUT_APELLIDOS" ColumnName="TUT_APELLIDOS" />
                 <ScalarProperty Name="TUT_NOMBRES" ColumnName="TUT_NOMBRES" />
                 <ScalarProperty Name="TUT_ID" ColumnName="TUT_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MKT_DOCENTE_CURSO">
-            <EntityTypeMapping TypeName="DB_WebCIIPModel.MKT_DOCENTE_CURSO">
-              <MappingFragment StoreEntitySet="MKT_DOCENTE_CURSO">
-                <ScalarProperty Name="DCU_FEC" ColumnName="DCU_FEC" />
-                <ScalarProperty Name="MKT_ID" ColumnName="MKT_ID" />
-                <ScalarProperty Name="LAN_ID" ColumnName="LAN_ID" />
-                <ScalarProperty Name="DOC_ID" ColumnName="DOC_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1123,6 +1115,16 @@
                 <ScalarProperty Name="DOC_APELLIDOS" ColumnName="DOC_APELLIDOS" />
                 <ScalarProperty Name="DOC_NICK" ColumnName="DOC_NICK" />
                 <ScalarProperty Name="DOC_NOMBRES" ColumnName="DOC_NOMBRES" />
+                <ScalarProperty Name="DOC_ID" ColumnName="DOC_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MKT_DOCENTE_CURSO">
+            <EntityTypeMapping TypeName="DB_WebCIIPModel.MKT_DOCENTE_CURSO">
+              <MappingFragment StoreEntitySet="MKT_DOCENTE_CURSO">
+                <ScalarProperty Name="DCU_FEC" ColumnName="DCU_FEC" />
+                <ScalarProperty Name="MKT_ID" ColumnName="MKT_ID" />
+                <ScalarProperty Name="LAN_ID" ColumnName="LAN_ID" />
                 <ScalarProperty Name="DOC_ID" ColumnName="DOC_ID" />
               </MappingFragment>
             </EntityTypeMapping>

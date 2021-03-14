@@ -18,8 +18,8 @@ namespace WebCIIPMaestrosERP.Models
         public MKT_DOCENTES()
         {
             this.MAE_CURSOS_PUNTUACION = new HashSet<MAE_CURSOS_PUNTUACION>();
-            this.MKT_DOCENTE_CURSO = new HashSet<MKT_DOCENTE_CURSO>();
             this.PRV_DOCENTE_SEGUIMIENTO = new HashSet<PRV_DOCENTE_SEGUIMIENTO>();
+            this.MKT_DOCENTE_CURSO = new HashSet<MKT_DOCENTE_CURSO>();
         }
     
         public int DOC_ID { get; set; }
@@ -39,8 +39,8 @@ namespace WebCIIPMaestrosERP.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MAE_CURSOS_PUNTUACION> MAE_CURSOS_PUNTUACION { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MKT_DOCENTE_CURSO> MKT_DOCENTE_CURSO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PRV_DOCENTE_SEGUIMIENTO> PRV_DOCENTE_SEGUIMIENTO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MKT_DOCENTE_CURSO> MKT_DOCENTE_CURSO { get; set; }
     }
 }

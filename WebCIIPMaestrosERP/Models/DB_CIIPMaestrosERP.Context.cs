@@ -31,7 +31,6 @@ namespace WebCIIPMaestrosERP.Models
         public virtual DbSet<MAE_CURSOS_PUNTUACION> MAE_CURSOS_PUNTUACION { get; set; }
         public virtual DbSet<MAE_DEPARTAMENTOS> MAE_DEPARTAMENTOS { get; set; }
         public virtual DbSet<MAE_TUTOR> MAE_TUTOR { get; set; }
-        public virtual DbSet<MKT_DOCENTE_CURSO> MKT_DOCENTE_CURSO { get; set; }
         public virtual DbSet<PRV_DOCENTE_SEGUIMIENTO> PRV_DOCENTE_SEGUIMIENTO { get; set; }
         public virtual DbSet<SEG_USUARIOS> SEG_USUARIOS { get; set; }
         public virtual DbSet<MAE_TABLAS> MAE_TABLAS { get; set; }
@@ -42,6 +41,7 @@ namespace WebCIIPMaestrosERP.Models
         public virtual DbSet<MAE_CURSOS_HORARIOS> MAE_CURSOS_HORARIOS { get; set; }
         public virtual DbSet<MAE_CURSOS> MAE_CURSOS { get; set; }
         public virtual DbSet<MKT_DOCENTES> MKT_DOCENTES { get; set; }
+        public virtual DbSet<MKT_DOCENTE_CURSO> MKT_DOCENTE_CURSO { get; set; }
     
         public virtual ObjectResult<Nullable<System.DateTime>> Sp_Crear_Lanzamientos_Masivo(Nullable<int> vAR1, Nullable<int> vAR2)
         {
