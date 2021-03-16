@@ -92,7 +92,7 @@ namespace WebCIIPMaestrosERP.Controllers
         
         public ActionResult FiltersBySesionUsu(int CursId, int? LanId, int? page)
         {
-
+            List<MktDocenteCursoCLS> ListaDocente = null;
             int UserId = (int)HttpContext.Session["UsuID"];
 
             MktDocenteCursoCLS GetListaReporte = new MktDocenteCursoCLS();
@@ -103,6 +103,38 @@ namespace WebCIIPMaestrosERP.Controllers
             {
                 using (var db = new DB_WebCIIPEntitiesERP())
                 {
+
+                    //excel
+
+                    ListaDocente = (from DocenteCurso in db.MKT_DOCENTE_CURSO
+                                    join Docente in db.MKT_DOCENTES
+                                    on DocenteCurso.DOC_ID equals Docente.DOC_ID
+                                    join lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
+                                    on DocenteCurso.LAN_ID equals lanzamiento.LAN_ID
+                                    join curso in db.MAE_CURSOS
+                                    on lanzamiento.CUR_ID equals curso.CUR_ID
+                                    orderby DocenteCurso.DCU_FEC descending
+
+
+
+                                    select new MktDocenteCursoCLS
+                                    {
+                                        DOC_ID = DocenteCurso.DOC_ID,
+                                        LAN_ID = DocenteCurso.LAN_ID,
+                                        MKT_ID = (int)DocenteCurso.MKT_ID,
+                                        DOC_NOMBRES = Docente.DOC_NOMBRES,
+                                        DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + ' ' + Docente.DOC_APELLIDOS,
+                                        DOC_APELLIDOS = Docente.DOC_APELLIDOS,
+                                        DOC_CELULAR = Docente.DOC_CELULAR,
+                                        DOC_EMAIL = Docente.DOC_EMAIL,
+                                        DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
+                                        DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
+                                        TurnoFecha = (DateTime)lanzamiento.LAN_FEC_CAPACITACION,
+                                        TurnoFechaCadena = ((DateTime)lanzamiento.LAN_FEC_CAPACITACION).ToString(),
+                                        CUR_NOMBRE = curso.CUR_DESCRIPCION
+                                    }).ToList();
+                    //fin excel
+
                     GetListaReporte.Listado = (from DocenteCurso in db.MKT_DOCENTE_CURSO
                                                join Docente in db.MKT_DOCENTES
                                                on DocenteCurso.DOC_ID equals Docente.DOC_ID
@@ -120,7 +152,7 @@ namespace WebCIIPMaestrosERP.Controllers
                                                    LAN_ID = DocenteCurso.LAN_ID,
                                                    MKT_ID = (int)DocenteCurso.MKT_ID,
                                                    DOC_NOMBRES = Docente.DOC_NOMBRES,
-                                                   DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + ' ' + Docente.DOC_APELLIDOS,
+                                                   //DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + ' ' + Docente.DOC_APELLIDOS,
                                                    DOC_APELLIDOS = Docente.DOC_APELLIDOS,
                                                    DOC_CELULAR = Docente.DOC_CELULAR,
                                                    DOC_EMAIL = Docente.DOC_EMAIL,
@@ -164,6 +196,41 @@ namespace WebCIIPMaestrosERP.Controllers
             {
                 using (var db = new DB_WebCIIPEntitiesERP())
                 {
+
+                    //excel
+
+                    ListaDocente = (from DocenteCurso in db.MKT_DOCENTE_CURSO
+                                    join Docente in db.MKT_DOCENTES
+                                    on DocenteCurso.DOC_ID equals Docente.DOC_ID
+
+                                    join lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
+                                    on DocenteCurso.LAN_ID equals lanzamiento.LAN_ID
+
+                                    join curso in db.MAE_CURSOS
+                                    on lanzamiento.CUR_ID equals curso.CUR_ID
+
+                                    where DocenteCurso.MKT_ID == (int)UserId
+                                    orderby DocenteCurso.DCU_FEC descending
+
+                                    select new MktDocenteCursoCLS
+                                    {
+                                        DOC_ID = DocenteCurso.DOC_ID,
+                                        LAN_ID = DocenteCurso.LAN_ID,
+                                        MKT_ID = (int)DocenteCurso.MKT_ID,
+                                        DOC_NOMBRES = Docente.DOC_NOMBRES,
+                                        DOC_APELLIDOS = Docente.DOC_APELLIDOS,
+                                        //DOC_NOMBRES_APELLIDOS = (string)Docente.DOC_NOMBRES + ' ' + (string)Docente.DOC_APELLIDOS,
+                                        DOC_CELULAR = Docente.DOC_CELULAR,
+                                        DOC_EMAIL = Docente.DOC_EMAIL,
+                                        DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
+                                        DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
+                                        TurnoFecha = (DateTime)lanzamiento.LAN_FEC_CAPACITACION,
+                                        TurnoFechaCadena = ((DateTime)lanzamiento.LAN_FEC_CAPACITACION).ToString(),
+                                        CUR_NOMBRE = curso.CUR_DESCRIPCION
+                                    }).ToList();
+
+                    //fin excel
+
                     GetListaReporte.Listado = (from DocenteCurso in db.MKT_DOCENTE_CURSO
                                                join Docente in db.MKT_DOCENTES
                                                on DocenteCurso.DOC_ID equals Docente.DOC_ID
@@ -232,6 +299,40 @@ namespace WebCIIPMaestrosERP.Controllers
             {
                 using (var db = new DB_WebCIIPEntitiesERP())
                 {
+
+
+                    //excel
+
+                    ListaDocente = (from DocenteCurso in db.MKT_DOCENTE_CURSO
+                                    join Docente in db.MKT_DOCENTES
+                                    on DocenteCurso.DOC_ID equals Docente.DOC_ID
+                                    join lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
+                                    on DocenteCurso.LAN_ID equals lanzamiento.LAN_ID
+                                    join curso in db.MAE_CURSOS
+                                    on lanzamiento.CUR_ID equals curso.CUR_ID
+                                    where DocenteCurso.MKT_ID == UserId &&
+                                            lanzamiento.CUR_ID == CursId
+                                    orderby DocenteCurso.DCU_FEC descending
+
+
+                                    select new MktDocenteCursoCLS
+                                    {
+                                        DOC_ID = DocenteCurso.DOC_ID,
+                                        LAN_ID = DocenteCurso.LAN_ID,
+                                        MKT_ID = (int)DocenteCurso.MKT_ID,
+                                        DOC_NOMBRES = Docente.DOC_NOMBRES,
+                                        DOC_APELLIDOS = Docente.DOC_APELLIDOS,
+                                        //DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + ' ' + Docente.DOC_APELLIDOS,
+                                        DOC_CELULAR = Docente.DOC_CELULAR,
+                                        DOC_EMAIL = Docente.DOC_EMAIL,
+                                        DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
+                                        DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
+                                        TurnoFecha = (DateTime)lanzamiento.LAN_FEC_CAPACITACION,
+                                        TurnoFechaCadena = ((DateTime)lanzamiento.LAN_FEC_CAPACITACION).ToString(),
+                                        CUR_NOMBRE = curso.CUR_DESCRIPCION
+                                    }).ToList();
+                    //fin excel
+
                     GetListaReporte.Listado = (from DocenteCurso in db.MKT_DOCENTE_CURSO
                                                join Docente in db.MKT_DOCENTES
                                                on DocenteCurso.DOC_ID equals Docente.DOC_ID
@@ -298,6 +399,41 @@ namespace WebCIIPMaestrosERP.Controllers
             {
                 using (var db = new DB_WebCIIPEntitiesERP())
                 {
+
+                    //excel
+
+                    ListaDocente = (from DocenteCurso in db.MKT_DOCENTE_CURSO
+                                    join Docente in db.MKT_DOCENTES
+                                    on DocenteCurso.DOC_ID equals Docente.DOC_ID
+                                    join lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
+                                    on DocenteCurso.LAN_ID equals lanzamiento.LAN_ID
+                                    join curso in db.MAE_CURSOS
+                                    on lanzamiento.CUR_ID equals curso.CUR_ID
+                                    where DocenteCurso.MKT_ID == UserId &&
+                                          lanzamiento.CUR_ID == CursId &&
+                                          lanzamiento.LAN_ID == LanId
+                                    orderby DocenteCurso.DCU_FEC descending
+
+                                    select new MktDocenteCursoCLS
+                                    {
+                                        DOC_ID = DocenteCurso.DOC_ID,
+                                        LAN_ID = DocenteCurso.LAN_ID,
+                                        MKT_ID = (int)DocenteCurso.MKT_ID,
+                                        DOC_NOMBRES = Docente.DOC_NOMBRES,
+                                        DOC_APELLIDOS = Docente.DOC_APELLIDOS,
+                                        //DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + ' ' + Docente.DOC_APELLIDOS,
+                                        DOC_CELULAR = Docente.DOC_CELULAR,
+                                        DOC_EMAIL = Docente.DOC_EMAIL,
+                                        DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
+                                        DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
+                                        TurnoFecha = (DateTime)lanzamiento.LAN_FEC_CAPACITACION,
+                                        TurnoFechaCadena = ((DateTime)lanzamiento.LAN_FEC_CAPACITACION).ToString(),
+                                        CUR_NOMBRE = curso.CUR_DESCRIPCION
+
+                                    }).ToList();
+
+                    //fin excel
+
                     GetListaReporte.Listado = (from DocenteCurso in db.MKT_DOCENTE_CURSO
                                                join Docente in db.MKT_DOCENTES
                                                on DocenteCurso.DOC_ID equals Docente.DOC_ID
@@ -366,12 +502,16 @@ namespace WebCIIPMaestrosERP.Controllers
 
             ViewBag.ContarDocentesCapturados = GetListaReporte.TotalReg;
 
+            Session["SessionMktReporteByUser"] = ListaDocente;
+
             return PartialView("_MktReporteByUser", GetListaReporte);
         }
 
         public ActionResult Filters(int UserId, int? CursId, int? LanId, int? page)
         {
             MktDocenteCursoCLS GetListaReporte = new MktDocenteCursoCLS();
+            List<MktDocenteCursoCLS> ListaDocente = null;
+
             page = page == null ? 1 : page;
             int cantidadRegistrosPorPagina = 10;
 
@@ -379,6 +519,37 @@ namespace WebCIIPMaestrosERP.Controllers
             {
                 using (var db = new DB_WebCIIPEntitiesERP())
                 {
+
+                    //excel
+
+                    ListaDocente = (from DocenteCurso in db.MKT_DOCENTE_CURSO
+                                               join Docente in db.MKT_DOCENTES
+                                               on DocenteCurso.DOC_ID equals Docente.DOC_ID
+                                               join lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
+                                               on DocenteCurso.LAN_ID equals lanzamiento.LAN_ID
+                                               join curso in db.MAE_CURSOS
+                                               on lanzamiento.CUR_ID equals curso.CUR_ID
+                                               orderby DocenteCurso.DCU_FEC descending
+
+
+
+                                               select new MktDocenteCursoCLS
+                                               {
+                                                   DOC_ID = DocenteCurso.DOC_ID,
+                                                   LAN_ID = DocenteCurso.LAN_ID,
+                                                   MKT_ID = (int)DocenteCurso.MKT_ID,
+                                                   DOC_NOMBRES = Docente.DOC_NOMBRES,
+                                                   //DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + ' ' + Docente.DOC_APELLIDOS,
+                                                   DOC_APELLIDOS = Docente.DOC_APELLIDOS,
+                                                   DOC_CELULAR = Docente.DOC_CELULAR,
+                                                   DOC_EMAIL = Docente.DOC_EMAIL,
+                                                   DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
+                                                   DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
+                                                   TurnoFecha = (DateTime)lanzamiento.LAN_FEC_CAPACITACION,
+                                                   TurnoFechaCadena = ((DateTime)lanzamiento.LAN_FEC_CAPACITACION).ToString(),
+                                                   CUR_NOMBRE = curso.CUR_DESCRIPCION
+                                               }).ToList();
+
                     GetListaReporte.Listado = (from DocenteCurso in db.MKT_DOCENTE_CURSO
                      join Docente in db.MKT_DOCENTES
                      on DocenteCurso.DOC_ID equals Docente.DOC_ID
@@ -396,7 +567,7 @@ namespace WebCIIPMaestrosERP.Controllers
                          LAN_ID = DocenteCurso.LAN_ID,
                          MKT_ID = (int)DocenteCurso.MKT_ID,
                          DOC_NOMBRES = Docente.DOC_NOMBRES,
-                         DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES+' '+ Docente.DOC_APELLIDOS,
+                         //DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES+' '+ Docente.DOC_APELLIDOS,
                          DOC_APELLIDOS = Docente.DOC_APELLIDOS,
                          DOC_CELULAR = Docente.DOC_CELULAR,
                          DOC_EMAIL = Docente.DOC_EMAIL,
@@ -435,10 +606,46 @@ namespace WebCIIPMaestrosERP.Controllers
                                                     CUR_NOMBRE = curso.CUR_DESCRIPCION
                                                 }).ToList().Count();
                 }
-            }else if(UserId != 0 && CursId == 0)
+            }else if(UserId != 0 && CursId == 0) //con usuario
             {
                 using(var db =  new DB_WebCIIPEntitiesERP())
                 {
+
+
+                    //excel
+
+                    ListaDocente = (from DocenteCurso in db.MKT_DOCENTE_CURSO
+                                    join Docente in db.MKT_DOCENTES
+                                    on DocenteCurso.DOC_ID equals Docente.DOC_ID
+
+                                    join lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
+                                    on DocenteCurso.LAN_ID equals lanzamiento.LAN_ID
+
+                                    join curso in db.MAE_CURSOS
+                                    on lanzamiento.CUR_ID equals curso.CUR_ID
+
+                                    where DocenteCurso.MKT_ID == (int)UserId
+                                    orderby DocenteCurso.DCU_FEC descending
+
+                                    select new MktDocenteCursoCLS
+                                    {
+                                        DOC_ID = DocenteCurso.DOC_ID,
+                                        LAN_ID = DocenteCurso.LAN_ID,
+                                        MKT_ID = (int)DocenteCurso.MKT_ID,
+                                        DOC_NOMBRES = Docente.DOC_NOMBRES,
+                                        DOC_APELLIDOS = Docente.DOC_APELLIDOS,
+                                        //DOC_NOMBRES_APELLIDOS = (string)Docente.DOC_NOMBRES + ' ' + (string)Docente.DOC_APELLIDOS,
+                                        DOC_CELULAR = Docente.DOC_CELULAR,
+                                        DOC_EMAIL = Docente.DOC_EMAIL,
+                                        DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
+                                        DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
+                                        TurnoFecha = (DateTime)lanzamiento.LAN_FEC_CAPACITACION,
+                                        TurnoFechaCadena = ((DateTime)lanzamiento.LAN_FEC_CAPACITACION).ToString(),
+                                        CUR_NOMBRE = curso.CUR_DESCRIPCION
+                                    }).ToList();
+
+                    //fin excel
+
                     GetListaReporte.Listado = (from DocenteCurso in db.MKT_DOCENTE_CURSO
                                      join Docente in db.MKT_DOCENTES
                                      on DocenteCurso.DOC_ID equals Docente.DOC_ID
@@ -506,6 +713,42 @@ namespace WebCIIPMaestrosERP.Controllers
             {
                 using (var db = new DB_WebCIIPEntitiesERP())
                 {
+
+
+                    //excel
+
+                    ListaDocente = (from DocenteCurso in db.MKT_DOCENTE_CURSO
+                                    join Docente in db.MKT_DOCENTES
+                                    on DocenteCurso.DOC_ID equals Docente.DOC_ID
+                                    join lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
+                                    on DocenteCurso.LAN_ID equals lanzamiento.LAN_ID
+                                    join curso in db.MAE_CURSOS
+                                    on lanzamiento.CUR_ID equals curso.CUR_ID
+                                    where DocenteCurso.MKT_ID == UserId &&
+                                            lanzamiento.CUR_ID == CursId
+                                    orderby DocenteCurso.DCU_FEC descending
+
+
+                                    select new MktDocenteCursoCLS
+                                    {
+                                        DOC_ID = DocenteCurso.DOC_ID,
+                                        LAN_ID = DocenteCurso.LAN_ID,
+                                        MKT_ID = (int)DocenteCurso.MKT_ID,
+                                        DOC_NOMBRES = Docente.DOC_NOMBRES,
+                                        DOC_APELLIDOS = Docente.DOC_APELLIDOS,
+                                        //DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + ' ' + Docente.DOC_APELLIDOS,
+                                        DOC_CELULAR = Docente.DOC_CELULAR,
+                                        DOC_EMAIL = Docente.DOC_EMAIL,
+                                        DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
+                                        DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
+                                        TurnoFecha = (DateTime)lanzamiento.LAN_FEC_CAPACITACION,
+                                        TurnoFechaCadena = ((DateTime)lanzamiento.LAN_FEC_CAPACITACION).ToString(),
+                                        CUR_NOMBRE = curso.CUR_DESCRIPCION
+                                    }).ToList();
+
+                    //fin excel
+
+
                     GetListaReporte.Listado = (from DocenteCurso in db.MKT_DOCENTE_CURSO
                      join Docente in db.MKT_DOCENTES
                      on DocenteCurso.DOC_ID equals Docente.DOC_ID
@@ -572,6 +815,40 @@ namespace WebCIIPMaestrosERP.Controllers
             {
                 using (var db = new DB_WebCIIPEntitiesERP())
                 {
+
+                    //excel
+
+                    ListaDocente = (from DocenteCurso in db.MKT_DOCENTE_CURSO
+                                    join Docente in db.MKT_DOCENTES
+                                    on DocenteCurso.DOC_ID equals Docente.DOC_ID
+                                    join lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
+                                    on DocenteCurso.LAN_ID equals lanzamiento.LAN_ID
+                                    join curso in db.MAE_CURSOS
+                                    on lanzamiento.CUR_ID equals curso.CUR_ID
+                                    where DocenteCurso.MKT_ID == UserId &&
+                                          lanzamiento.CUR_ID == CursId &&
+                                          lanzamiento.LAN_ID == LanId
+                                    orderby DocenteCurso.DCU_FEC descending
+
+                                    select new MktDocenteCursoCLS
+                                    {
+                                        DOC_ID = DocenteCurso.DOC_ID,
+                                        LAN_ID = DocenteCurso.LAN_ID,
+                                        MKT_ID = (int)DocenteCurso.MKT_ID,
+                                        DOC_NOMBRES = Docente.DOC_NOMBRES,
+                                        DOC_APELLIDOS = Docente.DOC_APELLIDOS,
+                                        //DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + ' ' + Docente.DOC_APELLIDOS,
+                                        DOC_CELULAR = Docente.DOC_CELULAR,
+                                        DOC_EMAIL = Docente.DOC_EMAIL,
+                                        DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
+                                        DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
+                                        TurnoFecha = (DateTime)lanzamiento.LAN_FEC_CAPACITACION,
+                                        TurnoFechaCadena = ((DateTime)lanzamiento.LAN_FEC_CAPACITACION).ToString(),
+                                        CUR_NOMBRE = curso.CUR_DESCRIPCION
+
+                                    }).ToList();
+                    //fin excel
+
                     GetListaReporte.Listado = (from DocenteCurso in db.MKT_DOCENTE_CURSO
                      join Docente in db.MKT_DOCENTES
                      on DocenteCurso.DOC_ID equals Docente.DOC_ID
@@ -638,6 +915,8 @@ namespace WebCIIPMaestrosERP.Controllers
                 }
             }
 
+            Session["SessionMktReporteByUser"] = ListaDocente;
+
             ViewBag.ContarDocentesCapturados = GetListaReporte.TotalReg;
 
             return PartialView("_MktReporteByUser", GetListaReporte);
@@ -687,7 +966,7 @@ namespace WebCIIPMaestrosERP.Controllers
                                         MKT_ID = (int)DocenteCurso.MKT_ID,
                                         DOC_NOMBRES = Docente.DOC_NOMBRES,
                                         DOC_APELLIDOS = Docente.DOC_APELLIDOS,
-                                        DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES +" "+ Docente.DOC_APELLIDOS,
+                                        //DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES +" "+ Docente.DOC_APELLIDOS,
                                         TurnoFecha = (DateTime)lanzamiento.LAN_FEC_CAPACITACION,
                                         TurnoFechaCadena = ((DateTime)lanzamiento.LAN_FEC_CAPACITACION).ToString(),
                                         DOC_CELULAR = Docente.DOC_CELULAR,
@@ -749,7 +1028,7 @@ namespace WebCIIPMaestrosERP.Controllers
                                         MKT_ID = (int)DocenteCurso.MKT_ID,
                                         DOC_NOMBRES = Docente.DOC_NOMBRES,
                                         DOC_APELLIDOS = Docente.DOC_APELLIDOS,
-                                        DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + " " + Docente.DOC_APELLIDOS,
+                                        //DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + " " + Docente.DOC_APELLIDOS,
                                         DOC_CELULAR = Docente.DOC_CELULAR,
                                         DOC_EMAIL = Docente.DOC_EMAIL,
                                         DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
@@ -808,7 +1087,7 @@ namespace WebCIIPMaestrosERP.Controllers
                                         MKT_ID = (int)DocenteCurso.MKT_ID,
                                         DOC_NOMBRES = Docente.DOC_NOMBRES,
                                         DOC_APELLIDOS = Docente.DOC_APELLIDOS,
-                                        DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + " " + Docente.DOC_APELLIDOS,
+                                        //DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + " " + Docente.DOC_APELLIDOS,
                                         DOC_CELULAR = Docente.DOC_CELULAR,
                                         DOC_EMAIL = Docente.DOC_EMAIL,
                                         DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
@@ -866,7 +1145,7 @@ namespace WebCIIPMaestrosERP.Controllers
                                         MKT_ID = (int)DocenteCurso.MKT_ID,
                                         DOC_NOMBRES = Docente.DOC_NOMBRES,
                                         DOC_APELLIDOS = Docente.DOC_APELLIDOS,
-                                        DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + " " + Docente.DOC_APELLIDOS,
+                                        //DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + " " + Docente.DOC_APELLIDOS,
                                         DOC_CELULAR = Docente.DOC_CELULAR,
                                         DOC_EMAIL = Docente.DOC_EMAIL,
                                         DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
@@ -954,7 +1233,7 @@ namespace WebCIIPMaestrosERP.Controllers
                                           MKT_ID = (int)DocenteCurso.MKT_ID,
                                           DOC_NOMBRES = Docente.DOC_NOMBRES,
                                           DOC_APELLIDOS = Docente.DOC_APELLIDOS,
-                                          DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + " " + Docente.DOC_APELLIDOS,
+                                          //DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + " " + Docente.DOC_APELLIDOS,
                                           TurnoFecha = (DateTime)lanzamiento.LAN_FEC_CAPACITACION,
                                           TurnoFechaCadena = ((DateTime)lanzamiento.LAN_FEC_CAPACITACION).ToString(),
                                           DOC_CELULAR = Docente.DOC_CELULAR,
@@ -1018,7 +1297,7 @@ namespace WebCIIPMaestrosERP.Controllers
                                           MKT_ID = (int)DocenteCurso.MKT_ID,
                                           DOC_NOMBRES = Docente.DOC_NOMBRES,
                                           DOC_APELLIDOS = Docente.DOC_APELLIDOS,
-                                          DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + " " + Docente.DOC_APELLIDOS,
+                                          //DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + " " + Docente.DOC_APELLIDOS,
                                           DOC_CELULAR = Docente.DOC_CELULAR,
                                           DOC_EMAIL = Docente.DOC_EMAIL,
                                           DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
@@ -1079,7 +1358,7 @@ namespace WebCIIPMaestrosERP.Controllers
                                           MKT_ID = (int)DocenteCurso.MKT_ID,
                                           DOC_NOMBRES = Docente.DOC_NOMBRES,
                                           DOC_APELLIDOS = Docente.DOC_APELLIDOS,
-                                          DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + " " + Docente.DOC_APELLIDOS,
+                                          //DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + " " + Docente.DOC_APELLIDOS,
                                           DOC_CELULAR = Docente.DOC_CELULAR,
                                           DOC_EMAIL = Docente.DOC_EMAIL,
                                           DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,

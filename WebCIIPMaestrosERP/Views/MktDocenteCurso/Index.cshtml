@@ -4,7 +4,7 @@
 @{
 }
 
-@using (Ajax.BeginForm("FiltersBySesionUsu", "MktDocenteCurso", new AjaxOptions
+@using (Ajax.BeginForm("FiltersBySesionUsu", "", new AjaxOptions
 {
     HttpMethod = "POST",
     UpdateTargetId = "partialTab",
@@ -66,7 +66,8 @@
 
              $(document).ready(function () {
                     //cuando se carga la pagina
-
+                 $("#Curso").html("");
+                 $("#Curso").append('<option value="0">Todos</option>');
                  $.get("@Url.Action("GetCursosBySesionUsu", "MktDocenteCurso")", function (ListaCurso) {
                             //$("#User").html("");
                             //$("#User").append('<option value="0">Todos</option>');

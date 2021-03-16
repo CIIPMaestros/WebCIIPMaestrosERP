@@ -3,17 +3,9 @@
 
 
 @{
-    ViewBag.Title = "Ponentes";
+
     List<SelectListItem> ListaEstado = (List<SelectListItem>)ViewBag.ListaEstado;
 }
-
-<h2>Ponente</h2>
-
-
-<!-- Button trigger modal -->
-<button type="button" onclick="Agregar()" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-    Agregar
-</button>
 
 
 @using (Ajax.BeginForm("Filtro", "", new AjaxOptions
@@ -23,13 +15,47 @@
     InsertionMode = InsertionMode.Replace
 }, new { @id = "frmFiltro" }))
 {
-    @Html.Label("Buscar por nombres")
-    @Html.TextBox("BuscarVarios", null, new { @class = "form-control" })
-    <div id="divRol">
-        @Html.Partial("_Index", Model)
+
+
+    <div class="container">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h2>Administrar <b>Ponentes</b></h2>
+                    </div>
+                    <div class="col-sm-4">
+                        <form class="navbar-form navbar-left ">
+                            <div class="form-group">
+                                @*<input id="optPage" type="hidden" name="page"/>*@
+                                @Html.Hidden("page", null, new { @id = "optPage" })
+                                @Html.TextBox("BuscarVarios", null, new { @class = "form-control", @placeholder = "Buscar por nombres" })
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <a href="#myModal" onclick="Agregar()" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar</span></a>
+                        <!--<a href="#Any" onclick="SP_Execute()" class="btn btn-info"><i class="glyphicon glyphicon-play"></i> <span>Proccess</span></a>-->
+                    </div>
+                </div>
+            </div>
+
+            <div id="divRol">
+
+
+
+
+
+                @Html.Partial("_Index", Model)
+
+
+
+
+            </div>
+        </div>
     </div>
 }
-
 
 
 <!-- Modal -->
@@ -53,209 +79,199 @@
                 @Html.Hidden("accion") //Para  saber si esta guardando o
 
 
-                <table>
-                    <tr>
-                        <td>
-                            <div class="modal-body">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="form-group col-lg-6">
                                 @Html.LabelFor(p => Model[0].TUT_NOMBRES)
                                 @Html.TextBox("TUT_NOMBRES", null, new { @class = "form-control" })
                             </div>
-                        </td>
-                        <td>
-                            <div class="modal-body">
+
+                            <div class="form-group col-lg-6">
                                 @Html.LabelFor(p => Model[0].TUT_APELLIDOS)
                                 @Html.TextBox("TUT_APELLIDOS", null, new { @class = "form-control" })
                             </div>
-                        </td>
-                    </tr>
+                        </div>
 
-                    <tr>
-                        <td>
-                            <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-lg-6">
                                 @Html.LabelFor(p => Model[0].TUT_EMAIL)
                                 @Html.TextBox("TUT_EMAIL", null, new { @class = "form-control" })
                             </div>
-                        </td>
-                        <td>
-                            <div class="modal-body">
+                            <div class="form-group col-lg-6">
                                 @Html.LabelFor(p => Model[0].TUT_TELEFONO)
                                 @Html.TextBox("TUT_TELEFONO", null, new { @class = "form-control" })
                             </div>
-                        </td>
-                    </tr>
+                        </div>
 
-
-                    <tr>
-                        <td>
-                            <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-lg-12">
 
                                 @Html.Label("Foto")
                                 <img width="150" height="150" id="imgFoto" style="display:block" />
                                 @Html.TextBox("foto", "", new { type = "file", id = "fupfoto" })
                             </div>
-                        </td>
-                        <td>
-                            <div>
-
-                                @Html.Hidden("TUT_FOTO")
-
-                            </div>
-                        </td>
-                    </tr>
 
 
-                </table>
 
-                <div class="modal-footer">
-                    <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                            @Html.Hidden("TUT_FOTO")
+
+
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+
+                    </div>
+                    <div class="text-danger" id="error"></div>
                 </div>
-
-
             }
-        </div>
-        <div class="text-danger" id="error"></div>
-    </div>
+         </div>
+     </div>
 </div>
 
 
-<!-- Modal Eliminar -->
-<div class="modal fade" id="ModalConfirmacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
 
-                <div class="alert alert-danger" role="alert"><h5 class="modal-title" id="exampleModalLabel">¿Desea desactivar el registro?</h5></div>
+        <!-- Modal Eliminar -->
+        <div class="modal fade" id="ModalConfirmacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
 
-            </div>
+                        <div class="alert alert-danger" role="alert"><h5 class="modal-title" id="exampleModalLabel">¿Desea desactivar el registro?</h5></div>
 
-            <div style="padding:1em">
-                <button type="button" id="btnCerrarConfirmacion" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" onclick="ConfirmarActivarDescativar(2)" class="btn btn-danger">Aceptar</button>
-            </div>
-        </div>
-    </div>
-</div>
+                    </div>
 
-
-<!-- Modal Activar -->
-<div class="modal fade" id="ModalActivar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-
-                <div class="alert alert-success" role="alert"><h5 class="modal-title" id="exampleModalLabel">¿Desea activar el registro?</h5></div>
-
-            </div>
-
-            <div style="padding:1em">
-                <button type="button" id="btnCerrarConfirmacion" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" onclick="ConfirmarActivarDescativar(1)" class="btn btn-success">Aceptar</button>
+                    <div style="padding:1em">
+                        <button type="button" id="btnCerrarConfirmacion" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" onclick="ConfirmarActivarDescativar(2)" class="btn btn-danger">Aceptar</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-
-<script>
-
-    var nombre = document.getElementById("BuscarVarios");
-    nombre.onkeyup = function () {
-        $("#frmFiltro").trigger("submit");
-    }
 
 
-    //Al momento de cerrar la pantalla, y seleccion una imagen esta se vidsualiza en el IMG - SRC
-    var imgFoto = document.getElementById("imgFoto");
-    var fupFoto = document.getElementById("fupfoto");
-    fupFoto.onchange = function () {
-        var files = fupFoto.files[0];
-        var reader = new FileReader();
-        reader.onload = function () {
-            imgFoto.src = reader.result;
-            document.getElementById("TUT_FOTO").value = files.name;
+        <!-- Modal Activar -->
+        <div class="modal fade" id="ModalActivar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
 
-        }
-        reader.readAsDataURL(files);
-    }
+                        <div class="alert alert-success" role="alert"><h5 class="modal-title" id="exampleModalLabel">¿Desea activar el registro?</h5></div>
 
+                    </div>
 
-    function ConfirmarActivarDescativar(estado) {
-        var id = document.getElementById("accion").value;
-        $.get("MaeTutor/ActivarDesactivar/?id=" + id + "&estado=" + estado, function (data) {
+                    <div style="padding:1em">
+                        <button type="button" id="btnCerrarConfirmacion" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" onclick="ConfirmarActivarDescativar(1)" class="btn btn-success">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            if (data == 1) {
-                alert("Se ejecuto correctamente");
-                document.getElementById("btnCerrarConfirmacion").click();
+        <script>
+
+            var nombre = document.getElementById("BuscarVarios");
+            nombre.onkeyup = function () {
                 $("#frmFiltro").trigger("submit");
-            } else {
-                alert("Ocurrio un error");
             }
 
-        })
 
-    }
+            //Al momento de cerrar la pantalla, y seleccion una imagen esta se vidsualiza en el IMG - SRC
+            var imgFoto = document.getElementById("imgFoto");
+            var fupFoto = document.getElementById("fupfoto");
+            fupFoto.onchange = function () {
+                var files = fupFoto.files[0];
+                var reader = new FileReader();
+                reader.onload = function () {
+                    imgFoto.src = reader.result;
+                    document.getElementById("TUT_FOTO").value = files.name;
 
-
-    function ActivarDesactivar(idViaje) {
-        document.getElementById("accion").value = idViaje;
-    }
-
-    function limpiar() {
-        var controles = document.getElementsByClassName("form-control");
-        var ncontroles = controles.length;
-
-        for (var i = 0; i < ncontroles; i++) {
-            controles[i].value = "";
-        }
+                }
+                reader.readAsDataURL(files);
+            }
 
 
-        document.getElementById("imgFoto").src = "";
-        document.getElementById("error").innerHTML = "";
+            function ConfirmarActivarDescativar(estado) {
+                var id = document.getElementById("accion").value;
+                $.get("MaeTutor/ActivarDesactivar/?id=" + id + "&estado=" + estado, function (data) {
 
-    }
+                    if (data == 1) {
+                        alert("Se ejecuto correctamente");
+                        document.getElementById("btnCerrarConfirmacion").click();
+                        $("#frmFiltro").trigger("submit");
+                    } else {
+                        alert("Ocurrio un error");
+                    }
 
+                })
 
-    function Agregar() {
-        limpiar();
-        document.getElementById("accion").value = -1;
-        document.getElementById("TUT_ACTIVO").disabled;
-
-    }
-
-    function Guardar(rpta) {
-
-        if (rpta == 1) {
-            document.getElementById("btnClose").click();
-            $("#frmFiltro").trigger("submit");
-            alert("Se guardo correctamente");
-        } else {
-            alert("Ocurrio un error");
-        }
-    }
+            }
 
 
+            function ActivarDesactivar(idViaje) {
+                document.getElementById("accion").value = idViaje;
+            }
 
-    function Editar(idTutor) {
-        limpiar();
+            function limpiar() {
+                var controles = document.getElementsByClassName("form-control");
+                var ncontroles = controles.length;
 
-        document.getElementById("accion").value = idTutor;
-
-
-        $.get("MaeTutor/recuperarDatos/?IdTutor=" + idTutor, function (data) {
-
-
-            document.getElementById("TUT_NOMBRES").value = data.TUT_NOMBRES;
-            document.getElementById("TUT_APELLIDOS").value = data.TUT_APELLIDOS;
-            document.getElementById("TUT_EMAIL").value = data.TUT_EMAIL;
-            document.getElementById("TUT_TELEFONO").value = data.TUT_TELEFONO;
-            document.getElementById("imgFoto").src = "data:image/" + data.extension + ";base64," + data.fotoCadena;
-            document.getElementById("TUT_FOTO").value = data.TUT_FOTO;
+                for (var i = 0; i < ncontroles; i++) {
+                    controles[i].value = "";
+                }
 
 
-        })
+                document.getElementById("imgFoto").src = "";
+                document.getElementById("error").innerHTML = "";
 
-    }
+            }
 
-</script>
+
+            function Agregar() {
+                limpiar();
+                document.getElementById("accion").value = -1;
+                document.getElementById("TUT_ACTIVO").disabled;
+
+            }
+
+            function Guardar(rpta) {
+
+                if (rpta == 1) {
+                    document.getElementById("btnClose").click();
+                    $("#frmFiltro").trigger("submit");
+                    alert("Se guardo correctamente");
+                } else {
+                    alert("Ocurrio un error");
+                }
+            }
+
+
+
+            function Editar(idTutor) {
+                limpiar();
+
+                document.getElementById("accion").value = idTutor;
+
+
+                $.get("MaeTutor/recuperarDatos/?IdTutor=" + idTutor, function (data) {
+
+
+                    document.getElementById("TUT_NOMBRES").value = data.TUT_NOMBRES;
+                    document.getElementById("TUT_APELLIDOS").value = data.TUT_APELLIDOS;
+                    document.getElementById("TUT_EMAIL").value = data.TUT_EMAIL;
+                    document.getElementById("TUT_TELEFONO").value = data.TUT_TELEFONO;
+                    document.getElementById("imgFoto").src = "data:image/" + data.extension + ";base64," + data.fotoCadena;
+                    document.getElementById("TUT_FOTO").value = data.TUT_FOTO;
+
+
+                })
+
+            }
+
+        </script>
 
 

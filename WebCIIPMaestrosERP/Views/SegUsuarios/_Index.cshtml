@@ -29,14 +29,12 @@
                 
 
                 <td>
-                    <button type="button" onclick="Editar(@item.USU_ID)" class="btn btn-primary glyphicon glyphicon-edit" data-toggle="modal" data-target="#myModalUsuario">
-                    </button>
 
-                    <button type="button" onclick="ActivarDesactivar(@item.USU_ID)" class="btn btn-danger glyphicon glyphicon-trash" data-toggle="modal" data-target="#ModalConfirmacion">
-                    </button>
+                    <a href="#myModalUsuario" class="edit" onclick="Editar(@item.USU_ID)" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                    <a href="#ModalConfirmacion" class="delete" onclick="ActivarDesactivar(@item.USU_ID)" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Activar">&#xE872;</i></a>
+                    <a href="#ModalActivar" class="active" onclick="ActivarDesactivar(@item.USU_ID)" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xe003;</i></a>
 
-                    <button type="button" onclick="ActivarDesactivar(@item.USU_ID)" class="btn btn-success glyphicon glyphicon-ok-circle" data-toggle="modal" data-target="#ModalActivar">
-                    </button>
+
                 </td>
             </tr>
             }
