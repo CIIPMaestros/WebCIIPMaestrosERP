@@ -267,13 +267,13 @@ namespace WebCIIPMaestrosERP.Controllers
             SegUsuariosLinksCLS oSegUsuariosLinksCLS = new SegUsuariosLinksCLS();
             using (var db = new DB_WebCIIPEntitiesERP())
             {
-                SEG_USUARIOS_LINKS oSEG_USUARIOS_LINKS = db.SEG_USUARIOS_LINKS.Where(p => p.LNK_ID.Equals(idLink)).First();
+                SEG_CURSOS_USUARIOS_LINKS oSEG_CURSOS_USUARIOS_LINKS = db.SEG_CURSOS_USUARIOS_LINKS.Where(p => p.CUS_ID.Equals(idLink)).First();
 
-                oSegUsuariosLinksCLS.CUR_ID = oSEG_USUARIOS_LINKS.CUR_ID;
-                oSegUsuariosLinksCLS.USU_ID = oSEG_USUARIOS_LINKS.USU_ID;
-                oSegUsuariosLinksCLS.LAN_ID = oSEG_USUARIOS_LINKS.LAN_ID;
-                oSegUsuariosLinksCLS.USU_LINK = oSEG_USUARIOS_LINKS.USU_LINK;
-                oSegUsuariosLinksCLS.USU_LINK_CORTO = oSEG_USUARIOS_LINKS.USU_LINK_CORTO;
+                oSegUsuariosLinksCLS.CUR_ID = oSEG_CURSOS_USUARIOS_LINKS.CUS_ID;
+                oSegUsuariosLinksCLS.USU_ID = oSEG_CURSOS_USUARIOS_LINKS.USU_ID;
+                //oSegUsuariosLinksCLS.LAN_ID = oSEG_USUARIOS_LINKS.LAN_ID;
+                oSegUsuariosLinksCLS.USU_LINK = oSEG_CURSOS_USUARIOS_LINKS.USU_LINK;
+                oSegUsuariosLinksCLS.USU_LINK_CORTO = oSEG_CURSOS_USUARIOS_LINKS.USU_LINK_CORTO;
 
             }
             return Json(oSegUsuariosLinksCLS, JsonRequestBehavior.AllowGet);
@@ -473,18 +473,12 @@ namespace WebCIIPMaestrosERP.Controllers
             using (var db = new DB_WebCIIPEntitiesERP())
             {
 
-                var CursosDisponible = (from links in db.SEG_USUARIOS_LINKS
+                var CursosDisponible = (from links in db.SEG_CURSOS_USUARIOS_LINKS
                                         join cursos in db.MAE_CURSOS
                                         on links.CUR_ID equals cursos.CUR_ID
 
                                         join usuarios in db.SEG_USUARIOS
                                         on links.USU_ID equals usuarios.USU_ID
-
-                                        join lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
-                                        on links.LAN_ID equals lanzamiento.LAN_ID
-
-                                        join tutores in db.MAE_TUTOR
-                                        on lanzamiento.TUT_ID equals tutores.TUT_ID
 
                                         join tablas in db.MAE_TABLAS
                                         on links.LNK_ACTIVO equals tablas.ID.ToString()
@@ -495,17 +489,14 @@ namespace WebCIIPMaestrosERP.Controllers
                                         select new SegUsuariosLinksCLS
 
                                         {
-                                            LNK_ID = (int)links.LNK_ID,
+                                            CUS_ID = (int)links.CUS_ID,
                                             USU_ID = (int)links.USU_ID,
                                             CUR_ID = (int)links.CUR_ID,
-                                            CUR_NOMBRE = cursos.CUR_NOMBRE,
-                                            TUT_NOMBRES = tutores.TUT_NOMBRES+" "+ tutores.TUT_APELLIDOS,
-                                            LAN_ID = links.LAN_ID,
+                                            CUR_DESCRIPCION = cursos.CUR_DESCRIPCION,
                                             USU_NOMBRES = usuarios.USU_NOMBRES + " " + usuarios.USU_APELLIDO,
                                             USU_LINK = links.USU_LINK,
                                             USU_LINK_CORTO = links.USU_LINK_CORTO,
                                             LNK_ACTIVO = tablas.DESCRIPCION,
-                                            LAN_FEC_CAPACITACION = (DateTime)lanzamiento.LAN_FEC_CAPACITACION
 
                                         }).ToList();
 

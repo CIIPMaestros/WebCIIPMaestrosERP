@@ -35,7 +35,7 @@
 
     function VerLink(idLink) {
 
-        $.get("SegUsuariosLinks/recuperarDatos/?idLink=" + idLink, function (data) {
+        $.get("/SegUsuariosLinks/recuperarDatos/?idLink=" + idLink, function (data) {
 
             document.getElementById('Link').innerHTML = data.USU_LINK;
         })

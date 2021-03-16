@@ -45,9 +45,7 @@
                         <td>
                             <p>&nbsp&nbsp&nbsp</p>
                         </td>
-                        <td>
-                            Total de Registros recuperados: @ViewBag.ContarDocentesCapturados
-                        </td>
+                        
                     </tr>
                 </table>
             </form>
@@ -63,6 +61,7 @@
     
     <script>
         $(document).ready(function () {
+        //cuando se carga la pagina
 
             $.get("@Url.Action("GetDocentes", "MktDocenteCurso")", function (ListaUsuMkt) {
                 $("#User").html("");

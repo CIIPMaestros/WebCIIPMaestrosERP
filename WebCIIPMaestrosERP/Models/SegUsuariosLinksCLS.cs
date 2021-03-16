@@ -10,6 +10,7 @@ namespace WebCIIPMaestrosERP.Models
     {
 
         public int LNK_ID { get; set; }
+        public int CUS_ID { get; set; }
 
         [Required(ErrorMessage = "Por favor ingrese usuario")]
         [Display(Name = "Usuario")]
@@ -32,6 +33,8 @@ namespace WebCIIPMaestrosERP.Models
         [Display(Name = "Fecha de Lanzamiento")]
         public DateTime LAN_FEC_CAPACITACION { get; set; }
         public string CUR_NOMBRE { get; set; }
+
+        public string CUR_DESCRIPCION { get; set; }
 
         [Display(Name = "Estado")]
         public string LNK_ACTIVO { get; set; }
