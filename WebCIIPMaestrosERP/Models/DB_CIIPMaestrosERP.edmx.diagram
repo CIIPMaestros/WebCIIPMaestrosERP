@@ -38,13 +38,6 @@
         <AssociationConnector Association="DB_WebCIIPModel.FK_MAE_CURSOS_PUNTUACION_MKT_DOCENTES" />
         <AssociationConnector Association="DB_WebCIIPModel.FK_MKT_DOCENTE_CURSO_MKT_DOCENTES" />
         <AssociationConnector Association="DB_WebCIIPModel.FK_PRV_DOCENTE_SEGUIMIENTO_MKT_DOCENTES" />
-        <EntityTypeShape EntityType="DB_WebCIIPModel.sysdiagrams" Width="1.5" PointX="10.5" PointY="10.75" />
-        <EntityTypeShape EntityType="DB_WebCIIPModel.MAE_CURSOS_HORARIOS_temp" Width="1.5" PointX="5.5" PointY="12.75" />
-        <EntityTypeShape EntityType="DB_WebCIIPModel.MKT_DOCENTE_CURSO_TEMP" Width="1.5" PointX="12.5" PointY="10.75" />
-        <EntityTypeShape EntityType="DB_WebCIIPModel.SEG_CURSOS_USUARIOS_LINKS_TEMP" Width="1.5" PointX="13.5" PointY="7.75" />
-        <EntityTypeShape EntityType="DB_WebCIIPModel.SEG_USUARIOS_LINKS_TEMP" Width="1.5" PointX="7.5" PointY="13.75" />
-        <EntityTypeShape EntityType="DB_WebCIIPModel.ViewMKTDocenteCurso" Width="1.5" PointX="9.5" PointY="13.75" />
-        <AssociationConnector Association="DB_WebCIIPModel.FK_MKT_DOCENTE_CURSO_MAE_CURSOS" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
