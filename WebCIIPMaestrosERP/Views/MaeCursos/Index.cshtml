@@ -42,7 +42,7 @@
 
                     <div class="col-sm-4">
                         <a href="#myModalCurso" onclick="Agregar()" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar</span></a>
-                        <a href="#Any" onclick="SP_Execute()" class="btn btn-info"><i class="glyphicon glyphicon-play"></i> <span>Proccess</span></a>
+                        <!--<a href="#Any" onclick="SP_Execute()" class="btn btn-info"><i class="glyphicon glyphicon-play"></i> <span>Proccess</span></a>-->
                     </div>
                 </div>
             </div>
@@ -90,11 +90,11 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="form-group col-lg-6">
-                                <label>Nombre Curso</label>
+                                <label>Diploma</label>
                                 @Html.TextBox("CUR_NOMBRE", null, new { @class = "form-control" })
                             </div>
                             <div class="form-group col-lg-6">
-                                <label>Descripción</label>
+                                <label>Stream</label>
                                 @Html.TextBox("CUR_DESCRIPCION", null, new { @class = "form-control" })
                             </div>
                         </div>
@@ -339,7 +339,7 @@
                 //alert(DetHorario.rows[i].getElementsByTagName("td"));
                 if (document.getElementById("DetHorario").rows[i].cells[0].innerText == Dia &&
                     document.getElementById("DetHorario").rows[i].cells[1].innerText == Hora) {
-                    toastr["success"]("¡El horario ya se encuetra registrado!", "Horarios");
+                    toastr["success"]("¡El horario ya se encuentra registrado!", "Horarios");
                     return;
                 }
 

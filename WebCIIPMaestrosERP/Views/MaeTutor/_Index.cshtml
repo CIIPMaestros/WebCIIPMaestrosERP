@@ -23,14 +23,13 @@
                 <td>@item.TUT_EMAIL</td>
                 <td>@item.TUT_ESTADO</td>
                 <td>
-                    <button type="button" onclick="Editar(@item.TUT_ID)" class="btn btn-primary glyphicon glyphicon-edit" data-toggle="modal" data-target="#myModal">
-                    </button>
 
-                    <button type="button" onclick="ActivarDesactivar(@item.TUT_ID)" class="btn btn-danger glyphicon glyphicon-trash" data-toggle="modal" data-target="#ModalConfirmacion">
-                    </button>
+                    <a href="#myModal" class="edit" onclick="Editar(@item.TUT_ID)" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
 
-                    <button type="button" onclick="ActivarDesactivar(@item.TUT_ID)" class="btn btn-success glyphicon glyphicon-ok-circle" data-toggle="modal" data-target="#ModalActivar">
-                    </button>
+                    <a href="#ModalConfirmacion" class="delete" onclick="ActivarDesactivar(@item.TUT_ID)" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Activar">&#xE872;</i></a>
+                    <a href="#ModalActivar" class="active" onclick="ActivarDesactivar(@item.TUT_ID)" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xe003;</i></a>
+
+
                 </td>
             </tr>
         }

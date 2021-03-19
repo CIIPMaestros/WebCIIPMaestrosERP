@@ -2,17 +2,8 @@
 @model List<WebCIIPMaestrosERP.Models.SegUsuariosCLS>
 
 @{
-    ViewBag.Title = "Mantenimiento de Usuarios";
     List<SelectListItem> listaRol = (List<SelectListItem>)ViewBag.listaRol;
 }
-
-<h2>Index</h2>
-
-<!-- Button trigger modal -->
-<button type="button" onclick="Agregar()" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModalUsuario">
-    Agregar
-</button>
-
 
 @using (Ajax.BeginForm("Filtro", "", new AjaxOptions
 {
@@ -21,14 +12,47 @@
     InsertionMode = InsertionMode.Replace
 }, new { @id = "frmFiltro" }))
 {
-    @Html.Label("Ingrese nombre usuario")
-    @Html.TextBox("nombreUsuario", null, new { @class = "form-control" })
-    <div id="divRol">
-        @Html.Partial("_Index", Model)
+
+
+    <div class="container">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h2>Administrar <b>Usuarios</b></h2>
+                    </div>
+                    <div class="col-sm-4">
+                        <form class="navbar-form navbar-left ">
+                            <div class="form-group">
+                                @*<input id="optPage" type="hidden" name="page"/>*@
+                                @Html.Hidden("page", null, new { @id = "optPage" })
+                                @Html.TextBox("nombreUsuario", null, new { @class = "form-control", @placeholder = "Buscar curso" })
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <a href="#myModalUsuario" onclick="Agregar()" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar</span></a>
+                        <!--<a href="#Any" onclick="SP_Execute()" class="btn btn-info"><i class="glyphicon glyphicon-play"></i> <span>Proccess</span></a>-->
+                    </div>
+                </div>
+            </div>
+
+            <div id="divRol">
+
+
+
+
+
+                @Html.Partial("_Index", Model)
+
+
+
+
+            </div>
+        </div>
     </div>
 }
-
-
 
 
 
@@ -219,9 +243,10 @@
             $("#frmFiltro").trigger("submit");
             document.getElementById("btnClose").click();
 
-            //} else {
-            //    alert("Ocurrio un error");
+        } else {
+            alert("Ocurrio un error");
         }
+        
 
     }
 

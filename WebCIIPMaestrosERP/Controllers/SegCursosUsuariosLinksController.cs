@@ -53,6 +53,12 @@ namespace WebCIIPMaestrosERP.Controllers
         }
 
 
+        public ActionResult VerLinks(SegCursoUsuarioLinksCLS oSegCursoUsuarioLinksCLS)
+        {
+            
+            return View();
+        }
+
         // GET: SegCursosUsuariosLinks
         public ActionResult Index(SegCursoUsuarioLinksCLS oSegCursoUsuarioLinksCLS)
         {
@@ -175,6 +181,7 @@ namespace WebCIIPMaestrosERP.Controllers
             int idCus = 0;
             int nregistradosEncontradosCur = 0;
             int nregistradosEncontradosUsu = 0;
+            int nregistradosExistentes = 0;
             string rpta = "";
 
             string LinkDoc = WebConfigurationManager.AppSettings["LinkDocentes"];
@@ -221,15 +228,23 @@ namespace WebCIIPMaestrosERP.Controllers
 
                             nregistradosEncontradosUsu = db.SEG_USUARIOS.Where(x => x.USU_ID.Equals(oSegCursoUsuarioLinksCLS.USU_ID)).Count();
 
+                            nregistradosExistentes = db.SEG_CURSOS_USUARIOS_LINKS.Where(x => x.CUR_ID.Equals(oSegCursoUsuarioLinksCLS.CUR_ID) &&
+                                                                                                        x.USU_ID.Equals(oSegCursoUsuarioLinksCLS.USU_ID)).Count();
+
                             if (nregistradosEncontradosCur == 0 && nregistradosEncontradosUsu == 0)
                             {
                                 rpta = "-11";
+                            }
+                            else if (nregistradosExistentes !=0 ) {
+                                rpta = "-2";
                             }
                             else
                             {
 
                                 SEG_USUARIOS oSEG_USUARIOS = db.SEG_USUARIOS.Where(p => p.USU_ID.Equals(oSegCursoUsuarioLinksCLS.USU_ID)).First();
                                 MAE_CURSOS oMAE_CURSOS = db.MAE_CURSOS.Where(q => q.CUR_ID.Equals(oSegCursoUsuarioLinksCLS.CUR_ID)).First();
+
+
 
 
                                 SEG_CURSOS_USUARIOS_LINKS oSEG_CURSOS_USUARIOS_LINKS = new SEG_CURSOS_USUARIOS_LINKS();
@@ -244,7 +259,7 @@ namespace WebCIIPMaestrosERP.Controllers
                                 rpta = db.SaveChanges().ToString();
 
                                 //debemos recuperar el numero del id para encriptarlo
-                                
+
 
                             }
 

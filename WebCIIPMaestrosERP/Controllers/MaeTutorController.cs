@@ -84,7 +84,10 @@ namespace WebCIIPMaestrosERP.Controllers
 
 
                 oMaeTutorCLS.extension = Path.GetExtension(oMAE_TUTOR.TUT_FOTO);
-                oMaeTutorCLS.fotoCadena = Convert.ToBase64String(oMAE_TUTOR.FOTO);
+                oMaeTutorCLS.fotoCadena = oMAE_TUTOR.FOTO != null ?
+                                          Convert.ToBase64String(oMAE_TUTOR.FOTO) : null;
+
+                
 
             }
 

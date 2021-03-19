@@ -22,8 +22,8 @@ namespace WebCIIPMaestrosERP.Models
         public string LNK_ACTIVO { get; set; }
         public string USU_LINK_CORTO { get; set; }
     
-        public virtual MAE_CURSOS_LANZAMIENTOS MAE_CURSOS_LANZAMIENTOS { get; set; }
         public virtual SEG_USUARIOS SEG_USUARIOS { get; set; }
         public virtual MAE_CURSOS MAE_CURSOS { get; set; }
+        public virtual MAE_CURSOS_LANZAMIENTOS MAE_CURSOS_LANZAMIENTOS { get; set; }
     }
 }

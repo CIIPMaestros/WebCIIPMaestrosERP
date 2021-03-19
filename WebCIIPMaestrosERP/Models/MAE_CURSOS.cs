@@ -20,6 +20,7 @@ namespace WebCIIPMaestrosERP.Models
             this.MAE_CURSOS_HORARIOS = new HashSet<MAE_CURSOS_HORARIOS>();
             this.MAE_CURSOS_LANZAMIENTOS = new HashSet<MAE_CURSOS_LANZAMIENTOS>();
             this.MAE_CURSOS_PUNTUACION = new HashSet<MAE_CURSOS_PUNTUACION>();
+            this.MKT_DOCENTE_CURSO = new HashSet<MKT_DOCENTE_CURSO>();
             this.SEG_CURSOS_USUARIOS_LINKS = new HashSet<SEG_CURSOS_USUARIOS_LINKS>();
             this.SEG_USUARIOS_LINKS = new HashSet<SEG_USUARIOS_LINKS>();
         }
@@ -43,6 +44,8 @@ namespace WebCIIPMaestrosERP.Models
         public virtual ICollection<MAE_CURSOS_LANZAMIENTOS> MAE_CURSOS_LANZAMIENTOS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MAE_CURSOS_PUNTUACION> MAE_CURSOS_PUNTUACION { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MKT_DOCENTE_CURSO> MKT_DOCENTE_CURSO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SEG_CURSOS_USUARIOS_LINKS> SEG_CURSOS_USUARIOS_LINKS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -377,7 +377,9 @@
     <Content Include="Views\SegCursosUsuariosLinks\Index.cshtml" />
     <Content Include="Views\SegCursosUsuariosLinks\_Index.cshtml" />
     <Content Include="Views\Shared\_Paginator.cshtml" />
+    <Content Include="Views\SegCursosUsuariosLinks\VerLinks.cshtml" />
     <Content Include="Views\MktDocenteCurso\_MktReporteByUser.cshtml" />
+    <Content Include="Views\MktDocenteCurso\_Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

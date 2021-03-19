@@ -19,7 +19,7 @@ namespace WebCIIPMaestrosERP.Models
         public Nullable<int> CUR_ID { get; set; }
         public Nullable<decimal> PUN_VALOR { get; set; }
     
-        public virtual MAE_CURSOS MAE_CURSOS { get; set; }
         public virtual MKT_DOCENTES MKT_DOCENTES { get; set; }
+        public virtual MAE_CURSOS MAE_CURSOS { get; set; }
     }
 }
