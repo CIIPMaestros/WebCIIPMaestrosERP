@@ -169,12 +169,57 @@
     <Compile Include="Models\MaeCursoLanzamientoCLS.cs" />
     <Compile Include="Models\MaeCursosCLS.cs" />
     <Compile Include="Models\MaeTutorCLS.cs" />
+    <Compile Include="Models\MAE_CATEGORIAS.cs">
+      <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MAE_CURSOS.cs">
+      <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MAE_CURSOS_HORARIOS.cs">
+      <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MAE_CURSOS_LANZAMIENTOS.cs">
+      <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MAE_CURSOS_PUNTUACION.cs">
+      <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MAE_DEPARTAMENTOS.cs">
+      <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MAE_ROLES.cs">
+      <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MAE_TABLAS.cs">
+      <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MAE_TUTOR.cs">
+      <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\MktDocenteCLS.cs" />
     <Compile Include="Models\MktDocenteCursoCLS.cs" />
+    <Compile Include="Models\MKT_DOCENTES.cs">
+      <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MKT_DOCENTE_CURSO.cs">
+      <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PrvDocenteSeguimiento.cs" />
+    <Compile Include="Models\PRV_DOCENTE_SEGUIMIENTO.cs">
+      <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SegCursoUsuarioLinksCLS.cs" />
     <Compile Include="Models\SegUsuariosCLS.cs" />
     <Compile Include="Models\SegUsuariosLinksCLS.cs" />
+    <Compile Include="Models\SEG_CURSOS_USUARIOS_LINKS.cs">
+      <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SEG_USUARIOS.cs">
+      <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SEG_USUARIOS_LINKS.cs">
+      <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Seguridad\Acceder.cs" />
   </ItemGroup>
