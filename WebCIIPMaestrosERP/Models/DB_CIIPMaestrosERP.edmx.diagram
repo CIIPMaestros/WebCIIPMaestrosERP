@@ -38,6 +38,8 @@
         <AssociationConnector Association="DB_WebCIIPModel.FK_MAE_CURSOS_PUNTUACION_MKT_DOCENTES" />
         <AssociationConnector Association="DB_WebCIIPModel.FK_MKT_DOCENTE_CURSO_MKT_DOCENTES" />
         <AssociationConnector Association="DB_WebCIIPModel.FK_PRV_DOCENTE_SEGUIMIENTO_MKT_DOCENTES" />
+        <EntityTypeShape EntityType="DB_WebCIIPModel.ViewMKTDocenteCurso" Width="1.5" PointX="11" PointY="11.125" />
+        <AssociationConnector Association="DB_WebCIIPModel.FK_MKT_DOCENTE_CURSO_MAE_CURSOS" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
