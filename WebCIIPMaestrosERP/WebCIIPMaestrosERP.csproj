@@ -178,6 +178,9 @@
     <Compile Include="Models\MAE_CURSOS_HORARIOS.cs">
       <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MAE_CURSOS_HORARIOS_FUTURO.cs">
+      <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\MAE_CURSOS_LANZAMIENTOS.cs">
       <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
     </Compile>

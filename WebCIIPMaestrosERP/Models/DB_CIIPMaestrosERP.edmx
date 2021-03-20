@@ -37,6 +37,15 @@
           <Property Name="SCH_DIA" Type="varchar" MaxLength="50" />
           <Property Name="SCH_HORA" Type="varchar" MaxLength="2" />
         </EntityType>
+        <EntityType Name="MAE_CURSOS_HORARIOS_FUTURO">
+          <Key>
+            <PropertyRef Name="SCH_ID" />
+          </Key>
+          <Property Name="SCH_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CUR_ID" Type="int" Nullable="false" />
+          <Property Name="SCH_DIA" Type="varchar" MaxLength="50" />
+          <Property Name="SCH_HORA" Type="varchar" MaxLength="2" />
+        </EntityType>
         <EntityType Name="MAE_CURSOS_LANZAMIENTOS">
           <Key>
             <PropertyRef Name="LAN_ID" />
@@ -200,6 +209,18 @@ advertencia 6002: La tabla o vista 'DB_WebCIIP.dbo.ViewMKTDocenteCurso' no tiene
           <Property Name="CUR_ID" Type="int" Nullable="false" />
           <Property Name="CUR_DESCRIPCION" Type="varchar" MaxLength="200" />
         </EntityType>
+        <Association Name="FK_MAE_CURSOS_HORARIOS_FUTURO_MAE_CURSOS">
+          <End Role="MAE_CURSOS" Type="Self.MAE_CURSOS" Multiplicity="1" />
+          <End Role="MAE_CURSOS_HORARIOS_FUTURO" Type="Self.MAE_CURSOS_HORARIOS_FUTURO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MAE_CURSOS">
+              <PropertyRef Name="CUR_ID" />
+            </Principal>
+            <Dependent Role="MAE_CURSOS_HORARIOS_FUTURO">
+              <PropertyRef Name="CUR_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MAE_CURSOS_HORARIOS_MAE_CURSOS">
           <End Role="MAE_CURSOS" Type="Self.MAE_CURSOS" Multiplicity="1" />
           <End Role="MAE_CURSOS_HORARIOS" Type="Self.MAE_CURSOS_HORARIOS" Multiplicity="*" />
@@ -415,6 +436,7 @@ advertencia 6002: La tabla o vista 'DB_WebCIIP.dbo.ViewMKTDocenteCurso' no tiene
           <EntitySet Name="MAE_CATEGORIAS" EntityType="Self.MAE_CATEGORIAS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MAE_CURSOS" EntityType="Self.MAE_CURSOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MAE_CURSOS_HORARIOS" EntityType="Self.MAE_CURSOS_HORARIOS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MAE_CURSOS_HORARIOS_FUTURO" EntityType="Self.MAE_CURSOS_HORARIOS_FUTURO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MAE_CURSOS_LANZAMIENTOS" EntityType="Self.MAE_CURSOS_LANZAMIENTOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MAE_CURSOS_PUNTUACION" EntityType="Self.MAE_CURSOS_PUNTUACION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MAE_DEPARTAMENTOS" EntityType="Self.MAE_DEPARTAMENTOS" Schema="dbo" store:Type="Tables" />
@@ -442,6 +464,10 @@ advertencia 6002: La tabla o vista 'DB_WebCIIP.dbo.ViewMKTDocenteCurso' no tiene
     [ViewMKTDocenteCurso].[CUR_DESCRIPCION] AS [CUR_DESCRIPCION]
     FROM [dbo].[ViewMKTDocenteCurso] AS [ViewMKTDocenteCurso]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_MAE_CURSOS_HORARIOS_FUTURO_MAE_CURSOS" Association="Self.FK_MAE_CURSOS_HORARIOS_FUTURO_MAE_CURSOS">
+            <End Role="MAE_CURSOS" EntitySet="MAE_CURSOS" />
+            <End Role="MAE_CURSOS_HORARIOS_FUTURO" EntitySet="MAE_CURSOS_HORARIOS_FUTURO" />
+          </AssociationSet>
           <AssociationSet Name="FK_MAE_CURSOS_HORARIOS_MAE_CURSOS" Association="Self.FK_MAE_CURSOS_HORARIOS_MAE_CURSOS">
             <End Role="MAE_CURSOS" EntitySet="MAE_CURSOS" />
             <End Role="MAE_CURSOS_HORARIOS" EntitySet="MAE_CURSOS_HORARIOS" />
@@ -607,6 +633,11 @@ advertencia 6002: La tabla o vista 'DB_WebCIIP.dbo.ViewMKTDocenteCurso' no tiene
             <End Role="SEG_USUARIOS_LINKS" EntitySet="SEG_USUARIOS_LINKS" />
           </AssociationSet>
           <EntitySet Name="ViewMKTDocenteCurso" EntityType="DB_WebCIIPModel.ViewMKTDocenteCurso" />
+          <EntitySet Name="MAE_CURSOS_HORARIOS_FUTURO" EntityType="DB_WebCIIPModel.MAE_CURSOS_HORARIOS_FUTURO" />
+          <AssociationSet Name="FK_MAE_CURSOS_HORARIOS_FUTURO_MAE_CURSOS" Association="DB_WebCIIPModel.FK_MAE_CURSOS_HORARIOS_FUTURO_MAE_CURSOS">
+            <End Role="MAE_CURSOS" EntitySet="MAE_CURSOS" />
+            <End Role="MAE_CURSOS_HORARIOS_FUTURO" EntitySet="MAE_CURSOS_HORARIOS_FUTURO" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="MAE_CATEGORIAS">
           <Key>
@@ -879,6 +910,7 @@ advertencia 6002: La tabla o vista 'DB_WebCIIP.dbo.ViewMKTDocenteCurso' no tiene
           <NavigationProperty Name="MKT_DOCENTE_CURSO" Relationship="DB_WebCIIPModel.FK_MKT_DOCENTE_CURSO_MAE_CURSOS" FromRole="MAE_CURSOS" ToRole="MKT_DOCENTE_CURSO" />
           <NavigationProperty Name="SEG_CURSOS_USUARIOS_LINKS" Relationship="DB_WebCIIPModel.FK_SEG_CURSOS_USUARIOS_LINKS_MAE_CURSOS" FromRole="MAE_CURSOS" ToRole="SEG_CURSOS_USUARIOS_LINKS" />
           <NavigationProperty Name="SEG_USUARIOS_LINKS" Relationship="DB_WebCIIPModel.FK_SEG_USUARIOS_LINKS_MAE_CURSOS" FromRole="MAE_CURSOS" ToRole="SEG_USUARIOS_LINKS" />
+          <NavigationProperty Name="MAE_CURSOS_HORARIOS_FUTURO" Relationship="DB_WebCIIPModel.FK_MAE_CURSOS_HORARIOS_FUTURO_MAE_CURSOS" FromRole="MAE_CURSOS" ToRole="MAE_CURSOS_HORARIOS_FUTURO" />
         </EntityType>
         <EntityType Name="MAE_CURSOS_LANZAMIENTOS">
           <Key>
@@ -1039,6 +1071,28 @@ advertencia 6002: La tabla o vista 'DB_WebCIIP.dbo.ViewMKTDocenteCurso' no tiene
           <Property Name="LAN_FEC_CAPACITACION" Type="DateTime" Precision="3" />
           <Property Name="CUR_DESCRIPCION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="MAE_CURSOS_HORARIOS_FUTURO">
+          <Key>
+            <PropertyRef Name="SCH_ID" />
+          </Key>
+          <Property Name="SCH_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CUR_ID" Type="Int32" Nullable="false" />
+          <Property Name="SCH_DIA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SCH_HORA" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MAE_CURSOS" Relationship="DB_WebCIIPModel.FK_MAE_CURSOS_HORARIOS_FUTURO_MAE_CURSOS" FromRole="MAE_CURSOS_HORARIOS_FUTURO" ToRole="MAE_CURSOS" />
+        </EntityType>
+        <Association Name="FK_MAE_CURSOS_HORARIOS_FUTURO_MAE_CURSOS">
+          <End Type="DB_WebCIIPModel.MAE_CURSOS" Role="MAE_CURSOS" Multiplicity="1" />
+          <End Type="DB_WebCIIPModel.MAE_CURSOS_HORARIOS_FUTURO" Role="MAE_CURSOS_HORARIOS_FUTURO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MAE_CURSOS">
+              <PropertyRef Name="CUR_ID" />
+            </Principal>
+            <Dependent Role="MAE_CURSOS_HORARIOS_FUTURO">
+              <PropertyRef Name="CUR_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1250,6 +1304,16 @@ advertencia 6002: La tabla o vista 'DB_WebCIIP.dbo.ViewMKTDocenteCurso' no tiene
                 <ScalarProperty Name="MKT_ID" ColumnName="MKT_ID" />
                 <ScalarProperty Name="LAN_ID" ColumnName="LAN_ID" />
                 <ScalarProperty Name="DOC_ID" ColumnName="DOC_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MAE_CURSOS_HORARIOS_FUTURO">
+            <EntityTypeMapping TypeName="DB_WebCIIPModel.MAE_CURSOS_HORARIOS_FUTURO">
+              <MappingFragment StoreEntitySet="MAE_CURSOS_HORARIOS_FUTURO">
+                <ScalarProperty Name="SCH_HORA" ColumnName="SCH_HORA" />
+                <ScalarProperty Name="SCH_DIA" ColumnName="SCH_DIA" />
+                <ScalarProperty Name="CUR_ID" ColumnName="CUR_ID" />
+                <ScalarProperty Name="SCH_ID" ColumnName="SCH_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
