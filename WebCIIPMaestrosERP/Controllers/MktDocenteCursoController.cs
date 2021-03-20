@@ -19,7 +19,7 @@ namespace WebCIIPMaestrosERP.Controllers
     public class MktDocenteCursoController : Controller
     {
         // GET: MktDocenteCurso
-
+        DB_WebCIIPEntitiesERP dbSet = new DB_WebCIIPEntitiesERP();
         public ActionResult ReporteDocentesFechaRegistroByCurso() {
 
             //List<MktDocenteCursoCLS> ListaDocente = null;
@@ -107,7 +107,7 @@ namespace WebCIIPMaestrosERP.Controllers
                     range.Style.Fill.BackgroundColor.SetColor(Color.DarkRed);
                 }
 
-                List<MktDocenteCursoCLS> lista = (List<MktDocenteCursoCLS>)Session["SessionMktReporteByUser"];
+                List<ViewMKTDocenteCurso> lista =  (ViewMKTDocenteCurso)Session["SessionMktReporteByUser"] == null ? dbSet.ViewMKTDocenteCurso.ToList() : (List<ViewMKTDocenteCurso>)Session["SessionMktReporteByUser"];
                 int nregistros = lista.Count;
 
                 //Pendiente
@@ -118,9 +118,9 @@ namespace WebCIIPMaestrosERP.Controllers
                     ew.Cells[i + 2, 3].Value = lista[i].DOC_APELLIDOS;
                     ew.Cells[i + 2, 4].Value = lista[i].DOC_EMAIL;
                     ew.Cells[i + 2, 5].Value = lista[i].DOC_CELULAR;
-                    ew.Cells[i + 2, 6].Value = lista[i].CUR_NOMBRE;
-                    ew.Cells[i + 2, 7].Value = lista[i].DCU_FECCADENA;
-                    ew.Cells[i + 2, 8].Value = lista[i].TurnoFechaCadena;
+                    ew.Cells[i + 2, 6].Value = lista[i].CUR_DESCRIPCION;
+                    ew.Cells[i + 2, 7].Value = lista[i].DCU_FEC;
+                    ew.Cells[i + 2, 8].Value = lista[i].LAN_FEC_CAPACITACION;
 
                 }
                 //Pendiente
@@ -137,7 +137,7 @@ namespace WebCIIPMaestrosERP.Controllers
         
         public ActionResult MktReporteByUser(int? UserId, int? CursId, int? LanId, int? page)
         {
-            List<MktDocenteCursoCLS> ListaDocente = null;
+            List<ViewMKTDocenteCurso> ListaDocente = null;
 
             MktDocenteCursoCLS GetListaReporte = new MktDocenteCursoCLS();
             GetListaReporte.Listado = new List<MktDocenteCursoCLS>();
@@ -148,27 +148,6 @@ namespace WebCIIPMaestrosERP.Controllers
             {
                 using (var db = new DB_WebCIIPEntitiesERP())
                 {
-
-                    //excel
-
-                    //ListaDocente = (from dc in db.ViewMKTDocenteCurso
-                    //                select new MktDocenteCursoCLS
-                    //                {
-                    //                    DOC_ID = dc.DOC_ID,
-                    //                    LAN_ID = dc.LAN_ID,
-                    //                    MKT_ID = (int)dc.MKT_ID,
-                    //                    DOC_NOMBRES = dc.DOC_NOMBRES,
-                    //                    DOC_NOMBRES_APELLIDOS = dc.DOC_NOMBRES + ' ' + dc.DOC_APELLIDOS,
-                    //                    DOC_APELLIDOS = dc.DOC_APELLIDOS,
-                    //                    DOC_CELULAR = dc.DOC_CELULAR,
-                    //                    DOC_EMAIL = dc.DOC_EMAIL,
-                    //                    DCU_FEC = (DateTime)dc.DCU_FEC,
-                    //                    DCU_FECCADENA = ((DateTime)dc.DCU_FEC).ToString(),
-                    //                    TurnoFecha = (DateTime)dc.LAN_FEC_CAPACITACION,
-                    //                    TurnoFechaCadena = ((DateTime)dc.LAN_FEC_CAPACITACION).ToString(),
-                    //                    CUR_NOMBRE = dc.CUR_DESCRIPCION
-                    //                }).ToList();
-                    //fin excel
 
                     var ListaCursoDocente = db.ViewMKTDocenteCurso
                         .OrderByDescending( x => x.DOC_ID)
@@ -194,7 +173,7 @@ namespace WebCIIPMaestrosERP.Controllers
                         GetListaReporte.Listado.Add(mkt);
                     }
 
-                    ListaDocente = GetListaReporte.Listado;
+                    ListaDocente = null;
                     GetListaReporte.RegPerPage = cantidadRegistrosPorPagina;
                     GetListaReporte.Page = (int)page;
                     GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Count();
@@ -204,28 +183,6 @@ namespace WebCIIPMaestrosERP.Controllers
             {
                 using (var db = new DB_WebCIIPEntitiesERP())
                 {
-
-                    //excel
-
-                    ListaDocente = (from dc in db.ViewMKTDocenteCurso
-                                    where dc.DOC_ID == UserId
-                                    select new MktDocenteCursoCLS
-                                    {
-                                        DOC_ID = dc.DOC_ID,
-                                        LAN_ID = dc.LAN_ID,
-                                        MKT_ID = dc.MKT_ID,
-                                        DOC_NOMBRES = dc.DOC_NOMBRES,
-                                        DOC_APELLIDOS = dc.DOC_APELLIDOS,
-                                        DOC_CELULAR = dc.DOC_CELULAR,
-                                        DOC_EMAIL = dc.DOC_EMAIL,
-                                        DCU_FEC = (DateTime)dc.DCU_FEC,
-                                        DCU_FECCADENA = ((DateTime)dc.DCU_FEC).ToString(),
-                                        TurnoFecha = (DateTime)dc.LAN_FEC_CAPACITACION,
-                                        TurnoFechaCadena = ((DateTime)dc.LAN_FEC_CAPACITACION).ToString(),
-                                        CUR_NOMBRE = dc.CUR_DESCRIPCION
-                                    }).ToList();
-
-                    //fin excel
 
                     var ListaCursoDocente = db.ViewMKTDocenteCurso
                         .Where(x => x.DOC_ID == UserId)
@@ -251,7 +208,7 @@ namespace WebCIIPMaestrosERP.Controllers
                         GetListaReporte.Listado.Add(mkt);
                     }
 
-                    ListaDocente = GetListaReporte.Listado;
+                    ListaDocente = db.ViewMKTDocenteCurso.Where(x => x.DOC_ID == UserId).ToList();
                     GetListaReporte.RegPerPage = cantidadRegistrosPorPagina;
                     GetListaReporte.Page = (int)page;
                     GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Where(x => x.DOC_ID == UserId).Count();
@@ -261,29 +218,6 @@ namespace WebCIIPMaestrosERP.Controllers
             {
                 using (var db = new DB_WebCIIPEntitiesERP())
                 {
-
-
-                    //excel
-
-                    ListaDocente = (from dc in db.ViewMKTDocenteCurso
-                                    where dc.DOC_ID == UserId && dc.CUR_ID == CursId
-
-                                    select new MktDocenteCursoCLS
-                                    {
-                                        DOC_ID = dc.DOC_ID,
-                                        LAN_ID = dc.LAN_ID,
-                                        MKT_ID = dc.MKT_ID,
-                                        DOC_NOMBRES = dc.DOC_NOMBRES,
-                                        DOC_APELLIDOS = dc.DOC_APELLIDOS,
-                                        DOC_CELULAR = dc.DOC_CELULAR,
-                                        DOC_EMAIL = dc.DOC_EMAIL,
-                                        DCU_FEC = (DateTime)dc.DCU_FEC,
-                                        DCU_FECCADENA = ((DateTime)dc.DCU_FEC).ToString(),
-                                        TurnoFecha = (DateTime)dc.LAN_FEC_CAPACITACION,
-                                        TurnoFechaCadena = ((DateTime)dc.LAN_FEC_CAPACITACION).ToString(),
-                                        CUR_NOMBRE = dc.CUR_DESCRIPCION
-                                    }).ToList();
-                    //fin excel
 
                     var ListaCursoDocente = db.ViewMKTDocenteCurso
                         .Where(x => x.DOC_ID == UserId && x.CUR_ID == CursId)
@@ -309,7 +243,7 @@ namespace WebCIIPMaestrosERP.Controllers
                         GetListaReporte.Listado.Add(mkt);
                     }
 
-                    ListaDocente = GetListaReporte.Listado;
+                    ListaDocente = db.ViewMKTDocenteCurso.Where(x => x.DOC_ID == UserId && x.CUR_ID == CursId).ToList();
                     GetListaReporte.RegPerPage = cantidadRegistrosPorPagina;
                     GetListaReporte.Page = (int)page;
                     GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Where(x => x.DOC_ID == UserId && x.CUR_ID == CursId).Count();
@@ -319,29 +253,6 @@ namespace WebCIIPMaestrosERP.Controllers
             {
                 using (var db = new DB_WebCIIPEntitiesERP())
                 {
-
-                    //excel
-
-                    ListaDocente = (from dc in db.ViewMKTDocenteCurso
-                                    where dc.DOC_ID == UserId && dc.CUR_ID == CursId && dc.LAN_ID == LanId
-
-                                    select new MktDocenteCursoCLS
-                                    {
-                                        DOC_ID = dc.DOC_ID,
-                                        LAN_ID = dc.LAN_ID,
-                                        MKT_ID = (int)dc.MKT_ID,
-                                        DOC_NOMBRES = dc.DOC_NOMBRES,
-                                        DOC_APELLIDOS = dc.DOC_APELLIDOS,
-                                        DOC_CELULAR = dc.DOC_CELULAR,
-                                        DOC_EMAIL = dc.DOC_EMAIL,
-                                        DCU_FEC = (DateTime)dc.DCU_FEC,
-                                        DCU_FECCADENA = ((DateTime)dc.DCU_FEC).ToString(),
-                                        TurnoFecha = (DateTime)dc.LAN_FEC_CAPACITACION,
-                                        TurnoFechaCadena = ((DateTime)dc.LAN_FEC_CAPACITACION).ToString(),
-                                        CUR_NOMBRE = dc.CUR_DESCRIPCION
-                                    }).ToList();
-
-                    //fin excel
 
                     var ListaCursoDocente = db.ViewMKTDocenteCurso
                         .Where(x => x.DOC_ID == UserId && x.CUR_ID == CursId && x.LAN_ID == LanId)
@@ -367,7 +278,7 @@ namespace WebCIIPMaestrosERP.Controllers
                         GetListaReporte.Listado.Add(mkt);
                     }
 
-                    ListaDocente = GetListaReporte.Listado;
+                    ListaDocente = db.ViewMKTDocenteCurso.Where(x => x.DOC_ID == UserId && x.CUR_ID == CursId && x.LAN_ID == LanId).ToList();
                     GetListaReporte.RegPerPage = cantidadRegistrosPorPagina;
                     GetListaReporte.Page = (int)page;
                     GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Where(x => x.DOC_ID == UserId && x.CUR_ID == CursId && x.LAN_ID == LanId).Count();
@@ -385,7 +296,7 @@ namespace WebCIIPMaestrosERP.Controllers
         {
             MktDocenteCursoCLS GetListaReporte = new MktDocenteCursoCLS();
             GetListaReporte.Listado = new List<MktDocenteCursoCLS>();
-            List<MktDocenteCursoCLS> ListaDocente = null;
+            List<ViewMKTDocenteCurso> ListaDocente = null;
 
             page = page == null ? 1 : page;
             int cantidadRegistrosPorPagina = 10;
@@ -394,28 +305,6 @@ namespace WebCIIPMaestrosERP.Controllers
             {
                 using (var db = new DB_WebCIIPEntitiesERP())
                 {
-
-                    //excel
-
-                    //ListaDocente = (from dc in db.ViewMKTDocenteCurso
-                    //                select new MktDocenteCursoCLS
-                    //                {
-                    //                    DOC_ID = dc.DOC_ID,
-                    //                    LAN_ID = dc.LAN_ID,
-                    //                    MKT_ID = (int)dc.MKT_ID,
-                    //                    DOC_NOMBRES = dc.DOC_NOMBRES,
-                    //                    DOC_NOMBRES_APELLIDOS = dc.DOC_NOMBRES + ' ' + dc.DOC_APELLIDOS,
-                    //                    DOC_APELLIDOS = dc.DOC_APELLIDOS,
-                    //                    DOC_CELULAR = dc.DOC_CELULAR,
-                    //                    DOC_EMAIL = dc.DOC_EMAIL,
-                    //                    DCU_FEC = (DateTime)dc.DCU_FEC,
-                    //                    DCU_FECCADENA = dc.DCU_FEC.ToString(),
-                    //                    TurnoFecha = (DateTime)dc.LAN_FEC_CAPACITACION,
-                    //                    TurnoFechaCadena = dc.LAN_FEC_CAPACITACION.ToString(),
-                    //                    CUR_NOMBRE = dc.CUR_DESCRIPCION
-                    //                }).ToList();
-                    //fin excel
-
                     var ListaCursoDocente = await Task.Run( () => db.ViewMKTDocenteCurso
                         .OrderByDescending(x => x.DOC_ID)
                         .Skip(((int)page - 1) * cantidadRegistrosPorPagina)
@@ -440,7 +329,7 @@ namespace WebCIIPMaestrosERP.Controllers
                         GetListaReporte.Listado.Add(mkt);
                     }
 
-                    ListaDocente = GetListaReporte.Listado;
+                    ListaDocente = null;
                     GetListaReporte.RegPerPage = cantidadRegistrosPorPagina;
                     GetListaReporte.Page = (int)page;
                     GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Count();
@@ -450,29 +339,6 @@ namespace WebCIIPMaestrosERP.Controllers
             {
                 using (var db = new DB_WebCIIPEntitiesERP())
                 {
-
-                    //excel
-
-                    //ListaDocente = (from dc in db.ViewMKTDocenteCurso
-                    //                where dc.DOC_ID == UserId
-                    //                select new MktDocenteCursoCLS
-                    //                {
-                    //                    DOC_ID = dc.DOC_ID,
-                    //                    LAN_ID = dc.LAN_ID,
-                    //                    MKT_ID = (int)dc.MKT_ID,
-                    //                    DOC_NOMBRES = dc.DOC_NOMBRES,
-                    //                    DOC_APELLIDOS = dc.DOC_APELLIDOS,
-                    //                    DOC_CELULAR = dc.DOC_CELULAR,
-                    //                    DOC_EMAIL = dc.DOC_EMAIL,
-                    //                    DCU_FEC = (DateTime)dc.DCU_FEC,
-                    //                    DCU_FECCADENA = ((DateTime)dc.DCU_FEC).ToString(),
-                    //                    TurnoFecha = (DateTime)dc.LAN_FEC_CAPACITACION,
-                    //                    TurnoFechaCadena = ((DateTime)dc.LAN_FEC_CAPACITACION).ToString(),
-                    //                    CUR_NOMBRE = dc.CUR_DESCRIPCION
-                    //                }).ToList();
-
-                    //fin excel
-
                     var ListaCursoDocente = await Task.Run(() => db.ViewMKTDocenteCurso
                         .Where(x => x.DOC_ID == UserId)
                         .OrderByDescending(x => x.DOC_ID)
@@ -498,7 +364,7 @@ namespace WebCIIPMaestrosERP.Controllers
                         GetListaReporte.Listado.Add(mkt);
                     }
 
-                    ListaDocente = GetListaReporte.Listado;
+                    ListaDocente = db.ViewMKTDocenteCurso.Where(x => x.DOC_ID == UserId).ToList();
 
                     GetListaReporte.RegPerPage = cantidadRegistrosPorPagina;
                     GetListaReporte.Page = (int)page;
@@ -509,30 +375,6 @@ namespace WebCIIPMaestrosERP.Controllers
             {
                 using (var db = new DB_WebCIIPEntitiesERP())
                 {
-
-
-                    //excel
-
-                    //ListaDocente = (from dc in db.ViewMKTDocenteCurso
-                    //                where dc.DOC_ID == UserId && dc.CUR_ID == CursId
-
-                    //                select new MktDocenteCursoCLS
-                    //                {
-                    //                    DOC_ID = dc.DOC_ID,
-                    //                    LAN_ID = dc.LAN_ID,
-                    //                    MKT_ID = (int)dc.MKT_ID,
-                    //                    DOC_NOMBRES = dc.DOC_NOMBRES,
-                    //                    DOC_APELLIDOS = dc.DOC_APELLIDOS,
-                    //                    DOC_CELULAR = dc.DOC_CELULAR,
-                    //                    DOC_EMAIL = dc.DOC_EMAIL,
-                    //                    DCU_FEC = (DateTime)dc.DCU_FEC,
-                    //                    DCU_FECCADENA = ((DateTime)dc.DCU_FEC).ToString(),
-                    //                    TurnoFecha = (DateTime)dc.LAN_FEC_CAPACITACION,
-                    //                    TurnoFechaCadena = ((DateTime)dc.LAN_FEC_CAPACITACION).ToString(),
-                    //                    CUR_NOMBRE = dc.CUR_DESCRIPCION
-                    //                }).ToList();
-                    //fin excel
-
                     var ListaCursoDocente = await Task.Run(() => db.ViewMKTDocenteCurso
                         .Where(x => x.DOC_ID == UserId && x.CUR_ID == CursId)
                         .OrderByDescending(x => x.DOC_ID)
@@ -558,7 +400,7 @@ namespace WebCIIPMaestrosERP.Controllers
                         GetListaReporte.Listado.Add(mkt);
                     }
 
-                    ListaDocente = GetListaReporte.Listado;
+                    ListaDocente = db.ViewMKTDocenteCurso.Where(x => x.DOC_ID == UserId && x.CUR_ID == CursId).ToList();
                     GetListaReporte.RegPerPage = cantidadRegistrosPorPagina;
                     GetListaReporte.Page = (int)page;
                     GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Where(x => x.DOC_ID == UserId && x.CUR_ID == CursId).Count();
@@ -568,30 +410,6 @@ namespace WebCIIPMaestrosERP.Controllers
             {
                 using (var db = new DB_WebCIIPEntitiesERP())
                 {
-
-                    //excel
-
-                    //ListaDocente = (from dc in db.ViewMKTDocenteCurso
-                    //                where dc.DOC_ID == UserId && dc.CUR_ID == CursId && dc.LAN_ID == LanId
-
-                    //                select new MktDocenteCursoCLS
-                    //                {
-                    //                    DOC_ID = dc.DOC_ID,
-                    //                    LAN_ID = dc.LAN_ID,
-                    //                    MKT_ID = (int)dc.MKT_ID,
-                    //                    DOC_NOMBRES = dc.DOC_NOMBRES,
-                    //                    DOC_APELLIDOS = dc.DOC_APELLIDOS,
-                    //                    DOC_CELULAR = dc.DOC_CELULAR,
-                    //                    DOC_EMAIL = dc.DOC_EMAIL,
-                    //                    DCU_FEC = (DateTime)dc.DCU_FEC,
-                    //                    DCU_FECCADENA = ((DateTime)dc.DCU_FEC).ToString(),
-                    //                    TurnoFecha = (DateTime)dc.LAN_FEC_CAPACITACION,
-                    //                    TurnoFechaCadena = ((DateTime)dc.LAN_FEC_CAPACITACION).ToString(),
-                    //                    CUR_NOMBRE = dc.CUR_DESCRIPCION
-                    //                }).ToList();
-
-                    //fin excel
-
                     var ListaCursoDocente = await Task.Run(() => db.ViewMKTDocenteCurso
                         .Where(x => x.DOC_ID == UserId && x.CUR_ID == CursId && x.LAN_ID == LanId)
                         .OrderByDescending(x => x.DOC_ID)
@@ -617,7 +435,7 @@ namespace WebCIIPMaestrosERP.Controllers
                         GetListaReporte.Listado.Add(mkt);
                     }
 
-                    ListaDocente = GetListaReporte.Listado;
+                    ListaDocente = db.ViewMKTDocenteCurso.Where(x => x.DOC_ID == UserId && x.CUR_ID == CursId && x.LAN_ID == LanId).ToList();
                     GetListaReporte.RegPerPage = cantidadRegistrosPorPagina;
                     GetListaReporte.Page = (int)page;
                     GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Where(x => x.DOC_ID == UserId && x.CUR_ID == CursId && x.LAN_ID == LanId).Count();
