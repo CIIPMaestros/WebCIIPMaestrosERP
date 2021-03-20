@@ -37,6 +37,15 @@
           <Property Name="SCH_DIA" Type="varchar" MaxLength="50" />
           <Property Name="SCH_HORA" Type="varchar" MaxLength="2" />
         </EntityType>
+        <EntityType Name="MAE_CURSOS_HORARIOS_FUTURO">
+          <Key>
+            <PropertyRef Name="SCH_ID" />
+          </Key>
+          <Property Name="SCH_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CUR_ID" Type="int" Nullable="false" />
+          <Property Name="SCH_DIA" Type="varchar" MaxLength="50" />
+          <Property Name="SCH_HORA" Type="varchar" MaxLength="2" />
+        </EntityType>
         <EntityType Name="MAE_CURSOS_LANZAMIENTOS">
           <Key>
             <PropertyRef Name="LAN_ID" />
@@ -179,6 +188,18 @@
           <Property Name="LNK_ACTIVO" Type="varchar" MaxLength="1" />
           <Property Name="USU_LINK_CORTO" Type="varchar" MaxLength="1000" />
         </EntityType>
+        <Association Name="FK_MAE_CURSOS_HORARIOS_FUTURO_MAE_CURSOS">
+          <End Role="MAE_CURSOS" Type="Self.MAE_CURSOS" Multiplicity="1" />
+          <End Role="MAE_CURSOS_HORARIOS_FUTURO" Type="Self.MAE_CURSOS_HORARIOS_FUTURO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MAE_CURSOS">
+              <PropertyRef Name="CUR_ID" />
+            </Principal>
+            <Dependent Role="MAE_CURSOS_HORARIOS_FUTURO">
+              <PropertyRef Name="CUR_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MAE_CURSOS_HORARIOS_MAE_CURSOS">
           <End Role="MAE_CURSOS" Type="Self.MAE_CURSOS" Multiplicity="1" />
           <End Role="MAE_CURSOS_HORARIOS" Type="Self.MAE_CURSOS_HORARIOS" Multiplicity="*" />
@@ -383,6 +404,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="Sp_Buscar_Fecha_Registro_Docente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Sp_Crear_Lanzamientos_By_Curso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CUR_ID" Type="int" Mode="In" />
         </Function>
@@ -394,6 +416,7 @@
           <EntitySet Name="MAE_CATEGORIAS" EntityType="Self.MAE_CATEGORIAS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MAE_CURSOS" EntityType="Self.MAE_CURSOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MAE_CURSOS_HORARIOS" EntityType="Self.MAE_CURSOS_HORARIOS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MAE_CURSOS_HORARIOS_FUTURO" EntityType="Self.MAE_CURSOS_HORARIOS_FUTURO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MAE_CURSOS_LANZAMIENTOS" EntityType="Self.MAE_CURSOS_LANZAMIENTOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MAE_CURSOS_PUNTUACION" EntityType="Self.MAE_CURSOS_PUNTUACION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MAE_DEPARTAMENTOS" EntityType="Self.MAE_DEPARTAMENTOS" Schema="dbo" store:Type="Tables" />
@@ -406,6 +429,10 @@
           <EntitySet Name="SEG_CURSOS_USUARIOS_LINKS" EntityType="Self.SEG_CURSOS_USUARIOS_LINKS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SEG_USUARIOS" EntityType="Self.SEG_USUARIOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SEG_USUARIOS_LINKS" EntityType="Self.SEG_USUARIOS_LINKS" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_MAE_CURSOS_HORARIOS_FUTURO_MAE_CURSOS" Association="Self.FK_MAE_CURSOS_HORARIOS_FUTURO_MAE_CURSOS">
+            <End Role="MAE_CURSOS" EntitySet="MAE_CURSOS" />
+            <End Role="MAE_CURSOS_HORARIOS_FUTURO" EntitySet="MAE_CURSOS_HORARIOS_FUTURO" />
+          </AssociationSet>
           <AssociationSet Name="FK_MAE_CURSOS_HORARIOS_MAE_CURSOS" Association="Self.FK_MAE_CURSOS_HORARIOS_MAE_CURSOS">
             <End Role="MAE_CURSOS" EntitySet="MAE_CURSOS" />
             <End Role="MAE_CURSOS_HORARIOS" EntitySet="MAE_CURSOS_HORARIOS" />
@@ -569,6 +596,12 @@
           <AssociationSet Name="FK_SEG_USUARIOS_LINKS_MAE_CURSOS_LANZAMIENTOS" Association="DB_WebCIIPModel.FK_SEG_USUARIOS_LINKS_MAE_CURSOS_LANZAMIENTOS">
             <End Role="MAE_CURSOS_LANZAMIENTOS" EntitySet="MAE_CURSOS_LANZAMIENTOS" />
             <End Role="SEG_USUARIOS_LINKS" EntitySet="SEG_USUARIOS_LINKS" />
+          </AssociationSet>
+          <FunctionImport Name="Sp_Buscar_Fecha_Registro_Docente" ReturnType="Collection(DB_WebCIIPModel.Sp_Buscar_Fecha_Registro_Docente_Result)" />
+          <EntitySet Name="MAE_CURSOS_HORARIOS_FUTURO" EntityType="DB_WebCIIPModel.MAE_CURSOS_HORARIOS_FUTURO" />
+          <AssociationSet Name="FK_MAE_CURSOS_HORARIOS_FUTURO_MAE_CURSOS" Association="DB_WebCIIPModel.FK_MAE_CURSOS_HORARIOS_FUTURO_MAE_CURSOS">
+            <End Role="MAE_CURSOS" EntitySet="MAE_CURSOS" />
+            <End Role="MAE_CURSOS_HORARIOS_FUTURO" EntitySet="MAE_CURSOS_HORARIOS_FUTURO" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="MAE_CATEGORIAS">
@@ -842,6 +875,7 @@
           <NavigationProperty Name="MKT_DOCENTE_CURSO" Relationship="DB_WebCIIPModel.FK_MKT_DOCENTE_CURSO_MAE_CURSOS" FromRole="MAE_CURSOS" ToRole="MKT_DOCENTE_CURSO" />
           <NavigationProperty Name="SEG_CURSOS_USUARIOS_LINKS" Relationship="DB_WebCIIPModel.FK_SEG_CURSOS_USUARIOS_LINKS_MAE_CURSOS" FromRole="MAE_CURSOS" ToRole="SEG_CURSOS_USUARIOS_LINKS" />
           <NavigationProperty Name="SEG_USUARIOS_LINKS" Relationship="DB_WebCIIPModel.FK_SEG_USUARIOS_LINKS_MAE_CURSOS" FromRole="MAE_CURSOS" ToRole="SEG_USUARIOS_LINKS" />
+          <NavigationProperty Name="MAE_CURSOS_HORARIOS_FUTURO" Relationship="DB_WebCIIPModel.FK_MAE_CURSOS_HORARIOS_FUTURO_MAE_CURSOS" FromRole="MAE_CURSOS" ToRole="MAE_CURSOS_HORARIOS_FUTURO" />
         </EntityType>
         <EntityType Name="MAE_CURSOS_LANZAMIENTOS">
           <Key>
@@ -980,6 +1014,34 @@
             </Principal>
             <Dependent Role="SEG_USUARIOS_LINKS">
               <PropertyRef Name="LAN_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="Sp_Buscar_Fecha_Registro_Docente_Result">
+          <Property Type="DateTime" Name="Column1" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Column2" Nullable="true" />
+          <Property Type="Int32" Name="MKT_ID" Nullable="false" />
+          <Property Type="Int32" Name="cur_id" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="MAE_CURSOS_HORARIOS_FUTURO">
+          <Key>
+            <PropertyRef Name="SCH_ID" />
+          </Key>
+          <Property Name="SCH_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CUR_ID" Type="Int32" Nullable="false" />
+          <Property Name="SCH_DIA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SCH_HORA" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MAE_CURSOS" Relationship="DB_WebCIIPModel.FK_MAE_CURSOS_HORARIOS_FUTURO_MAE_CURSOS" FromRole="MAE_CURSOS_HORARIOS_FUTURO" ToRole="MAE_CURSOS" />
+        </EntityType>
+        <Association Name="FK_MAE_CURSOS_HORARIOS_FUTURO_MAE_CURSOS">
+          <End Type="DB_WebCIIPModel.MAE_CURSOS" Role="MAE_CURSOS" Multiplicity="1" />
+          <End Type="DB_WebCIIPModel.MAE_CURSOS_HORARIOS_FUTURO" Role="MAE_CURSOS_HORARIOS_FUTURO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MAE_CURSOS">
+              <PropertyRef Name="CUR_ID" />
+            </Principal>
+            <Dependent Role="MAE_CURSOS_HORARIOS_FUTURO">
+              <PropertyRef Name="CUR_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1177,6 +1239,26 @@
                 <ScalarProperty Name="TUT_ID" ColumnName="TUT_ID" />
                 <ScalarProperty Name="CUR_ID" ColumnName="CUR_ID" />
                 <ScalarProperty Name="LAN_ID" ColumnName="LAN_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Buscar_Fecha_Registro_Docente" FunctionName="DB_WebCIIPModel.Store.Sp_Buscar_Fecha_Registro_Docente">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_WebCIIPModel.Sp_Buscar_Fecha_Registro_Docente_Result">
+                <ScalarProperty Name="Column1" ColumnName="Column1" />
+                <ScalarProperty Name="Column2" ColumnName="Column2" />
+                <ScalarProperty Name="MKT_ID" ColumnName="MKT_ID" />
+                <ScalarProperty Name="cur_id" ColumnName="cur_id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="MAE_CURSOS_HORARIOS_FUTURO">
+            <EntityTypeMapping TypeName="DB_WebCIIPModel.MAE_CURSOS_HORARIOS_FUTURO">
+              <MappingFragment StoreEntitySet="MAE_CURSOS_HORARIOS_FUTURO">
+                <ScalarProperty Name="SCH_HORA" ColumnName="SCH_HORA" />
+                <ScalarProperty Name="SCH_DIA" ColumnName="SCH_DIA" />
+                <ScalarProperty Name="CUR_ID" ColumnName="CUR_ID" />
+                <ScalarProperty Name="SCH_ID" ColumnName="SCH_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

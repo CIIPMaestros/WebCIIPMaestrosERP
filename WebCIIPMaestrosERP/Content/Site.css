@@ -138,6 +138,10 @@ table.table td a {
         color: #F44336;
     }
 
+    table.table td a.active {
+        color: #0d32dc;
+    }
+
 table.table td i {
     font-size: 19px;
 }

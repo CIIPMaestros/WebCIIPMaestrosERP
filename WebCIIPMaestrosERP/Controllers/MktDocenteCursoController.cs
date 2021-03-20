@@ -1,5 +1,6 @@
 ﻿using Microsoft.Ajax.Utilities;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,50 @@ namespace WebCIIPMaestrosERP.Controllers
     {
         // GET: MktDocenteCurso
 
-        
+        public ActionResult ReporteDocentesFechaRegistroByCurso() {
+
+            //List<MktDocenteCursoCLS> ListaDocente = null;
+
+            //excel
+
+            //using (var db = new DB_WebCIIPEntitiesERP())
+            //{
+
+              //  ViewBag.message = new SelectList(db.Sp_Buscar_Fecha_Registro_Docente(), "Fecha_Registro", "Fecha_Registro");
+
+            //}
+
+            //Session["SessionMktReporteByUser"] = ListaDocente;
+
+            return View();
+
+        }
+
+        private List<SelectListItem> GetFechaRegistroDocenteList()
+        {
+            using (var db = new DB_WebCIIPEntitiesERP())
+            {
+                var Lanzamientos = db.Sp_Buscar_Fecha_Registro_Docente().ToList();
+                var resp = Lanzamientos.Select(x => new SelectListItem()
+                {
+                    Value = x.Column1.ToString(),
+                    Text = x.Column1.ToString(),
+                }).ToList();
+
+                resp.Insert(0, new SelectListItem() { Value = "0", Text = "Todosqq" });
+                resp.Insert(1, new SelectListItem() { Value = "1", Text = "Hola" });
+
+                return resp;
+            }
+        }
+
+        List<SelectListItem> ListarFechaRegistroDocente;
+        public JsonResult ListarFechaRegistroDocenteList()
+        {
+            ListarFechaRegistroDocente = GetFechaRegistroDocenteList();
+            return Json(ListarFechaRegistroDocente, JsonRequestBehavior.AllowGet);
+        }
+
 
         public FileResult generarExcel()
         {

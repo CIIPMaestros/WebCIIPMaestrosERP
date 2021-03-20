@@ -337,6 +337,130 @@ namespace WebCIIPMaestrosERP.Controllers
             return PartialView("_Index", GetCursos);
         }
 
+                
+        public string GuardarNuevoHorarioFuturo(MaeCursosCLS oMaeCursosCLS, int? accion)
+        {
+
+            int idCurso = 0;
+            string rpta = "";
+
+            string cadenaContraCifrada = "";
+
+            if (!ModelState.IsValid && accion == -1)
+            {
+
+                string valor;
+                var query = (from state in ModelState.Values
+                             from error in state.Errors
+                             select error.ErrorMessage).ToList();
+
+                rpta += "<ul class='list-group'>";
+                foreach (var item in query)
+                {
+                    valor = item.Contains("Foto").ToString();
+
+                    rpta += "<li class='list-group-item'>" + item + "</li>";
+
+                }
+                rpta += "</ul>";
+            }
+            else
+            {
+
+                using (var db = new DB_WebCIIPEntitiesERP())
+                {
+                    if (oMaeCursosCLS.CUR_ID == 0)
+                    {
+
+
+
+
+                        MAE_CURSOS oMaeCursos = new MAE_CURSOS();
+                        oMaeCursos.CUR_NOMBRE = oMaeCursosCLS.CUR_NOMBRE;
+                        oMaeCursos.CUR_DESCRIPCION = oMaeCursosCLS.CUR_DESCRIPCION;
+                        oMaeCursos.CUR_RESULTADOS = oMaeCursosCLS.CUR_RESULTADOS;
+                        oMaeCursos.CUR_CERTIFICACION = oMaeCursosCLS.CUR_CERTIFICACION;
+                        oMaeCursos.CUR_PRECIO = oMaeCursosCLS.CUR_PRECIO;
+                        oMaeCursos.CUR_ACTIVO = "1";
+                        oMaeCursos.CAT_ID = oMaeCursosCLS.CAT_ID;
+                        oMaeCursos.CUR_IMAGEN = oMaeCursosCLS.CUR_IMAGEN;
+                        db.MAE_CURSOS.Add(oMaeCursos);
+                        rpta = db.SaveChanges().ToString();
+
+                        //debemos recuperar el numero del id para encriptarlo
+                        idCurso = oMaeCursos.CUR_ID; // recuperar
+
+                        //iniciamos la encriptacion
+
+                        using (var transacction = new TransactionScope())
+                        {
+
+                            SHA256Managed sha = new SHA256Managed();
+                            byte[] byteContra = Encoding.Default.GetBytes(idCurso.ToString());
+                            byte[] byteContraCifrado = sha.ComputeHash(byteContra);
+                            cadenaContraCifrada = "";
+                            cadenaContraCifrada = BitConverter.ToString(byteContraCifrado).Replace("-", "");
+
+
+                            MAE_CURSOS ooMAE_CURSOS = db.MAE_CURSOS.Where(p => p.CUR_ID == idCurso).First();
+                            ooMAE_CURSOS.CUR_ID_ENCRIPTADO = cadenaContraCifrada;
+                            db.SaveChanges().ToString();
+                            transacction.Complete();
+
+                        }
+
+                        // recorremos la lsita de horarios
+
+                        foreach (var Horario in oMaeCursosCLS.horarios)
+                        {
+
+                            MAE_CURSOS_HORARIOS oMAE_CURSOS_HORARIOS = new MAE_CURSOS_HORARIOS();
+                            oMAE_CURSOS_HORARIOS.CUR_ID = oMaeCursos.CUR_ID;
+                            oMAE_CURSOS_HORARIOS.SCH_DIA = Horario.SCH_DIA;
+                            oMAE_CURSOS_HORARIOS.SCH_HORA = Horario.SCH_HORA;
+                            db.MAE_CURSOS_HORARIOS.Add(oMAE_CURSOS_HORARIOS);
+
+                        }
+
+                        db.SaveChanges();
+
+
+                    }
+                    else//modificar
+                    {
+
+                        MAE_CURSOS oMaeCursos = db.MAE_CURSOS.Where(p => p.CUR_ID == oMaeCursosCLS.CUR_ID).First();
+
+                        
+                        // recorremos la lsita de horarios
+                        // solo cuando es nuevo insertamos cuando es editar no mandamos nada por q se cae // corregir luego
+
+                        if (oMaeCursosCLS.horarios != null)
+                        {
+
+                            foreach (var Horario in oMaeCursosCLS.horarios)
+                            {
+
+                                MAE_CURSOS_HORARIOS_FUTURO oMAE_CURSOS_HORARIOS_FUTURO = new MAE_CURSOS_HORARIOS_FUTURO();
+                                oMAE_CURSOS_HORARIOS_FUTURO.CUR_ID = oMaeCursos.CUR_ID;
+                                oMAE_CURSOS_HORARIOS_FUTURO.SCH_DIA = Horario.SCH_DIA;
+                                oMAE_CURSOS_HORARIOS_FUTURO.SCH_HORA = Horario.SCH_HORA;
+                                db.MAE_CURSOS_HORARIOS_FUTURO.Add(oMAE_CURSOS_HORARIOS_FUTURO);
+
+                            }
+
+                            rpta = db.SaveChanges().ToString();
+
+                        }
+
+                    }
+                }
+
+
+            }
+            return rpta;
+        }
+
         public string GuardarNuevoControladorParcial(MaeCursosCLS oMaeCursosCLS, int ? accion)
         {
 
@@ -521,6 +645,32 @@ namespace WebCIIPMaestrosERP.Controllers
             listadoHorarios.ForEach(x => x.MAE_CURSOS = null);
 
             oMaeCursosCLS.GetHorarios = listadoHorarios;
+            return Json(oMaeCursosCLS, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult recuperarDatosHorarioFuturo(int IdCurso)
+        {
+            var db = new DB_WebCIIPEntitiesERP();
+
+            db.Configuration.ProxyCreationEnabled = false;
+
+
+            MaeCursosCLS oMaeCursosCLS = new MaeCursosCLS();
+            MAE_CURSOS oMAE_CURSOS = db.MAE_CURSOS.Where(p => p.CUR_ID == IdCurso).First();
+            oMaeCursosCLS.CUR_NOMBRE = oMAE_CURSOS.CUR_NOMBRE;
+            oMaeCursosCLS.CUR_DESCRIPCION = oMAE_CURSOS.CUR_DESCRIPCION;
+            oMaeCursosCLS.CUR_CERTIFICACION = oMAE_CURSOS.CUR_CERTIFICACION;
+            oMaeCursosCLS.CUR_RESULTADOS = oMAE_CURSOS.CUR_RESULTADOS;
+            oMaeCursosCLS.CAT_ID = (int)oMAE_CURSOS.CAT_ID;
+            oMaeCursosCLS.CUR_PRECIO = (decimal)oMAE_CURSOS.CUR_PRECIO;
+
+            var listadoHorarios = db.MAE_CURSOS_HORARIOS_FUTURO.Where(x => x.CUR_ID == IdCurso).ToList();
+
+
+
+            listadoHorarios.ForEach(x => x.MAE_CURSOS = null);
+
+            oMaeCursosCLS.GetHorarioSFuturos = listadoHorarios;
             return Json(oMaeCursosCLS, JsonRequestBehavior.AllowGet);
         }
 

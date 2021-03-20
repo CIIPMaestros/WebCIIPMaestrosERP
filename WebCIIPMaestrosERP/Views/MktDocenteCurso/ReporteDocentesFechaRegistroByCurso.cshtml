@@ -1,0 +1,30 @@
+﻿@using WebCIIPMaestrosERP.Models;
+@model MktDocenteCursoCLS
+
+@{
+    Layout = null;
+}
+
+<td>
+    @Html.DropDownList("Fecha", new SelectList(""), "Todoszz", new { @class = "form-control", @id = "User" })
+</td>
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+        //cuando se carga la pagina
+
+            $.get("@Url.Action("ListarFechaRegistroDocenteList", "MktDocenteCurso")", function (ListaFechaDocente) {
+                $("#Fecha").html("");
+                $("#Fecha").append('<option value="0">Todosaa</option>');
+                
+                
+                $.each(ListaFechaDocente, function (index, item) {
+                    $("#Fecha").append('<option value="' + item.Value + '">' + item.Text + '</option>');
+                    });
+            });
+        });
+    </script>
+
+}

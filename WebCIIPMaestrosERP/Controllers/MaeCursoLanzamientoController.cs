@@ -38,7 +38,7 @@ namespace WebCIIPMaestrosERP.Controllers
                                      on lanzamiento.TUT_ID equals tutores.TUT_ID
                                      join tablas in db.MAE_TABLAS
                                      on lanzamiento.LAN_ACTIVO equals tablas.ID.ToString()
-                                     where tablas.COD_TABLA == "ACT"
+                                     where tablas.COD_TABLA == "ACT" 
 
                                      select new MaeCursoLanzamientoCLS
                                      {
