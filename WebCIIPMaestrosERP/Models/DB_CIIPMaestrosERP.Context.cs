@@ -42,6 +42,7 @@ namespace WebCIIPMaestrosERP.Models
         public virtual DbSet<MKT_DOCENTE_CURSO> MKT_DOCENTE_CURSO { get; set; }
         public virtual DbSet<MAE_CURSOS> MAE_CURSOS { get; set; }
         public virtual DbSet<MAE_CURSOS_LANZAMIENTOS> MAE_CURSOS_LANZAMIENTOS { get; set; }
+        public virtual DbSet<MAE_CURSOS_HORARIOS_FUTURO> MAE_CURSOS_HORARIOS_FUTURO { get; set; }
         public virtual DbSet<ViewMKTDocenteCurso> ViewMKTDocenteCurso { get; set; }
         public virtual DbSet<MAE_CURSOS_HORARIOS_FUTURO> MAE_CURSOS_HORARIOS_FUTURO { get; set; }
     
@@ -65,6 +66,11 @@ namespace WebCIIPMaestrosERP.Models
                 new ObjectParameter("CUR_ID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Sp_Crear_Lanzamientos_By_Curso", cUR_IDParameter);
+        }
+    
+        public virtual ObjectResult<Sp_Buscar_Fecha_Registro_Docente_Result> Sp_Buscar_Fecha_Registro_Docente()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_Buscar_Fecha_Registro_Docente_Result>("Sp_Buscar_Fecha_Registro_Docente");
         }
     }
 }

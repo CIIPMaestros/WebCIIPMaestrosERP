@@ -304,7 +304,7 @@
             //document.getElementById("accion").value = idUsuario;
             document.getElementById("accion").value = idCus;
 
-            $.get("/SegCursosUsuariosLinks/recuperarDatos/?IdCus=" + idCus, function (data) {
+            $.get("SegCursosUsuariosLinks/recuperarDatos/?IdCus=" + idCus, function (data) {
 
 
                 document.getElementById("CUR_ID").value = data.CUR_ID;
@@ -318,7 +318,7 @@
 
         function VerLink(idCus) {
 
-            $.get("/SegCursosUsuariosLinks/recuperarDatos/?IdCus=" + idCus, function (data) {
+            $.get("SegCursosUsuariosLinks/recuperarDatos/?IdCus=" + idCus, function (data) {
 
                 document.getElementById('Link').innerHTML = data.USU_LINK;
             })

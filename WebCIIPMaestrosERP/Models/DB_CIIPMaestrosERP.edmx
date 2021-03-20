@@ -425,6 +425,7 @@ advertencia 6002: La tabla o vista 'DB_WebCIIP.dbo.ViewMKTDocenteCurso' no tiene
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="Sp_Buscar_Fecha_Registro_Docente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Sp_Crear_Lanzamientos_By_Curso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CUR_ID" Type="int" Mode="In" />
         </Function>

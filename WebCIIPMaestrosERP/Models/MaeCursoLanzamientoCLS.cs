@@ -35,6 +35,8 @@ namespace WebCIIPMaestrosERP.Models
         [Required]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+
+
         [Display(Name = "Fecha de capacitacion")]
         public DateTime LAN_FEC_CAPACITACION { get; set; }
         public string LAN_FEC_CAPACITACIONCADENA { get; set; }

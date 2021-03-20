@@ -66,6 +66,98 @@
 
 
 
+
+
+
+<!-- Modal HORARIO FUTURO-->
+<div class="modal fade" id="myModalCursoFuturo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Horario siguiente Semana</h4>
+            </div>
+
+
+            @using (Ajax.BeginForm("GuardarNuevoHorarioFuturo", "MaeCursos", null, new AjaxOptions
+            {
+                HttpMethod = "POST",
+                OnSuccess = "Guardar",
+                UpdateTargetId = "error"
+            }))
+            {
+
+
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        
+
+                        @Html.Hidden("CUR_ID")
+
+                        <div class="alert alert-success" role="alert">
+                            Configuracion
+
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-4">
+                                @Html.DropDownList("SCH_DIA", ListaDias, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group col-sm-4">
+                                @Html.DropDownList("SCH_HORA", ListaHoras, new { @class = "form-control" })
+                            </div>
+
+                        </div>
+                        <p>
+                            <button type="button" onclick="AgregarHorario(); return false" class="btn btn-success">Agregar</button>
+                        </p>
+
+
+
+                        <div class="panel panel-success">
+                            <!-- Default panel contents -->
+                            <div class="panel-heading">Horarios</div>
+                            <div class="panel-body">
+                                <p>Los horarios que se configuren en esta opcion corresponden a la siguiente semana</p>
+                                <!-- Table -->
+                                <table class="table" id="DetHorario">
+                                    <thead>
+
+                                    </thead>
+                                    <tbody id="tbodyH"></tbody>
+
+                                </table>
+                            </div>
+
+
+                        </div>
+
+                        <!--onclick="ProcesoHorarioActual()"-->
+                        <button type="button" class="btn btn-success btnSPLanzamiento"><i class="material-icons" data-toggle="tooltip" title="Proceso Horario de esta semana">&#xe916;</i></button>
+                        <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-success">Guardar</button>
+
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="text-danger" id="error"></div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- Modal -->
 <div class="modal fade" id="myModalCurso" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -143,7 +235,7 @@
                                 <!-- Table -->
                                 <table class="table" id="DetHorario">
                                     <thead>
-                                        
+
                                     </thead>
                                     <tbody id="tbodyH"></tbody>
 
@@ -330,7 +422,7 @@
             var comboHora = document.getElementById("SCH_HORA");
             let Hora = comboHora.options[comboHora.selectedIndex].text;
 
-            
+
 
             let tabla = document.getElementById("DetHorario");
 
@@ -354,7 +446,7 @@
             //capturando valores de horiario
             let ValueDia = document.getElementById("SCH_DIA").value;
             let ValueHora = document.getElementById("SCH_HORA").value;
-            
+
 
 
             //boton eliminar
@@ -509,7 +601,7 @@
 
         function ConfirmarActivarDescativar(estado) {
             var id = document.getElementById("CUR_ID").value;
-            $.get("/MaeCursos/ActivarDesactivar/?id=" + id + "&estado=" + estado, function (data) {
+            $.get("MaeCursos/ActivarDesactivar/?id=" + id + "&estado=" + estado, function (data) {
 
                 if (data == 1) {
                     toastr["success"]("¡Se ejecuto correctamente", "Administracion de cursos");
@@ -598,6 +690,51 @@
         //        }
         //    });
         //}
+
+        
+
+        function EditarHorarioFuturo(idCurso) {
+
+            limpiar();
+            //document.getElementById("error").innerHTML = "";
+            //document.getElementById("accion").value = idUsuario;
+            //document.getElementById("accion").value = idCurso;
+            var ListadoHorarios;
+            $.get("MaeCursos/recuperarDatosHorarioFuturo/?IdCurso=" + idCurso, function (data) {
+
+                ListadoHorarios = data.GetHorarios;
+
+                var comboDIA = document.getElementById("SCH_DIA");
+                var comboHora = document.getElementById("SCH_HORA");
+                var Dia;
+                let Hora;
+                var idDia, idHora;
+
+                
+                document.getElementById("CUR_ID").value = idCurso;
+                //document.getElementById("USU_CONTRASENA").value = data.USU_CONTRASENA;
+
+                for (var s = 0; ListadoHorarios.length; s++) {
+
+                    idDia = ListadoHorarios[s].SCH_DIA;
+                    idHora = ListadoHorarios[s].SCH_HORA;
+
+                    idDia = idDia == 1 ? 8 : idDia;
+
+                    Dia = comboDIA.options[(idDia - 2)].text;
+                    Hora = comboHora.options[(idHora - 1)].text;
+                    //Hora = Hora + ":00";
+
+                    //alert(Dia + " " + Hora);
+
+                    $('#tbodyH').append('<tr id="tr_' + ListadoHorarios[s].SCH_ID + '" data-codigo="' + ListadoHorarios[s].SCH_ID + '"><td>' + Dia + '</td><td>'
+                        + Hora + '</td><td><a class = "btnEliminarHorario text-white" data-codigo = "'
+                        + ListadoHorarios[s].SCH_ID + '"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a></td></tr>');
+                }
+            })
+
+        }
+
 
         function Editar(idCurso) {
 

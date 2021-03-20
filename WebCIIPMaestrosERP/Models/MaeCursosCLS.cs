@@ -52,6 +52,8 @@ namespace WebCIIPMaestrosERP.Models
 
         public List<MAE_CURSOS_HORARIOS> GetHorarios { get; set; }
 
+        public List<MAE_CURSOS_HORARIOS_FUTURO> GetHorarioSFuturos { get; set; }
+
 
         public string CUR_ID_ENCRIPTADO { get; set; }
 

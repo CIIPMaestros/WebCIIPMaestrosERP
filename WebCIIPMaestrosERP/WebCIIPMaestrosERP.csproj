@@ -226,6 +226,9 @@
     <Compile Include="Models\ViewMKTDocenteCurso.cs">
       <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Sp_Buscar_Fecha_Registro_Docente_Result.cs">
+      <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Seguridad\Acceder.cs" />
   </ItemGroup>
@@ -431,6 +434,7 @@
     <Content Include="Views\SegCursosUsuariosLinks\VerLinks.cshtml" />
     <Content Include="Views\MktDocenteCurso\_MktReporteByUser.cshtml" />
     <Content Include="Views\MktDocenteCurso\_Index.cshtml" />
+    <Content Include="Views\MktDocenteCurso\ReporteDocentesFechaRegistroByCurso.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

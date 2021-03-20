@@ -77,7 +77,11 @@
                         <td>
                             <div class="modal-body">
                                 @Html.LabelFor(p => Model[0].LAN_FEC_CAPACITACION)
-                                @Html.Editor("LAN_FEC_CAPACITACION", null, new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
+                                <!--@@Html.Editor("LAN_FEC_CAPACITACION", null, new { htmlAttributes = new { @@class = "form-control", @@type = "datetime-local" } })-->
+                                <input type="date" id="LAN_FEC_CAPACITACION" name="LAN_FEC_CAPACITACION"
+                                       value="2018-07-22"
+                                       min="2018-01-01" max="2018-12-31">
+
                                 @Html.ValidationMessage("LAN_FEC_CAPACITACION", new { @class = "text-danger" })
                             </div>
                         </td>
