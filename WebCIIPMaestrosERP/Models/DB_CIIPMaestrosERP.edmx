@@ -188,6 +188,27 @@
           <Property Name="LNK_ACTIVO" Type="varchar" MaxLength="1" />
           <Property Name="USU_LINK_CORTO" Type="varchar" MaxLength="1000" />
         </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DB_WebCIIP.dbo.ViewMKTDocenteCurso' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="ViewMKTDocenteCurso">
+          <Key>
+            <PropertyRef Name="DOC_ID" />
+            <PropertyRef Name="LAN_ID" />
+            <PropertyRef Name="MKT_ID" />
+            <PropertyRef Name="CUR_ID" />
+          </Key>
+          <Property Name="DOC_ID" Type="int" Nullable="false" />
+          <Property Name="LAN_ID" Type="int" Nullable="false" />
+          <Property Name="MKT_ID" Type="int" Nullable="false" />
+          <Property Name="DOC_NOMBRES" Type="varchar" MaxLength="60" />
+          <Property Name="DOC_APELLIDOS" Type="varchar" MaxLength="50" />
+          <Property Name="DOC_CELULAR" Type="nchar" MaxLength="10" />
+          <Property Name="DOC_EMAIL" Type="varchar" MaxLength="300" />
+          <Property Name="DCU_FEC" Type="datetime" />
+          <Property Name="LAN_FEC_CAPACITACION" Type="datetime" />
+          <Property Name="CUR_ID" Type="int" Nullable="false" />
+          <Property Name="CUR_DESCRIPCION" Type="varchar" MaxLength="200" />
+        </EntityType>
         <Association Name="FK_MAE_CURSOS_HORARIOS_FUTURO_MAE_CURSOS">
           <End Role="MAE_CURSOS" Type="Self.MAE_CURSOS" Multiplicity="1" />
           <End Role="MAE_CURSOS_HORARIOS_FUTURO" Type="Self.MAE_CURSOS_HORARIOS_FUTURO" Multiplicity="*" />
@@ -429,6 +450,21 @@
           <EntitySet Name="SEG_CURSOS_USUARIOS_LINKS" EntityType="Self.SEG_CURSOS_USUARIOS_LINKS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SEG_USUARIOS" EntityType="Self.SEG_USUARIOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SEG_USUARIOS_LINKS" EntityType="Self.SEG_USUARIOS_LINKS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ViewMKTDocenteCurso" EntityType="Self.ViewMKTDocenteCurso" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewMKTDocenteCurso].[DOC_ID] AS [DOC_ID], 
+    [ViewMKTDocenteCurso].[LAN_ID] AS [LAN_ID], 
+    [ViewMKTDocenteCurso].[MKT_ID] AS [MKT_ID], 
+    [ViewMKTDocenteCurso].[DOC_NOMBRES] AS [DOC_NOMBRES], 
+    [ViewMKTDocenteCurso].[DOC_APELLIDOS] AS [DOC_APELLIDOS], 
+    [ViewMKTDocenteCurso].[DOC_CELULAR] AS [DOC_CELULAR], 
+    [ViewMKTDocenteCurso].[DOC_EMAIL] AS [DOC_EMAIL], 
+    [ViewMKTDocenteCurso].[DCU_FEC] AS [DCU_FEC], 
+    [ViewMKTDocenteCurso].[LAN_FEC_CAPACITACION] AS [LAN_FEC_CAPACITACION], 
+    [ViewMKTDocenteCurso].[CUR_ID] AS [CUR_ID], 
+    [ViewMKTDocenteCurso].[CUR_DESCRIPCION] AS [CUR_DESCRIPCION]
+    FROM [dbo].[ViewMKTDocenteCurso] AS [ViewMKTDocenteCurso]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_MAE_CURSOS_HORARIOS_FUTURO_MAE_CURSOS" Association="Self.FK_MAE_CURSOS_HORARIOS_FUTURO_MAE_CURSOS">
             <End Role="MAE_CURSOS" EntitySet="MAE_CURSOS" />
             <End Role="MAE_CURSOS_HORARIOS_FUTURO" EntitySet="MAE_CURSOS_HORARIOS_FUTURO" />
@@ -597,6 +633,7 @@
             <End Role="MAE_CURSOS_LANZAMIENTOS" EntitySet="MAE_CURSOS_LANZAMIENTOS" />
             <End Role="SEG_USUARIOS_LINKS" EntitySet="SEG_USUARIOS_LINKS" />
           </AssociationSet>
+          <EntitySet Name="ViewMKTDocenteCurso" EntityType="DB_WebCIIPModel.ViewMKTDocenteCurso" />
           <FunctionImport Name="Sp_Buscar_Fecha_Registro_Docente" ReturnType="Collection(DB_WebCIIPModel.Sp_Buscar_Fecha_Registro_Docente_Result)" />
           <EntitySet Name="MAE_CURSOS_HORARIOS_FUTURO" EntityType="DB_WebCIIPModel.MAE_CURSOS_HORARIOS_FUTURO" />
           <AssociationSet Name="FK_MAE_CURSOS_HORARIOS_FUTURO_MAE_CURSOS" Association="DB_WebCIIPModel.FK_MAE_CURSOS_HORARIOS_FUTURO_MAE_CURSOS">
@@ -1017,6 +1054,25 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ViewMKTDocenteCurso">
+          <Key>
+            <PropertyRef Name="DOC_ID" />
+            <PropertyRef Name="LAN_ID" />
+            <PropertyRef Name="MKT_ID" />
+            <PropertyRef Name="CUR_ID" />
+          </Key>
+          <Property Name="DOC_ID" Type="Int32" Nullable="false" />
+          <Property Name="LAN_ID" Type="Int32" Nullable="false" />
+          <Property Name="MKT_ID" Type="Int32" Nullable="false" />
+          <Property Name="DOC_NOMBRES" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="DOC_APELLIDOS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DOC_CELULAR" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="DOC_EMAIL" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="DCU_FEC" Type="DateTime" Precision="3" />
+          <Property Name="CUR_ID" Type="Int32" Nullable="false" />
+          <Property Name="LAN_FEC_CAPACITACION" Type="DateTime" Precision="3" />
+          <Property Name="CUR_DESCRIPCION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
         <ComplexType Name="Sp_Buscar_Fecha_Registro_Docente_Result">
           <Property Type="DateTime" Name="Column1" Nullable="true" Precision="23" />
           <Property Type="Int32" Name="Column2" Nullable="true" />
@@ -1239,6 +1295,23 @@
                 <ScalarProperty Name="TUT_ID" ColumnName="TUT_ID" />
                 <ScalarProperty Name="CUR_ID" ColumnName="CUR_ID" />
                 <ScalarProperty Name="LAN_ID" ColumnName="LAN_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewMKTDocenteCurso">
+            <EntityTypeMapping TypeName="DB_WebCIIPModel.ViewMKTDocenteCurso">
+              <MappingFragment StoreEntitySet="ViewMKTDocenteCurso">
+                <ScalarProperty Name="CUR_DESCRIPCION" ColumnName="CUR_DESCRIPCION" />
+                <ScalarProperty Name="LAN_FEC_CAPACITACION" ColumnName="LAN_FEC_CAPACITACION" />
+                <ScalarProperty Name="CUR_ID" ColumnName="CUR_ID" />
+                <ScalarProperty Name="DCU_FEC" ColumnName="DCU_FEC" />
+                <ScalarProperty Name="DOC_EMAIL" ColumnName="DOC_EMAIL" />
+                <ScalarProperty Name="DOC_CELULAR" ColumnName="DOC_CELULAR" />
+                <ScalarProperty Name="DOC_APELLIDOS" ColumnName="DOC_APELLIDOS" />
+                <ScalarProperty Name="DOC_NOMBRES" ColumnName="DOC_NOMBRES" />
+                <ScalarProperty Name="MKT_ID" ColumnName="MKT_ID" />
+                <ScalarProperty Name="LAN_ID" ColumnName="LAN_ID" />
+                <ScalarProperty Name="DOC_ID" ColumnName="DOC_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

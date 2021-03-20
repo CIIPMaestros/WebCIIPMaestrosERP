@@ -223,6 +223,9 @@
     <Compile Include="Models\SEG_USUARIOS_LINKS.cs">
       <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewMKTDocenteCurso.cs">
+      <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Sp_Buscar_Fecha_Registro_Docente_Result.cs">
       <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
     </Compile>

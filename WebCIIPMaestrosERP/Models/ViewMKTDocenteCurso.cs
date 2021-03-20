@@ -12,21 +12,18 @@ namespace WebCIIPMaestrosERP.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class MKT_DOCENTE_CURSO
+    public partial class ViewMKTDocenteCurso
     {
-        public int ID { get; set; }
         public int DOC_ID { get; set; }
         public int LAN_ID { get; set; }
         public int MKT_ID { get; set; }
+        public string DOC_NOMBRES { get; set; }
+        public string DOC_APELLIDOS { get; set; }
+        public string DOC_CELULAR { get; set; }
+        public string DOC_EMAIL { get; set; }
         public Nullable<System.DateTime> DCU_FEC { get; set; }
         public int CUR_ID { get; set; }
-        public Nullable<System.DateTime> DCU_FEC_MOD_LAST { get; set; }
-        public Nullable<int> DCU_CANT_MOD { get; set; }
-        public int LAN_NUM_SEMANA { get; set; }
-    
-        public virtual MKT_DOCENTES MKT_DOCENTES { get; set; }
-        public virtual SEG_USUARIOS SEG_USUARIOS { get; set; }
-        public virtual MAE_CURSOS MAE_CURSOS { get; set; }
-        public virtual MAE_CURSOS_LANZAMIENTOS MAE_CURSOS_LANZAMIENTOS { get; set; }
+        public Nullable<System.DateTime> LAN_FEC_CAPACITACION { get; set; }
+        public string CUR_DESCRIPCION { get; set; }
     }
 }
