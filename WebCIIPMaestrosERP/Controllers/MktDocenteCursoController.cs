@@ -138,7 +138,7 @@ namespace WebCIIPMaestrosERP.Controllers
                         {
                             DOC_ID = item.DOC_ID,
                             LAN_ID = item.LAN_ID,
-                            MKT_ID = (int)item.MKT_ID,
+                            MKT_ID = item.MKT_ID,
                             DOC_NOMBRES = item.DOC_NOMBRES,
                             DOC_APELLIDOS = item.DOC_APELLIDOS,
                             DOC_CELULAR = item.DOC_CELULAR,
@@ -150,6 +150,7 @@ namespace WebCIIPMaestrosERP.Controllers
                         GetListaReporte.Listado.Add(mkt);
                     }
 
+                    ListaDocente = GetListaReporte.Listado;
                     GetListaReporte.RegPerPage = cantidadRegistrosPorPagina;
                     GetListaReporte.Page = (int)page;
                     GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Count();
@@ -168,7 +169,7 @@ namespace WebCIIPMaestrosERP.Controllers
                                     {
                                         DOC_ID = dc.DOC_ID,
                                         LAN_ID = dc.LAN_ID,
-                                        MKT_ID = (int)dc.MKT_ID,
+                                        MKT_ID = dc.MKT_ID,
                                         DOC_NOMBRES = dc.DOC_NOMBRES,
                                         DOC_APELLIDOS = dc.DOC_APELLIDOS,
                                         DOC_CELULAR = dc.DOC_CELULAR,
@@ -194,7 +195,7 @@ namespace WebCIIPMaestrosERP.Controllers
                         {
                             DOC_ID = item.DOC_ID,
                             LAN_ID = item.LAN_ID,
-                            MKT_ID = (int)item.MKT_ID,
+                            MKT_ID = item.MKT_ID,
                             DOC_NOMBRES = item.DOC_NOMBRES,
                             DOC_APELLIDOS = item.DOC_APELLIDOS,
                             DOC_CELULAR = item.DOC_CELULAR,
@@ -206,6 +207,7 @@ namespace WebCIIPMaestrosERP.Controllers
                         GetListaReporte.Listado.Add(mkt);
                     }
 
+                    ListaDocente = GetListaReporte.Listado;
                     GetListaReporte.RegPerPage = cantidadRegistrosPorPagina;
                     GetListaReporte.Page = (int)page;
                     GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Where(x => x.DOC_ID == UserId).Count();
@@ -226,7 +228,7 @@ namespace WebCIIPMaestrosERP.Controllers
                                     {
                                         DOC_ID = dc.DOC_ID,
                                         LAN_ID = dc.LAN_ID,
-                                        MKT_ID = (int)dc.MKT_ID,
+                                        MKT_ID = dc.MKT_ID,
                                         DOC_NOMBRES = dc.DOC_NOMBRES,
                                         DOC_APELLIDOS = dc.DOC_APELLIDOS,
                                         DOC_CELULAR = dc.DOC_CELULAR,
@@ -251,7 +253,7 @@ namespace WebCIIPMaestrosERP.Controllers
                         {
                             DOC_ID = item.DOC_ID,
                             LAN_ID = item.LAN_ID,
-                            MKT_ID = (int)item.MKT_ID,
+                            MKT_ID = item.MKT_ID,
                             DOC_NOMBRES = item.DOC_NOMBRES,
                             DOC_APELLIDOS = item.DOC_APELLIDOS,
                             DOC_CELULAR = item.DOC_CELULAR,
@@ -263,6 +265,7 @@ namespace WebCIIPMaestrosERP.Controllers
                         GetListaReporte.Listado.Add(mkt);
                     }
 
+                    ListaDocente = GetListaReporte.Listado;
                     GetListaReporte.RegPerPage = cantidadRegistrosPorPagina;
                     GetListaReporte.Page = (int)page;
                     GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Where(x => x.DOC_ID == UserId && x.CUR_ID == CursId).Count();
@@ -308,7 +311,7 @@ namespace WebCIIPMaestrosERP.Controllers
                         {
                             DOC_ID = item.DOC_ID,
                             LAN_ID = item.LAN_ID,
-                            MKT_ID = (int)item.MKT_ID,
+                            MKT_ID = item.MKT_ID,
                             DOC_NOMBRES = item.DOC_NOMBRES,
                             DOC_APELLIDOS = item.DOC_APELLIDOS,
                             DOC_CELULAR = item.DOC_CELULAR,
@@ -320,6 +323,7 @@ namespace WebCIIPMaestrosERP.Controllers
                         GetListaReporte.Listado.Add(mkt);
                     }
 
+                    ListaDocente = GetListaReporte.Listado;
                     GetListaReporte.RegPerPage = cantidadRegistrosPorPagina;
                     GetListaReporte.Page = (int)page;
                     GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Where(x => x.DOC_ID == UserId && x.CUR_ID == CursId && x.LAN_ID == LanId).Count();
@@ -361,9 +365,9 @@ namespace WebCIIPMaestrosERP.Controllers
                     //                    DOC_CELULAR = dc.DOC_CELULAR,
                     //                    DOC_EMAIL = dc.DOC_EMAIL,
                     //                    DCU_FEC = (DateTime)dc.DCU_FEC,
-                    //                    DCU_FECCADENA = ((DateTime)dc.DCU_FEC).ToString(),
+                    //                    DCU_FECCADENA = dc.DCU_FEC.ToString(),
                     //                    TurnoFecha = (DateTime)dc.LAN_FEC_CAPACITACION,
-                    //                    TurnoFechaCadena = ((DateTime)dc.LAN_FEC_CAPACITACION).ToString(),
+                    //                    TurnoFechaCadena = dc.LAN_FEC_CAPACITACION.ToString(),
                     //                    CUR_NOMBRE = dc.CUR_DESCRIPCION
                     //                }).ToList();
                     //fin excel
@@ -380,7 +384,7 @@ namespace WebCIIPMaestrosERP.Controllers
                         {
                             DOC_ID = item.DOC_ID,
                             LAN_ID = item.LAN_ID,
-                            MKT_ID = (int)item.MKT_ID,
+                            MKT_ID = item.MKT_ID,
                             DOC_NOMBRES = item.DOC_NOMBRES,
                             DOC_APELLIDOS = item.DOC_APELLIDOS,
                             DOC_CELULAR = item.DOC_CELULAR,
@@ -392,6 +396,7 @@ namespace WebCIIPMaestrosERP.Controllers
                         GetListaReporte.Listado.Add(mkt);
                     }
 
+                    ListaDocente = GetListaReporte.Listado;
                     GetListaReporte.RegPerPage = cantidadRegistrosPorPagina;
                     GetListaReporte.Page = (int)page;
                     GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Count();
@@ -437,7 +442,7 @@ namespace WebCIIPMaestrosERP.Controllers
                         {
                             DOC_ID = item.DOC_ID,
                             LAN_ID = item.LAN_ID,
-                            MKT_ID = (int)item.MKT_ID,
+                            MKT_ID = item.MKT_ID,
                             DOC_NOMBRES = item.DOC_NOMBRES,
                             DOC_APELLIDOS = item.DOC_APELLIDOS,
                             DOC_CELULAR = item.DOC_CELULAR,
@@ -448,6 +453,8 @@ namespace WebCIIPMaestrosERP.Controllers
                         };
                         GetListaReporte.Listado.Add(mkt);
                     }
+
+                    ListaDocente = GetListaReporte.Listado;
 
                     GetListaReporte.RegPerPage = cantidadRegistrosPorPagina;
                     GetListaReporte.Page = (int)page;
@@ -495,7 +502,7 @@ namespace WebCIIPMaestrosERP.Controllers
                         {
                             DOC_ID = item.DOC_ID,
                             LAN_ID = item.LAN_ID,
-                            MKT_ID = (int)item.MKT_ID,
+                            MKT_ID = item.MKT_ID,
                             DOC_NOMBRES = item.DOC_NOMBRES,
                             DOC_APELLIDOS = item.DOC_APELLIDOS,
                             DOC_CELULAR = item.DOC_CELULAR,
@@ -507,6 +514,7 @@ namespace WebCIIPMaestrosERP.Controllers
                         GetListaReporte.Listado.Add(mkt);
                     }
 
+                    ListaDocente = GetListaReporte.Listado;
                     GetListaReporte.RegPerPage = cantidadRegistrosPorPagina;
                     GetListaReporte.Page = (int)page;
                     GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Where(x => x.DOC_ID == UserId && x.CUR_ID == CursId).Count();
@@ -553,7 +561,7 @@ namespace WebCIIPMaestrosERP.Controllers
                         {
                             DOC_ID = item.DOC_ID,
                             LAN_ID = item.LAN_ID,
-                            MKT_ID = (int)item.MKT_ID,
+                            MKT_ID = item.MKT_ID,
                             DOC_NOMBRES = item.DOC_NOMBRES,
                             DOC_APELLIDOS = item.DOC_APELLIDOS,
                             DOC_CELULAR = item.DOC_CELULAR,
@@ -565,6 +573,7 @@ namespace WebCIIPMaestrosERP.Controllers
                         GetListaReporte.Listado.Add(mkt);
                     }
 
+                    ListaDocente = GetListaReporte.Listado;
                     GetListaReporte.RegPerPage = cantidadRegistrosPorPagina;
                     GetListaReporte.Page = (int)page;
                     GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Where(x => x.DOC_ID == UserId && x.CUR_ID == CursId && x.LAN_ID == LanId).Count();
