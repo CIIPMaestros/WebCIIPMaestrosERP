@@ -188,8 +188,8 @@
           <Property Name="LNK_ACTIVO" Type="varchar" MaxLength="1" />
           <Property Name="USU_LINK_CORTO" Type="varchar" MaxLength="1000" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'DB_WebCIIP.dbo.ViewMKTDocenteCurso' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DB_WebCIIPV2.dbo.ViewMKTDocenteCurso' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewMKTDocenteCurso">
           <Key>
             <PropertyRef Name="DOC_ID" />
@@ -208,6 +208,7 @@ advertencia 6002: La tabla o vista 'DB_WebCIIP.dbo.ViewMKTDocenteCurso' no tiene
           <Property Name="LAN_FEC_CAPACITACION" Type="datetime" />
           <Property Name="CUR_ID" Type="int" Nullable="false" />
           <Property Name="CUR_DESCRIPCION" Type="varchar" MaxLength="200" />
+          <Property Name="fecha_filtro" Type="datetime" />
         </EntityType>
         <Association Name="FK_MAE_CURSOS_HORARIOS_FUTURO_MAE_CURSOS">
           <End Role="MAE_CURSOS" Type="Self.MAE_CURSOS" Multiplicity="1" />
@@ -425,7 +426,6 @@ advertencia 6002: La tabla o vista 'DB_WebCIIP.dbo.ViewMKTDocenteCurso' no tiene
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="Sp_Buscar_Fecha_Registro_Docente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Sp_Crear_Lanzamientos_By_Curso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CUR_ID" Type="int" Mode="In" />
         </Function>
@@ -462,7 +462,8 @@ advertencia 6002: La tabla o vista 'DB_WebCIIP.dbo.ViewMKTDocenteCurso' no tiene
     [ViewMKTDocenteCurso].[DCU_FEC] AS [DCU_FEC], 
     [ViewMKTDocenteCurso].[LAN_FEC_CAPACITACION] AS [LAN_FEC_CAPACITACION], 
     [ViewMKTDocenteCurso].[CUR_ID] AS [CUR_ID], 
-    [ViewMKTDocenteCurso].[CUR_DESCRIPCION] AS [CUR_DESCRIPCION]
+    [ViewMKTDocenteCurso].[CUR_DESCRIPCION] AS [CUR_DESCRIPCION], 
+    [ViewMKTDocenteCurso].[fecha_filtro] AS [fecha_filtro]
     FROM [dbo].[ViewMKTDocenteCurso] AS [ViewMKTDocenteCurso]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_MAE_CURSOS_HORARIOS_FUTURO_MAE_CURSOS" Association="Self.FK_MAE_CURSOS_HORARIOS_FUTURO_MAE_CURSOS">
@@ -1071,6 +1072,7 @@ advertencia 6002: La tabla o vista 'DB_WebCIIP.dbo.ViewMKTDocenteCurso' no tiene
           <Property Name="CUR_ID" Type="Int32" Nullable="false" />
           <Property Name="LAN_FEC_CAPACITACION" Type="DateTime" Precision="3" />
           <Property Name="CUR_DESCRIPCION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_filtro" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="MAE_CURSOS_HORARIOS_FUTURO">
           <Key>
@@ -1294,6 +1296,7 @@ advertencia 6002: La tabla o vista 'DB_WebCIIP.dbo.ViewMKTDocenteCurso' no tiene
           <EntitySetMapping Name="ViewMKTDocenteCurso">
             <EntityTypeMapping TypeName="DB_WebCIIPModel.ViewMKTDocenteCurso">
               <MappingFragment StoreEntitySet="ViewMKTDocenteCurso">
+                <ScalarProperty Name="fecha_filtro" ColumnName="fecha_filtro" />
                 <ScalarProperty Name="CUR_DESCRIPCION" ColumnName="CUR_DESCRIPCION" />
                 <ScalarProperty Name="LAN_FEC_CAPACITACION" ColumnName="LAN_FEC_CAPACITACION" />
                 <ScalarProperty Name="CUR_ID" ColumnName="CUR_ID" />

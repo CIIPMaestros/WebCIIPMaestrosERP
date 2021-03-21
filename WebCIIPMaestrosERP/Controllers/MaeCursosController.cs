@@ -559,6 +559,7 @@ namespace WebCIIPMaestrosERP.Controllers
                         oMaeCursos.CUR_CERTIFICACION = oMaeCursosCLS.CUR_CERTIFICACION;
                         oMaeCursos.CUR_PRECIO = oMaeCursosCLS.CUR_PRECIO;
                         oMaeCursos.CAT_ID = oMaeCursosCLS.CAT_ID;
+                        oMaeCursos.CUR_ID_ENCRIPTADO = oMaeCursosCLS.CUR_ID_ENCRIPTADO;
                         //oSEG_USUARIOS.USU_CONTRASENA = cadenaContraCifrada;
                         //oSEG_USUARIOS.USU_ACTIVO = "1";
 

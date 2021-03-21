@@ -49,6 +49,7 @@ namespace WebCIIPMaestrosERP.Models
         public string CUR_IMAGEN { get; set; }
 
         public List<Horarios> horarios { get; set; }
+        public List<HorariosFuturo> horariosFuturos { get; set; }
 
         public List<MAE_CURSOS_HORARIOS> GetHorarios { get; set; }
 
@@ -71,7 +72,18 @@ namespace WebCIIPMaestrosERP.Models
                 
         public string SCH_HORA { get; set; }
 
-        public string SCH_MT { get; set; }
+
+    }
+
+    public class HorariosFuturo
+    {
+
+        public int CURS_ID { get; set; }
+
+        public string SCH_DIA { get; set; }
+
+        public string SCH_HORA { get; set; }
+
 
     }
 
