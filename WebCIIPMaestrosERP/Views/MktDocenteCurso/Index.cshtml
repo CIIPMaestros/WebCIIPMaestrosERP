@@ -22,17 +22,21 @@
                     <tr>
                         <td><span class="glyphicon glyphicon-th btn-lg" aria-hidden="true"></span></td>
                         <td><span class="glyphicon glyphicon-th-list btn-lg" aria-hidden="true"></span></td>
-                        
+
                         @Html.Hidden("page", null, new { @id = "optPage" })
-                        
+
+                        @Html.Hidden("LanId")
+                        <td>Fecha de Registro</td>
+                        <td>
+                            <input class="form-control" type="date" id="DCU_FEC" name="DCU_FEC"
+                                   value="2021-03-21">
+
+                        </td>
                         <td>Cursos</td>
                         <td>
                             @Html.DropDownList("CursId", new SelectList(""), "Todos", new { @class = "form-control", @id = "Curso" })
                         </td>
-                        <td>Fecha de Curso</td>
-                        <td>
-                            @Html.DropDownList("LanId", new SelectList(""), "Todos", new { @class = "form-control", @id = "Lanzamiento" })
-                        </td>
+                        
                         <td>
                             <input type="submit" value="Buscar" class="btn btn-success" />
                         </td>
@@ -80,7 +84,7 @@
                     });
 
        
-
+        /*
         $("#Curso").change(function () {
                 var text = $(this).children("option:selected").text();
                 var val = $(this).children("option:selected").val();
@@ -89,7 +93,7 @@
                     $("#Lanzamiento").attr("disabled", true);
                     $("#Lanzamiento").append('<option value="0" >Todos</option>');
                 } else {
-                    $.get("@Url.Action("GetLanzamientoSesionUsuByCurso", "MktDocenteCurso")?&IdCurso=" + val, function (Lanzamientos) {
+                    $.get("@@Url.Action("GetLanzamientoSesionUsuByCurso", "MktDocenteCurso")?&IdCurso=" + val, function (Lanzamientos) {
                         $("#Lanzamiento").html("");
                         $("#Lanzamiento").append('<option value="0">Todos</option>');
                         $("#Lanzamiento").attr("disabled", false);
@@ -98,7 +102,7 @@
                         });
                     });
                 }
-        });
+        });*/
 
         $(document).on('click', '.pagerNum', function (e) {
             var page = $(this).data('codigo');

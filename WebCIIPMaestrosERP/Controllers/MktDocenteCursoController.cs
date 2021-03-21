@@ -120,8 +120,8 @@ namespace WebCIIPMaestrosERP.Controllers
                     ew.Cells[i + 2, 4].Value = lista[i].DOC_EMAIL;
                     ew.Cells[i + 2, 5].Value = lista[i].DOC_CELULAR;
                     ew.Cells[i + 2, 6].Value = lista[i].CUR_DESCRIPCION;
-                    ew.Cells[i + 2, 7].Value = lista[i].DCU_FEC;
-                    ew.Cells[i + 2, 8].Value = lista[i].LAN_FEC_CAPACITACION;
+                    ew.Cells[i + 2, 7].Value = lista[i].DCU_FEC.ToString();
+                    ew.Cells[i + 2, 8].Value = lista[i].LAN_FEC_CAPACITACION.ToString();
 
                 }
                 //Pendiente
@@ -136,7 +136,7 @@ namespace WebCIIPMaestrosERP.Controllers
 
 
         
-        public ActionResult MktReporteByUser(int? UserId, int? CursId, int? LanId, int? page)
+        public ActionResult MktReporteByUser(int? UserId, int? CursId, int? LanId, int? page, DateTime? DCU_FEC)
         {
             List<ViewMKTDocenteCurso> ListaDocente = null;
 
@@ -151,6 +151,7 @@ namespace WebCIIPMaestrosERP.Controllers
                 {
 
                     var ListaCursoDocente = db.ViewMKTDocenteCurso
+                        .Where(x => x.fecha_filtro == DCU_FEC)
                         .OrderByDescending( x => x.DCU_FEC)
                         .Skip(((int)page - 1) * cantidadRegistrosPorPagina)
                         .Take(cantidadRegistrosPorPagina)
@@ -169,15 +170,19 @@ namespace WebCIIPMaestrosERP.Controllers
                             DOC_EMAIL = item.DOC_EMAIL,
                             DCU_FEC = (DateTime)item.DCU_FEC,
                             DCU_FECCADENA = ((DateTime)item.DCU_FEC).ToString(),
-                            CUR_NOMBRE = item.CUR_DESCRIPCION
+                            CUR_NOMBRE = item.CUR_DESCRIPCION,
+                            LAN_FEC_CAPACITACION = (DateTime)item.LAN_FEC_CAPACITACION,
+                            LAN_FEC_CAPACITACIONCADENA = ((DateTime)item.LAN_FEC_CAPACITACION).ToString()
                         };
                         GetListaReporte.Listado.Add(mkt);
                     }
 
-                    ListaDocente = null;
+                    ListaDocente = db.ViewMKTDocenteCurso.Where(x => x.fecha_filtro == DCU_FEC).OrderByDescending(x => x.DCU_FEC).ToList(); //null;
                     GetListaReporte.RegPerPage = cantidadRegistrosPorPagina;
                     GetListaReporte.Page = (int)page;
-                    GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Count();
+                    GetListaReporte.TotalReg = db.ViewMKTDocenteCurso
+                        .Where(x => x.fecha_filtro == DCU_FEC)
+                        .Count();
                 }
             }
             else if (UserId != 0 && CursId == 0)
@@ -205,7 +210,9 @@ namespace WebCIIPMaestrosERP.Controllers
                             DOC_EMAIL = item.DOC_EMAIL,
                             DCU_FEC = (DateTime)item.DCU_FEC,
                             DCU_FECCADENA = ((DateTime)item.DCU_FEC).ToString(),
-                            CUR_NOMBRE = item.CUR_DESCRIPCION
+                            CUR_NOMBRE = item.CUR_DESCRIPCION,
+                            LAN_FEC_CAPACITACION = (DateTime)item.LAN_FEC_CAPACITACION,
+                            LAN_FEC_CAPACITACIONCADENA = ((DateTime)item.LAN_FEC_CAPACITACION).ToString()
                         };
                         GetListaReporte.Listado.Add(mkt);
                     }
@@ -241,7 +248,9 @@ namespace WebCIIPMaestrosERP.Controllers
                             DOC_EMAIL = item.DOC_EMAIL,
                             DCU_FEC = (DateTime)item.DCU_FEC,
                             DCU_FECCADENA = ((DateTime)item.DCU_FEC).ToString(),
-                            CUR_NOMBRE = item.CUR_DESCRIPCION
+                            CUR_NOMBRE = item.CUR_DESCRIPCION,
+                            LAN_FEC_CAPACITACION = (DateTime)item.LAN_FEC_CAPACITACION,
+                            LAN_FEC_CAPACITACIONCADENA = ((DateTime)item.LAN_FEC_CAPACITACION).ToString()
                         };
                         GetListaReporte.Listado.Add(mkt);
                     }
@@ -276,7 +285,9 @@ namespace WebCIIPMaestrosERP.Controllers
                             DOC_EMAIL = item.DOC_EMAIL,
                             DCU_FEC = (DateTime)item.DCU_FEC,
                             DCU_FECCADENA = ((DateTime)item.DCU_FEC).ToString(),
-                            CUR_NOMBRE = item.CUR_DESCRIPCION
+                            CUR_NOMBRE = item.CUR_DESCRIPCION,
+                            LAN_FEC_CAPACITACION = (DateTime)item.LAN_FEC_CAPACITACION,
+                            LAN_FEC_CAPACITACIONCADENA = ((DateTime)item.LAN_FEC_CAPACITACION).ToString()
                         };
                         GetListaReporte.Listado.Add(mkt);
                     }
@@ -295,7 +306,7 @@ namespace WebCIIPMaestrosERP.Controllers
             return View(GetListaReporte);
         }
 
-        public async Task<ActionResult> Filters(int? UserId, int? CursId, int? LanId, int? page)
+        public async Task<ActionResult> Filters(int? UserId, int? CursId, int? LanId, int? page, DateTime? DCU_FEC)
         {
             MktDocenteCursoCLS GetListaReporte = new MktDocenteCursoCLS();
             GetListaReporte.Listado = new List<MktDocenteCursoCLS>();
@@ -309,6 +320,7 @@ namespace WebCIIPMaestrosERP.Controllers
                 using (var db = new DB_WebCIIPEntitiesERP())
                 {
                     var ListaCursoDocente = await Task.Run( () => db.ViewMKTDocenteCurso
+                        .Where(x=> x.fecha_filtro == DCU_FEC ) // siempre debe filtrar por fecha
                         .OrderByDescending(x => x.DCU_FEC)
                         .Skip(((int)page - 1) * cantidadRegistrosPorPagina)
                         .Take(cantidadRegistrosPorPagina)
@@ -327,15 +339,19 @@ namespace WebCIIPMaestrosERP.Controllers
                             DOC_EMAIL = item.DOC_EMAIL,
                             DCU_FEC = (DateTime)item.DCU_FEC,
                             DCU_FECCADENA = ((DateTime)item.DCU_FEC).ToString(),
-                            CUR_NOMBRE = item.CUR_DESCRIPCION
+                            CUR_NOMBRE = item.CUR_DESCRIPCION,
+                            LAN_FEC_CAPACITACION = (DateTime)item.LAN_FEC_CAPACITACION,
+                            LAN_FEC_CAPACITACIONCADENA = ((DateTime)item.LAN_FEC_CAPACITACION).ToString()
                         };
                         GetListaReporte.Listado.Add(mkt);
                     }
 
-                    ListaDocente = null;
+                    ListaDocente = db.ViewMKTDocenteCurso.Where(x => x.fecha_filtro == DCU_FEC)
+                                    .OrderByDescending(x => x.DCU_FEC)
+                                    .ToList();
                     GetListaReporte.RegPerPage = cantidadRegistrosPorPagina;
                     GetListaReporte.Page = (int)page;
-                    GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Count();
+                    GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Where(x => x.fecha_filtro == DCU_FEC).Count();
                 }
             }
             else if (UserId != 0 && CursId == 0)
@@ -343,8 +359,8 @@ namespace WebCIIPMaestrosERP.Controllers
                 using (var db = new DB_WebCIIPEntitiesERP())
                 {
                     var ListaCursoDocente = await Task.Run(() => db.ViewMKTDocenteCurso
-                        .Where(x => x.MKT_ID == UserId)
-                        .OrderByDescending(x => x.LAN_FEC_CAPACITACION)
+                        .Where(x => x.MKT_ID == UserId && x.fecha_filtro == DCU_FEC)
+                        .OrderByDescending(x => x.DCU_FEC)
                         .Skip(((int)page - 1) * cantidadRegistrosPorPagina)
                         .Take(cantidadRegistrosPorPagina)
                         .ToList());
@@ -362,26 +378,28 @@ namespace WebCIIPMaestrosERP.Controllers
                             DOC_EMAIL = item.DOC_EMAIL,
                             DCU_FEC = (DateTime)item.DCU_FEC,
                             DCU_FECCADENA = ((DateTime)item.DCU_FEC).ToString(),
-                            CUR_NOMBRE = item.CUR_DESCRIPCION
+                            CUR_NOMBRE = item.CUR_DESCRIPCION,
+                            LAN_FEC_CAPACITACION = (DateTime)item.LAN_FEC_CAPACITACION,
+                            LAN_FEC_CAPACITACIONCADENA = ((DateTime)item.LAN_FEC_CAPACITACION).ToString()
                         };
                         GetListaReporte.Listado.Add(mkt);
                     }
 
-                    ListaDocente = db.ViewMKTDocenteCurso.Where(x => x.MKT_ID == UserId)
+                    ListaDocente = db.ViewMKTDocenteCurso.Where(x => x.MKT_ID == UserId && x.fecha_filtro == DCU_FEC)
                         .OrderByDescending(x => x.DCU_FEC)
                         .ToList();
 
                     GetListaReporte.RegPerPage = cantidadRegistrosPorPagina;
                     GetListaReporte.Page = (int)page;
-                    GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Where(x => x.MKT_ID == UserId).Count();
+                    GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Where(x => x.MKT_ID == UserId && x.fecha_filtro == DCU_FEC).Count();
                 }
             }
-            else if (UserId != 0 && CursId != 0 && LanId == 0)
+            else if (UserId != 0 && CursId != 0 && DCU_FEC != null)
             {
                 using (var db = new DB_WebCIIPEntitiesERP())
                 {
                     var ListaCursoDocente = await Task.Run(() => db.ViewMKTDocenteCurso
-                        .Where(x => x.MKT_ID == UserId && x.CUR_ID == CursId)
+                        .Where(x => x.MKT_ID == UserId && x.CUR_ID == CursId && x.fecha_filtro == DCU_FEC)
                         .OrderByDescending(x => x.DCU_FEC)
                         .Skip(((int)page - 1) * cantidadRegistrosPorPagina)
                         .Take(cantidadRegistrosPorPagina)
@@ -400,25 +418,27 @@ namespace WebCIIPMaestrosERP.Controllers
                             DOC_EMAIL = item.DOC_EMAIL,
                             DCU_FEC = (DateTime)item.DCU_FEC,
                             DCU_FECCADENA = ((DateTime)item.DCU_FEC).ToString(),
-                            CUR_NOMBRE = item.CUR_DESCRIPCION
+                            CUR_NOMBRE = item.CUR_DESCRIPCION,
+                            LAN_FEC_CAPACITACION = (DateTime)item.LAN_FEC_CAPACITACION,
+                            LAN_FEC_CAPACITACIONCADENA = ((DateTime)item.LAN_FEC_CAPACITACION).ToString()
                         };
                         GetListaReporte.Listado.Add(mkt);
                     }
 
-                    ListaDocente = db.ViewMKTDocenteCurso.Where(x => x.MKT_ID == UserId && x.CUR_ID == CursId)
+                    ListaDocente = db.ViewMKTDocenteCurso.Where(x => x.MKT_ID == UserId && x.CUR_ID == CursId && x.fecha_filtro == DCU_FEC)
                         .OrderByDescending(x => x.DCU_FEC)
                         .ToList();
                     GetListaReporte.RegPerPage = cantidadRegistrosPorPagina;
                     GetListaReporte.Page = (int)page;
-                    GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Where(x => x.MKT_ID == UserId && x.CUR_ID == CursId).Count();
+                    GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Where(x => x.MKT_ID == UserId && x.CUR_ID == CursId && x.fecha_filtro == DCU_FEC).Count();
                 }
             }
-            else
+            else //
             {
                 using (var db = new DB_WebCIIPEntitiesERP())
                 {
                     var ListaCursoDocente = await Task.Run(() => db.ViewMKTDocenteCurso
-                        .Where(x => x.MKT_ID == UserId && x.CUR_ID == CursId && x.LAN_ID == LanId)
+                        .Where(x => x.MKT_ID == UserId && x.CUR_ID == CursId && x.fecha_filtro == DCU_FEC)
                         .OrderByDescending(x => x.DCU_FEC)
                         .Skip(((int)page - 1) * cantidadRegistrosPorPagina)
                         .Take(cantidadRegistrosPorPagina)
@@ -437,17 +457,19 @@ namespace WebCIIPMaestrosERP.Controllers
                             DOC_EMAIL = item.DOC_EMAIL,
                             DCU_FEC = (DateTime)item.DCU_FEC,
                             DCU_FECCADENA = ((DateTime)item.DCU_FEC).ToString(),
-                            CUR_NOMBRE = item.CUR_DESCRIPCION
+                            CUR_NOMBRE = item.CUR_DESCRIPCION,
+                            LAN_FEC_CAPACITACION = (DateTime)item.LAN_FEC_CAPACITACION,
+                            LAN_FEC_CAPACITACIONCADENA = ((DateTime)item.LAN_FEC_CAPACITACION).ToString()
                         };
                         GetListaReporte.Listado.Add(mkt);
                     }
 
-                    ListaDocente = db.ViewMKTDocenteCurso.Where(x => x.MKT_ID == UserId && x.CUR_ID == CursId && x.LAN_ID == LanId)
+                    ListaDocente = db.ViewMKTDocenteCurso.Where(x => x.MKT_ID == UserId && x.CUR_ID == CursId && x.fecha_filtro == DCU_FEC)
                         .OrderByDescending(x => x.DCU_FEC)
                         .ToList();
                     GetListaReporte.RegPerPage = cantidadRegistrosPorPagina;
                     GetListaReporte.Page = (int)page;
-                    GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Where(x => x.MKT_ID == UserId && x.CUR_ID == CursId && x.LAN_ID == LanId).Count();
+                    GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Where(x => x.MKT_ID == UserId && x.CUR_ID == CursId && x.fecha_filtro == DCU_FEC).Count();
                 }
             }
 
@@ -459,218 +481,162 @@ namespace WebCIIPMaestrosERP.Controllers
         }
 
 
-        public ActionResult Index(MktDocenteCursoCLS oMktDocenteCursoCLS, int? page)
+        public ActionResult Index(int? UserId, int? CursId, int? LanId, int? page, DateTime? DCU_FEC)
         {
+
+            List<ViewMKTDocenteCurso> ListaDocente = null;
+
+            MktDocenteCursoCLS GetListaReporte = new MktDocenteCursoCLS();
+            GetListaReporte.Listado = new List<MktDocenteCursoCLS>();
             page = page == null ? 1 : page;
             int cantidadRegistrosPorPagina = 10;
             int idusuario = (int)HttpContext.Session["UsuID"];
-            llenarCurso();
-            //llenarUsuarioMkt();
 
-            //ViewBag.CargaUsuMktAll = ListaUsuMkt;
-            ViewBag.CargaCursos = ListaCursos;
+            
+                using (var db = new DB_WebCIIPEntitiesERP())
+                {
 
-            //int idusuario = oMktDocenteCursoCLS.USU_ID;
-            int idCurso = oMktDocenteCursoCLS.CUR_ID;
-            int idLan = oMktDocenteCursoCLS.LAN_ID;
+                    var ListaCursoDocente = db.ViewMKTDocenteCurso
+                        .Where(x => x.fecha_filtro == DCU_FEC && x.MKT_ID.Equals(UserId))
+                        .OrderByDescending(x => x.DCU_FEC)
+                        .Skip(((int)page - 1) * cantidadRegistrosPorPagina)
+                        .Take(cantidadRegistrosPorPagina)
+                        .ToList();
 
-            //cargar listas
+                    foreach (var item in ListaCursoDocente)
+                    {
+                        var mkt = new MktDocenteCursoCLS
+                        {
+                            DOC_ID = item.DOC_ID,
+                            LAN_ID = item.LAN_ID,
+                            MKT_ID = item.MKT_ID,
+                            DOC_NOMBRES = item.DOC_NOMBRES,
+                            DOC_APELLIDOS = item.DOC_APELLIDOS,
+                            DOC_CELULAR = item.DOC_CELULAR,
+                            DOC_EMAIL = item.DOC_EMAIL,
+                            DCU_FEC = (DateTime)item.DCU_FEC,
+                            DCU_FECCADENA = ((DateTime)item.DCU_FEC).ToString(),
+                            CUR_NOMBRE = item.CUR_DESCRIPCION,
+                            LAN_FEC_CAPACITACION = (DateTime)item.LAN_FEC_CAPACITACION,
+                            LAN_FEC_CAPACITACIONCADENA = ((DateTime)item.LAN_FEC_CAPACITACION).ToString()
+                        };
+                        GetListaReporte.Listado.Add(mkt);
+                    }
+
+                    ListaDocente = db.ViewMKTDocenteCurso.Where(x => x.fecha_filtro == DCU_FEC).OrderByDescending(x => x.DCU_FEC).ToList(); //null;
+                    GetListaReporte.RegPerPage = cantidadRegistrosPorPagina;
+                    GetListaReporte.Page = (int)page;
+                    GetListaReporte.TotalReg = db.ViewMKTDocenteCurso
+                        .Where(x => x.fecha_filtro == DCU_FEC)
+                        .Count();
+                }
+            
 
 
-            MktDocenteCursoCLS GetAll = new MktDocenteCursoCLS();
+            ViewBag.ContarDocentesCapturados = GetListaReporte.TotalReg;
 
-            using (var db = new DB_WebCIIPEntitiesERP())
+            Session["SessionMktReporteByUser"] = ListaDocente;
+
+            return View(GetListaReporte);
+
+
+        }
+
+        public async Task<ActionResult> FiltersBySesionUsu(int? UserId, int? CursId, int? LanId, int? page, DateTime? DCU_FEC)
+        {
+            MktDocenteCursoCLS GetListaReporte = new MktDocenteCursoCLS();
+            GetListaReporte.Listado = new List<MktDocenteCursoCLS>();
+            List<ViewMKTDocenteCurso> ListaDocente = null;
+            int idusuario = (int)HttpContext.Session["UsuID"];
+
+            page = page == null ? 1 : page;
+            int cantidadRegistrosPorPagina = 10;
+
+            if (CursId != 0)
             {
-                if ( idCurso != 0 && idLan == 0)
+                using (var db = new DB_WebCIIPEntitiesERP())
                 {
+                    var ListaCursoDocente = await Task.Run(() => db.ViewMKTDocenteCurso
+                        .Where(x => x.MKT_ID == idusuario && x.fecha_filtro == DCU_FEC && x.CUR_ID == CursId)
+                        .OrderByDescending(x => x.DCU_FEC)
+                        .Skip(((int)page - 1) * cantidadRegistrosPorPagina)
+                        .Take(cantidadRegistrosPorPagina)
+                        .ToList());
 
-                    GetAll.Listado = (from DocenteCurso in db.MKT_DOCENTE_CURSO
-                                      join Docente in db.MKT_DOCENTES
-                                      on DocenteCurso.DOC_ID equals Docente.DOC_ID
-                                      join lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
-                                      on DocenteCurso.LAN_ID equals lanzamiento.LAN_ID
-                                      join curso in db.MAE_CURSOS
-                                      on lanzamiento.CUR_ID equals curso.CUR_ID
-                                      where DocenteCurso.MKT_ID == idusuario &&
-                                            DocenteCurso.CUR_ID == idCurso
-                                      orderby DocenteCurso.DCU_FEC descending
+                    foreach (var item in ListaCursoDocente)
+                    {
+                        var mkt = new MktDocenteCursoCLS
+                        {
+                            DOC_ID = item.DOC_ID,
+                            LAN_ID = item.LAN_ID,
+                            MKT_ID = item.MKT_ID,
+                            DOC_NOMBRES = item.DOC_NOMBRES,
+                            DOC_APELLIDOS = item.DOC_APELLIDOS,
+                            DOC_CELULAR = item.DOC_CELULAR,
+                            DOC_EMAIL = item.DOC_EMAIL,
+                            DCU_FEC = (DateTime)item.DCU_FEC,
+                            DCU_FECCADENA = ((DateTime)item.DCU_FEC).ToString(),
+                            CUR_NOMBRE = item.CUR_DESCRIPCION,
+                            LAN_FEC_CAPACITACION = (DateTime)item.LAN_FEC_CAPACITACION,
+                            LAN_FEC_CAPACITACIONCADENA = ((DateTime)item.LAN_FEC_CAPACITACION).ToString()
+                        };
+                        GetListaReporte.Listado.Add(mkt);
+                    }
 
-                                      select new MktDocenteCursoCLS
-                                      {
-                                          DOC_ID = DocenteCurso.DOC_ID,
-                                          LAN_ID = DocenteCurso.LAN_ID,
-                                          MKT_ID = (int)DocenteCurso.MKT_ID,
-                                          DOC_NOMBRES = Docente.DOC_NOMBRES,
-                                          DOC_APELLIDOS = Docente.DOC_APELLIDOS,
-                                          //DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + " " + Docente.DOC_APELLIDOS,
-                                          TurnoFecha = (DateTime)lanzamiento.LAN_FEC_CAPACITACION,
-                                          TurnoFechaCadena = ((DateTime)lanzamiento.LAN_FEC_CAPACITACION).ToString(),
-                                          DOC_CELULAR = Docente.DOC_CELULAR,
-                                          DOC_EMAIL = Docente.DOC_EMAIL,
-                                          DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
-                                          DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
-                                          CUR_NOMBRE = curso.CUR_DESCRIPCION
+                    ListaDocente = db.ViewMKTDocenteCurso.Where(x => x.MKT_ID == idusuario && x.fecha_filtro == DCU_FEC && x.CUR_ID == CursId)
+                        .OrderByDescending(x => x.DCU_FEC)
+                        .ToList();
 
-                                      }).Skip(((int)page - 1) * cantidadRegistrosPorPagina)
-                     .Take(cantidadRegistrosPorPagina)
-                     .ToList();
-
-                    GetAll.RegPerPage = cantidadRegistrosPorPagina;
-                    GetAll.Page = (int)page;
-                    GetAll.TotalReg = (from DocenteCurso in db.MKT_DOCENTE_CURSO
-                                       join Docente in db.MKT_DOCENTES
-                                       on DocenteCurso.DOC_ID equals Docente.DOC_ID
-                                       join lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
-                                       on DocenteCurso.LAN_ID equals lanzamiento.LAN_ID
-                                       join curso in db.MAE_CURSOS
-                                       on lanzamiento.CUR_ID equals curso.CUR_ID
-                                       where DocenteCurso.MKT_ID == idusuario &&
-                                             DocenteCurso.CUR_ID == idCurso 
-
-                                       select new MktDocenteCursoCLS
-                                       {
-                                           DOC_ID = DocenteCurso.DOC_ID,
-                                           LAN_ID = DocenteCurso.LAN_ID,
-                                           MKT_ID = (int)DocenteCurso.MKT_ID,
-                                           DOC_NOMBRES = Docente.DOC_NOMBRES,
-                                           DOC_APELLIDOS = Docente.DOC_APELLIDOS,
-                                           DOC_CELULAR = Docente.DOC_CELULAR,
-                                           DOC_EMAIL = Docente.DOC_EMAIL,
-                                           DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
-                                           DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
-                                           CUR_NOMBRE = curso.CUR_DESCRIPCION
-
-                                       }).ToList().Count();
+                    GetListaReporte.RegPerPage = cantidadRegistrosPorPagina;
+                    GetListaReporte.Page = (int)page;
+                    GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Where(x => x.MKT_ID == idusuario && x.fecha_filtro == DCU_FEC && x.CUR_ID == CursId).Count();
                 }
-                
-                else if (idCurso != 0 && idLan != 0) //cuando quier ver todo del bot sin importar el curso
-                {
-
-                    GetAll.Listado = (from DocenteCurso in db.MKT_DOCENTE_CURSO
-                                      join Docente in db.MKT_DOCENTES
-                                      on DocenteCurso.DOC_ID equals Docente.DOC_ID
-                                      join lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
-                                      on DocenteCurso.LAN_ID equals lanzamiento.LAN_ID
-                                      join curso in db.MAE_CURSOS
-                                      on lanzamiento.CUR_ID equals curso.CUR_ID
-                                      where DocenteCurso.MKT_ID == idusuario &&
-                                            DocenteCurso.CUR_ID == idCurso &&
-                                            lanzamiento.LAN_ID == idLan
-                                      orderby DocenteCurso.DOC_ID
-
-
-                                      select new MktDocenteCursoCLS
-                                      {
-                                          DOC_ID = DocenteCurso.DOC_ID,
-                                          LAN_ID = DocenteCurso.LAN_ID,
-                                          MKT_ID = (int)DocenteCurso.MKT_ID,
-                                          DOC_NOMBRES = Docente.DOC_NOMBRES,
-                                          DOC_APELLIDOS = Docente.DOC_APELLIDOS,
-                                          //DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + " " + Docente.DOC_APELLIDOS,
-                                          DOC_CELULAR = Docente.DOC_CELULAR,
-                                          DOC_EMAIL = Docente.DOC_EMAIL,
-                                          DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
-                                          DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
-                                          TurnoFecha = (DateTime)lanzamiento.LAN_FEC_CAPACITACION,
-                                          TurnoFechaCadena = ((DateTime)lanzamiento.LAN_FEC_CAPACITACION).ToString(),
-                                          CUR_NOMBRE = curso.CUR_DESCRIPCION
-                                      }).Skip(((int)page - 1) * cantidadRegistrosPorPagina)
-                     .Take(cantidadRegistrosPorPagina)
-                     .ToList();
-
-                    GetAll.RegPerPage = cantidadRegistrosPorPagina;
-                    GetAll.Page = (int)page;
-                    GetAll.TotalReg = (from DocenteCurso in db.MKT_DOCENTE_CURSO
-                                       join Docente in db.MKT_DOCENTES
-                                       on DocenteCurso.DOC_ID equals Docente.DOC_ID
-                                       join lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
-                                       on DocenteCurso.LAN_ID equals lanzamiento.LAN_ID
-                                       join curso in db.MAE_CURSOS
-                                       on lanzamiento.CUR_ID equals curso.CUR_ID
-                                       where DocenteCurso.MKT_ID == idusuario &&
-                                            DocenteCurso.CUR_ID == idCurso &&
-                                            lanzamiento.LAN_ID == idLan
-
-
-                                       select new MktDocenteCursoCLS
-                                       {
-                                           DOC_ID = DocenteCurso.DOC_ID,
-                                           LAN_ID = DocenteCurso.LAN_ID,
-                                           MKT_ID = (int)DocenteCurso.MKT_ID,
-                                           DOC_NOMBRES = Docente.DOC_NOMBRES,
-                                           DOC_APELLIDOS = Docente.DOC_APELLIDOS,
-                                           DOC_CELULAR = Docente.DOC_CELULAR,
-                                           DOC_EMAIL = Docente.DOC_EMAIL,
-                                           DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
-                                           DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
-                                           CUR_NOMBRE = curso.CUR_DESCRIPCION
-                                       }).ToList().Count();
-                }
-                else
-                {
-
-                    GetAll.Listado = (from DocenteCurso in db.MKT_DOCENTE_CURSO
-                                      join Docente in db.MKT_DOCENTES
-                                      on DocenteCurso.DOC_ID equals Docente.DOC_ID
-                                      join lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
-                                      on DocenteCurso.LAN_ID equals lanzamiento.LAN_ID
-                                      join curso in db.MAE_CURSOS
-                                      on lanzamiento.CUR_ID equals curso.CUR_ID
-                                      where DocenteCurso.MKT_ID == idusuario 
-                                      orderby DocenteCurso.DCU_FEC descending
-
-
-                                      select new MktDocenteCursoCLS
-                                      {
-                                          DOC_ID = DocenteCurso.DOC_ID,
-                                          LAN_ID = DocenteCurso.LAN_ID,
-                                          MKT_ID = (int)DocenteCurso.MKT_ID,
-                                          DOC_NOMBRES = Docente.DOC_NOMBRES,
-                                          DOC_APELLIDOS = Docente.DOC_APELLIDOS,
-                                          //DOC_NOMBRES_APELLIDOS = Docente.DOC_NOMBRES + " " + Docente.DOC_APELLIDOS,
-                                          DOC_CELULAR = Docente.DOC_CELULAR,
-                                          DOC_EMAIL = Docente.DOC_EMAIL,
-                                          DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
-                                          DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
-                                          TurnoFecha = (DateTime)lanzamiento.LAN_FEC_CAPACITACION,
-                                          TurnoFechaCadena = ((DateTime)lanzamiento.LAN_FEC_CAPACITACION).ToString(),
-                                          CUR_NOMBRE = curso.CUR_DESCRIPCION
-                                      }).Skip(((int)page - 1) * cantidadRegistrosPorPagina)
-                     .Take(cantidadRegistrosPorPagina)
-                     .ToList();
-
-                    GetAll.RegPerPage = cantidadRegistrosPorPagina;
-                    GetAll.Page = (int)page;
-                    GetAll.TotalReg = (from DocenteCurso in db.MKT_DOCENTE_CURSO
-                                       join Docente in db.MKT_DOCENTES
-                                       on DocenteCurso.DOC_ID equals Docente.DOC_ID
-                                       join lanzamiento in db.MAE_CURSOS_LANZAMIENTOS
-                                       on DocenteCurso.LAN_ID equals lanzamiento.LAN_ID
-                                       join curso in db.MAE_CURSOS
-                                       on lanzamiento.CUR_ID equals curso.CUR_ID
-                                       where DocenteCurso.MKT_ID == idusuario
-                                       orderby DocenteCurso.DCU_FEC descending
-
-                                       select new MktDocenteCursoCLS
-                                       {
-                                           DOC_ID = DocenteCurso.DOC_ID,
-                                           LAN_ID = DocenteCurso.LAN_ID,
-                                           MKT_ID = (int)DocenteCurso.MKT_ID,
-                                           DOC_NOMBRES = Docente.DOC_NOMBRES,
-                                           DOC_APELLIDOS = Docente.DOC_APELLIDOS,
-                                           DOC_CELULAR = Docente.DOC_CELULAR,
-                                           DOC_EMAIL = Docente.DOC_EMAIL,
-                                           DCU_FEC = (DateTime)DocenteCurso.DCU_FEC,
-                                           DCU_FECCADENA = ((DateTime)DocenteCurso.DCU_FEC).ToString(),
-                                           CUR_NOMBRE = curso.CUR_DESCRIPCION
-                                       }).ToList().Count();
-                }
-
-                ViewBag.ContarDocentesCapturados = GetAll.TotalReg;
-
-                return View(GetAll);
-
             }
+            else if (CursId == 0)// todos los cursos
+            {
+                using (var db = new DB_WebCIIPEntitiesERP())
+                {
+                    var ListaCursoDocente = await Task.Run(() => db.ViewMKTDocenteCurso
+                        .Where(x => x.MKT_ID == idusuario && x.fecha_filtro == DCU_FEC)
+                        .OrderByDescending(x => x.DCU_FEC)
+                        .Skip(((int)page - 1) * cantidadRegistrosPorPagina)
+                        .Take(cantidadRegistrosPorPagina)
+                        .ToList());
+
+                    foreach (var item in ListaCursoDocente)
+                    {
+                        var mkt = new MktDocenteCursoCLS
+                        {
+                            DOC_ID = item.DOC_ID,
+                            LAN_ID = item.LAN_ID,
+                            MKT_ID = item.MKT_ID,
+                            DOC_NOMBRES = item.DOC_NOMBRES,
+                            DOC_APELLIDOS = item.DOC_APELLIDOS,
+                            DOC_CELULAR = item.DOC_CELULAR,
+                            DOC_EMAIL = item.DOC_EMAIL,
+                            DCU_FEC = (DateTime)item.DCU_FEC,
+                            DCU_FECCADENA = ((DateTime)item.DCU_FEC).ToString(),
+                            CUR_NOMBRE = item.CUR_DESCRIPCION,
+                            LAN_FEC_CAPACITACION = (DateTime)item.LAN_FEC_CAPACITACION,
+                            LAN_FEC_CAPACITACIONCADENA = ((DateTime)item.LAN_FEC_CAPACITACION).ToString()
+                        };
+                        GetListaReporte.Listado.Add(mkt);
+                    }
+
+                    ListaDocente = db.ViewMKTDocenteCurso.Where(x => x.MKT_ID == idusuario && x.fecha_filtro == DCU_FEC)
+                        .OrderByDescending(x => x.DCU_FEC)
+                        .ToList();
+                    GetListaReporte.RegPerPage = cantidadRegistrosPorPagina;
+                    GetListaReporte.Page = (int)page;
+                    GetListaReporte.TotalReg = db.ViewMKTDocenteCurso.Where(x => x.MKT_ID == idusuario && x.fecha_filtro == DCU_FEC).Count();
+                }
+            }
+            
+            Session["SessionMktReporteByUser"] = ListaDocente;
+
+            ViewBag.ContarDocentesCapturados = GetListaReporte.TotalReg;
+
+            return PartialView("_MktReporteByUser", GetListaReporte);
         }
 
 

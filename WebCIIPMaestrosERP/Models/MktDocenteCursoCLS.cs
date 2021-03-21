@@ -47,6 +47,11 @@ namespace WebCIIPMaestrosERP.Models
 
         public string IdLanzamiento { get; set; }
 
+                
+        public DateTime LAN_FEC_CAPACITACION { get; set; }
+
+        public string LAN_FEC_CAPACITACIONCADENA { get; set; }
+
         [Display(Name = "Fecha Registro")]
         public DateTime DCU_FEC { get; set; }
 
