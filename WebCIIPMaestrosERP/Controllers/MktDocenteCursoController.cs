@@ -87,7 +87,8 @@ namespace WebCIIPMaestrosERP.Controllers
                 ew.Cells[1, 6].Value = "Curso";
                 ew.Cells[1, 7].Value = "Fecha Registro";
                 ew.Cells[1, 8].Value = "Turno";
-
+                ew.Cells[1, 9].Value = "Pais";
+                ew.Cells[1, 10].Value = "Departamento";
 
                 ew.Column(1).Width = 5;
                 ew.Column(2).Width = 60;
@@ -97,10 +98,12 @@ namespace WebCIIPMaestrosERP.Controllers
                 ew.Column(6).Width = 30;
                 ew.Column(7).Width = 30;
                 ew.Column(8).Width = 30;
+                ew.Column(9).Width = 30;
+                ew.Column(10).Width = 30;
 
 
 
-                using (var range = ew.Cells[1, 1, 1, 8])
+                using (var range = ew.Cells[1, 1, 1, 10])
                 {
                     range.Style.Fill.PatternType = ExcelFillStyle.Solid;
                     range.Style.Font.Color.SetColor(Color.White);
@@ -122,6 +125,8 @@ namespace WebCIIPMaestrosERP.Controllers
                     ew.Cells[i + 2, 6].Value = lista[i].CUR_DESCRIPCION;
                     ew.Cells[i + 2, 7].Value = lista[i].DCU_FEC.ToString();
                     ew.Cells[i + 2, 8].Value = lista[i].LAN_FEC_CAPACITACION.ToString();
+                    ew.Cells[i + 2, 9].Value = lista[i].PAIS ;
+                    ew.Cells[i + 2, 10].Value = lista[i].DEP_DESCRIPCION;
 
                 }
                 //Pendiente

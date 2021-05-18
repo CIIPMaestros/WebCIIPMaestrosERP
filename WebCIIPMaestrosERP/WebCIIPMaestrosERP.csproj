@@ -56,6 +56,9 @@
     <Reference Include="EPPlus, Version=4.5.16.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <HintPath>..\packages\EPPlus-UDI-Fork.4.5.16\lib\net40\EPPlus.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
@@ -168,6 +171,7 @@
     </Compile>
     <Compile Include="Models\MaeCursoLanzamientoCLS.cs" />
     <Compile Include="Models\MaeCursosCLS.cs" />
+    <Compile Include="Models\MaeTablasCLS.cs" />
     <Compile Include="Models\MaeTutorCLS.cs" />
     <Compile Include="Models\MAE_CATEGORIAS.cs">
       <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
@@ -176,9 +180,6 @@
       <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MAE_CURSOS_HORARIOS.cs">
-      <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MAE_CURSOS_HORARIOS_FUTURO.cs">
       <DependentUpon>DB_CIIPMaestrosERP.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MAE_CURSOS_LANZAMIENTOS.cs">
@@ -293,6 +294,7 @@
     <Content Include="Content\SweetAlert2\README.md" />
     <Content Include="Content\toastr.less" />
     <Content Include="Content\toastr.scss" />
+    <Content Include="log4net.config" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -436,6 +438,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
+    <Folder Include="Logs\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

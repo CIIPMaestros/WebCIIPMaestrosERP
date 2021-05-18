@@ -1,0 +1,20 @@
+
+
+2021-05-15 13:17:29,109 
+WebCIIPMaestrosERP.Controllers.MaeCursosController                         [(null)] 
+>> This is a Info message
+
+
+2021-05-15 13:23:55,032 
+WebCIIPMaestrosERP.Controllers.MaeCursosController                         [(null)] 
+>> Successful: La transaccion fue modificada con exito !!! 0
+
+
+2021-05-15 13:25:01,855 
+WebCIIPMaestrosERP.Controllers.MaeCursosController                         [(null)] 
+>> Successful: La transaccion fue modificada con exito !!! 0
+
+
+2021-05-15 13:26:11,010 
+WebCIIPMaestrosERP.Controllers.MaeCursosController                         [(null)] 
+>> Successful: La transaccion fue modificada con exito !!! 4

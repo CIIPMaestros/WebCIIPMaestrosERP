@@ -141,6 +141,9 @@ table.table td a {
     table.table td a.active {
         color: #0d32dc;
     }
+    table.table td a.schedule {
+        color: #3edc0d;
+    }
 
 table.table td i {
     font-size: 19px;

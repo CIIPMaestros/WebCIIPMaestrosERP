@@ -27,7 +27,7 @@ namespace WebCIIPMaestrosERP.Controllers
             catch(Exception ex)
             {
 
-                return View();
+                return View(ex.Message);
 
 
             }

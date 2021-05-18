@@ -6,6 +6,7 @@
     List<SelectListItem> ListaCategorias = (List<SelectListItem>)ViewBag.ListaCategorias;
     List<SelectListItem> ListaDias = (List<SelectListItem>)ViewBag.ListaDias;
     List<SelectListItem> ListaHoras = (List<SelectListItem>)ViewBag.ListaHoras;
+    List<SelectListItem> ListaSemana = (List<SelectListItem>)ViewBag.ListaSemana;
 
 }
 
@@ -79,7 +80,7 @@
 
 
 
-
+<!--se usa para un nuevo curso o editar el curso-->
 
 <!-- Modal -->
 <div class="modal fade" id="myModalCurso" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -108,25 +109,25 @@
                                 <label>Diploma</label>
                                 @Html.TextBox("CUR_NOMBRE", null, new { @class = "form-control" })
                             </div>
+
+
                             <div class="form-group col-lg-6">
                                 <label>Stream</label>
                                 @Html.TextBox("CUR_DESCRIPCION", null, new { @class = "form-control" })
                             </div>
                         </div>
-
-
                         <div class="row">
-
-                            <div class="form-group col-lg-6">
-                                <label>Categoria</label>
-                                @Html.DropDownList("CAT_ID", ListaCategorias, new { @class = "form-control" })
-                            </div>
-
                             <div class="form-group col-lg-6">
                                 <label>Precio</label>
                                 @Html.Editor("CUR_PRECIO", null, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
                             </div>
+                            <div class="form-group col-lg-6">
+                                <label>Categoria</label>
+                                @Html.DropDownList("CAT_ID", ListaCategorias, new { @class = "form-control" })
+                            </div>
                         </div>
+
+
 
                         @Html.Hidden("CUR_ID")
 
@@ -142,39 +143,44 @@
                             <div class="form-group col-sm-4">
                                 @Html.DropDownList("SCH_HORA", ListaHoras, new { @class = "form-control" })
                             </div>
-
-                        </div>
-                        <p>
-                            <button type="button" onclick="AgregarHorario(); return false" class="btn btn-success">Agregar</button>
-                        </p>
-
-
-
-                        <div class="panel panel-success">
-                            <!-- Default panel contents -->
-                            <div class="panel-heading">Horarios</div>
-                            <div class="panel-body">
-                                <p>Los horarios que se configuren en esta opcion seran automaticamente replicados por semana</p>
-                                <!-- Table -->
-                                <table class="table" id="DetHorario">
-                                    <thead>
-
-                                    </thead>
-                                    <tbody id="tbodyH"></tbody>
-
-                                </table>
+                            <div class="form-group col-sm-4">
+                                @Html.DropDownList("SCH_SEMANA", ListaSemana, new { @class = "form-control" })
                             </div>
 
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-4">
+                                <button type="button" onclick="AgregarHorario(); return false" class="btn btn-success">Agregar</button>
 
+                            </div>
+                            
                         </div>
 
-                        <!--onclick="ProcesoHorarioActual()"-->
-                        <button type="button" class="btn btn-success btnSPLanzamiento"><i class="material-icons" data-toggle="tooltip" title="Proceso Horario de esta semana">&#xe916;</i></button>
-                        <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-success">Guardar</button>
+                            <div class="panel panel-success">
+                                <!-- Default panel contents -->
+                                <div class="panel-heading">Horarios</div>
+                                <div class="panel-body">
+                                    <p>Los horarios que se configuren en esta opcion seran automaticamente replicados por semana</p>
+                                    <!-- Table -->
+                                    <table class="table" id="DetHorario">
+                                        <thead>
 
+                                        </thead>
+                                        <tbody id="tbodyH"></tbody>
+
+                                    </table>
+                                </div>
+
+
+                            </div>
+
+                            <!--onclick="ProcesoHorarioActual()"-->
+                            <button type="button" class="btn btn-success btnSPLanzamiento"><i class="material-icons" data-toggle="tooltip" title="Proceso Horario de esta semana">&#xe916;</i></button>
+                            <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-success">Guardar</button>
+
+                        </div>
                     </div>
-                </div>
             }
         </div>
         <div class="text-danger" id="error"></div>
@@ -345,6 +351,10 @@
             let Hora = comboHora.options[comboHora.selectedIndex].text;
             //let Hora = document.getElementById("SCH_HORA").value;
 
+            
+            var comboSemana = document.getElementById("SCH_SEMANA");
+            let Semana = comboSemana.options[comboSemana.selectedIndex].text;
+
             //alert(comboDIAx.selectedIndex);
             //alert(comboDIA.selectedIndex);
 
@@ -354,7 +364,8 @@
 
                 //alert(DetHorario.rows[i].getElementsByTagName("td"));
                 if (document.getElementById("DetHorario").rows[i].cells[0].innerText == Dia &&
-                    document.getElementById("DetHorario").rows[i].cells[1].innerText == Hora) {
+                    document.getElementById("DetHorario").rows[i].cells[1].innerText == Hora &&
+                    document.getElementById("DetHorario").rows[i].cells[2].innerText == Semana ) {
                     toastr["success"]("¡El horario ya se encuentra registrado!", "Horarios");
                     return;
                 }
@@ -370,8 +381,8 @@
             //capturando valores de horiario
             let ValueDia = document.getElementById("SCH_DIA").value;
             let ValueHora = document.getElementById("SCH_HORA").value;
-
-
+            let ValueSemUbicacion = document.getElementById("SCH_SEMANA").value;
+            
 
             //boton eliminar
             //const tdRemove = document.createElement('td');
@@ -427,10 +438,12 @@
 
             for (s; s < isets; s++) {
                 $('#tbodyH').append('<tr id="' + isets + '" data-codigo="' + isets + '"><td id="td1-' + isets + '">' + Dia + '</td><td id="td2-' + isets + '">'
-                    + Hora + '</td><td><a class = "btnEliminar text-white" data-codigo = "'
-                    + isets + '"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a></td>' + '<td style="display: none;"><input type="hidden" name="Horarios.Index" value="' + num + '"/></td>'
+                    + Hora + '</td><td id="td3-' + isets + '">' + Semana + '</td><td><a class = "btnEliminar text-white" data-codigo = "'
+                    + isets + '"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a></td>'
+                    + '<td style="display: none;"><input type="hidden" name="Horarios.Index" value="' + num + '"/></td>'
                     + '<td style="display: none;"><input type="hidden" name="Horarios[' + num + '].SCH_DIA" value="' + ValueDia + '" /></td>'
                     + '<td style="display: none;"><input type="hidden" name="Horarios[' + num + '].SCH_HORA" value="' + ValueHora + '" /></td>'
+                    + '<td style="display: none;"><input type="hidden" name="Horarios[' + num + '].SCH_SEM_UBICACION" value="' + ValueSemUbicacion+'" /></td>'
                     + '</tr>');
             }
 
@@ -617,48 +630,7 @@
 
         
 
-        function EditarHorarioFuturo(idCurso) {
-
-            limpiar();
-            //document.getElementById("error").innerHTML = "";
-            //document.getElementById("accion").value = idUsuario;
-            //document.getElementById("accion").value = idCurso;
-            var ListadoHorarios;
-            $.get("MaeCursos/recuperarDatosHorarioFuturo/?IdCurso=" + idCurso, function (data) {
-
-                ListadoHorarios = data.GetHorarios;
-
-                var comboDIA = document.getElementById("SCH_DIA");
-                var comboHora = document.getElementById("SCH_HORA");
-                var Dia;
-                let Hora;
-                var idDia, idHora;
-
-                
-                document.getElementById("CUR_ID").value = idCurso;
-                //document.getElementById("USU_CONTRASENA").value = data.USU_CONTRASENA;
-
-                for (var s = 0; ListadoHorarios.length; s++) {
-
-                    idDia = ListadoHorarios[s].SCH_DIA;
-                    idHora = ListadoHorarios[s].SCH_HORA;
-
-                    idDia = idDia == 1 ? 8 : idDia;
-
-                    Dia = comboDIA.options[(idDia - 2)].text;
-                    Hora = comboHora.options[(idHora - 1)].text;
-                    //Hora = Hora + ":00";
-
-                    //alert(Dia + " " + Hora);
-
-                    $('#tbodyH').append('<tr id="tr_' + ListadoHorarios[s].SCH_ID + '" data-codigo="' + ListadoHorarios[s].SCH_ID + '"><td>' + Dia + '</td><td>'
-                        + Hora + '</td><td><a class = "btnEliminarHorario text-white" data-codigo = "'
-                        + ListadoHorarios[s].SCH_ID + '"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a></td></tr>');
-                }
-            })
-
-        }
-
+       
 
         function Editar(idCurso) {
 
@@ -667,6 +639,8 @@
             //document.getElementById("accion").value = idUsuario;
             //document.getElementById("accion").value = idCurso;
             var ListadoHorarios;
+            var Hora;
+
             $.get("MaeCursos/recuperarDatos/?IdCurso=" + idCurso, function (data) {
 
                 ListadoHorarios = data.GetHorarios;
@@ -674,7 +648,7 @@
                 var comboDIA = document.getElementById("SCH_DIA");
                 var comboHora = document.getElementById("SCH_HORA");
                 var Dia;
-                let Hora;
+                
                 var idDia, idHora;
 
                 document.getElementById("CUR_NOMBRE").value = data.CUR_NOMBRE;
@@ -690,20 +664,34 @@
 
                     idDia = data.GetHorarios[s].SCH_DIA;
                     idHora = data.GetHorarios[s].SCH_HORA;
-
-                    //alert(idDia + "  " + idHora);
+                    
+                    //alert(idHora +"  "+ idHora.length);
 
                     idDia = idDia == 1 ? 8 : idDia;
 
+
+                    if (idHora.length == 1) {
+                        Hora = '0' + idHora + ':00';
+                    } else if (idHora.length == 2) {
+                        Hora = idHora + ':00';
+                    } else if (idHora.length == 4) {
+                        Hora = idHora.substr(0, 2)+':'+idHora.substr(-2, 2);
+                    }
+
+
                     Dia = comboDIA.options[(idDia - 2)].text;
-                    Hora = comboHora.options[(idHora - 1)].text;
-                    //Hora = Hora + ":00";
+                    //Hora = comboHora.options[(idHora - 1)].text;
+                    //$.get("MaeCursos/GetMaeTablasById/?IdHora=" + idHora, function (DataHora) {
+                        //alert(data2.DESCRIPCION);
+                    //    Hora = DataHora.DESCRIPCION;
+                        
+                    //})
 
-                    //alert(Dia + " " + Hora);
-
-                    $('#tbodyH').append('<tr id="tr_' + data.GetHorarios[s].SCH_ID + '" data-codigo="' + data.GetHorarios[s].SCH_ID + '"><td>' + Dia + '</td><td>'
-                        + Hora + '</td><td><a class = "btnEliminarHorario text-white" data-codigo = "'
+                    $('#tbodyH').append('<tr id="tr_' + data.GetHorarios[s].SCH_ID + '" data-codigo="' + data.GetHorarios[s].SCH_ID + '"><td>' + Dia + '</td>' +
+                        '<td>' + Hora + '</td><td>' + data.GetHorarios[s].SCH_SEM_UBICACION + '</td><td><a class = "btnEliminarHorario text-white" data-codigo = "'
                         + data.GetHorarios[s].SCH_ID + '"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a></td></tr>');
+                    
+                    
                 }
             })
 

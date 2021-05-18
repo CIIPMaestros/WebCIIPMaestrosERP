@@ -33,11 +33,11 @@ namespace WebCIIPMaestrosERP.Models
         public Nullable<System.DateTime> LAN_CREACION_HORARIO { get; set; }
         public int LAN_NUM_SEMANA { get; set; }
     
-        public virtual MAE_CURSOS MAE_CURSOS { get; set; }
         public virtual MAE_TUTOR MAE_TUTOR { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MKT_DOCENTE_CURSO> MKT_DOCENTE_CURSO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SEG_USUARIOS_LINKS> SEG_USUARIOS_LINKS { get; set; }
+        public virtual MAE_CURSOS MAE_CURSOS { get; set; }
     }
 }

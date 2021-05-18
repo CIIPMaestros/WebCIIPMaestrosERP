@@ -34,16 +34,15 @@ namespace WebCIIPMaestrosERP.Models
         public virtual DbSet<PRV_DOCENTE_SEGUIMIENTO> PRV_DOCENTE_SEGUIMIENTO { get; set; }
         public virtual DbSet<SEG_USUARIOS> SEG_USUARIOS { get; set; }
         public virtual DbSet<MAE_TABLAS> MAE_TABLAS { get; set; }
-        public virtual DbSet<MAE_ROLES> MAE_ROLES { get; set; }
         public virtual DbSet<SEG_USUARIOS_LINKS> SEG_USUARIOS_LINKS { get; set; }
         public virtual DbSet<SEG_CURSOS_USUARIOS_LINKS> SEG_CURSOS_USUARIOS_LINKS { get; set; }
-        public virtual DbSet<MAE_CURSOS_HORARIOS> MAE_CURSOS_HORARIOS { get; set; }
         public virtual DbSet<MKT_DOCENTES> MKT_DOCENTES { get; set; }
         public virtual DbSet<MKT_DOCENTE_CURSO> MKT_DOCENTE_CURSO { get; set; }
-        public virtual DbSet<MAE_CURSOS> MAE_CURSOS { get; set; }
         public virtual DbSet<MAE_CURSOS_LANZAMIENTOS> MAE_CURSOS_LANZAMIENTOS { get; set; }
         public virtual DbSet<ViewMKTDocenteCurso> ViewMKTDocenteCurso { get; set; }
-        public virtual DbSet<MAE_CURSOS_HORARIOS_FUTURO> MAE_CURSOS_HORARIOS_FUTURO { get; set; }
+        public virtual DbSet<MAE_ROLES> MAE_ROLES { get; set; }
+        public virtual DbSet<MAE_CURSOS> MAE_CURSOS { get; set; }
+        public virtual DbSet<MAE_CURSOS_HORARIOS> MAE_CURSOS_HORARIOS { get; set; }
     
         public virtual ObjectResult<Nullable<System.DateTime>> Sp_Crear_Lanzamientos_Masivo(Nullable<int> vAR1, Nullable<int> vAR2)
         {

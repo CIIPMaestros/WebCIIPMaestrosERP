@@ -26,5 +26,7 @@ namespace WebCIIPMaestrosERP.Models
         public Nullable<System.DateTime> LAN_FEC_CAPACITACION { get; set; }
         public string CUR_DESCRIPCION { get; set; }
         public Nullable<System.DateTime> fecha_filtro { get; set; }
+        public string DEP_DESCRIPCION { get; set; }
+        public string PAIS { get; set; }
     }
 }

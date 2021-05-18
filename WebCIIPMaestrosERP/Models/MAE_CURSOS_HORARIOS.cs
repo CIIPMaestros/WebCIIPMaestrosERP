@@ -17,6 +17,9 @@ namespace WebCIIPMaestrosERP.Models
         public int SCH_ID { get; set; }
         public int CUR_ID { get; set; }
         public string SCH_DIA { get; set; }
+        public Nullable<int> NUM_SEMANA { get; set; }
+        public string SCH_SEM_UBICACION { get; set; }
+        public Nullable<int> ANNO { get; set; }
         public string SCH_HORA { get; set; }
     
         public virtual MAE_CURSOS MAE_CURSOS { get; set; }

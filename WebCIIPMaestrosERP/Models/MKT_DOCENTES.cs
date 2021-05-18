@@ -35,6 +35,7 @@ namespace WebCIIPMaestrosERP.Models
         public string DOC_CONTRASENA { get; set; }
         public string DOC_DISPOSITIVO { get; set; }
         public string DOC_PAIS { get; set; }
+        public Nullable<int> DEP_ID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MAE_CURSOS_PUNTUACION> MAE_CURSOS_PUNTUACION { get; set; }
